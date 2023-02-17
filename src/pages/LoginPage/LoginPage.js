@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { unifesoLogo } from "../../assets/images";
+import { imageRepository } from "../../assets/imageUrls";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
@@ -16,13 +16,13 @@ export default function LoginPage() {
 	}
 	return (
 		<StyledPage>
-			<StyledImage src={unifesoLogo} alt="Logo Unifeso" />
+			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledP>Plataforma de Controle de Relatórios de Estágio</StyledP>
 			<StyledForm>
 				<input
 					type="email"
 					name="email"
-					placeholder="Digite seu E-mail"
+					placeholder="E-mail"
 					value={form.email}
 					onChange={handleForm}
 				/>
@@ -36,7 +36,9 @@ export default function LoginPage() {
 				<button>Login</button>
 			</StyledForm>
 			<p>
-				<Link>Se ainda não tem uma conta cadastrada, clique aqui</Link>
+				<StyledLink to={"signup"}>
+					Se ainda não tem uma conta cadastrada, clique aqui
+				</StyledLink>
 			</p>
 		</StyledPage>
 	);
@@ -61,6 +63,7 @@ const StyledForm = styled.form`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 10px;
 
 	input {
 		margin: 10px 0px;
@@ -97,4 +100,9 @@ const StyledP = styled.p`
 	margin: 20px 0 30px 0;
 	font-size: 30px;
 	font-weight: 700;
+`;
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
+	color: black;
 `;

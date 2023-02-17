@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { unifesoLogo } from "../assets/images";
+import { imageRepository } from "../assets/imageUrls";
 import headerText from "../functions/headerText";
 
 export default function Header() {
@@ -10,10 +10,7 @@ export default function Header() {
 
 	return (
 		<StyledHeader>
-			<img
-				src={unifesoLogo}
-				alt="Logo Unifeso"
-			/>
+			<img src={imageRepository.logo} alt="Logo Unifeso" />
 			<p>{text}</p>
 		</StyledHeader>
 	);
