@@ -1,7 +1,12 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import Backdrop from "../../components/Backdrop";
 import ClassThumb from "../../components/ClassThumb";
+import NewClassModal from "../../components/NewClassModal";
+import ProjectContext from "../../constants/Context";
 
 export default function ClassesPage() {
+	const { showModal, setShowModal } = useContext(ProjectContext);
 	const classes = [
 		"Teste 1",
 		"Teste 2",
@@ -15,6 +20,15 @@ export default function ClassesPage() {
 	];
 	return (
 		<StyledPage>
+			{showModal ? (
+				<>
+					<Backdrop />
+					<NewClassModal />
+				</>
+			) : (
+				""
+			)}
+
 			<ClassesContainer>
 				{classes.map((c, id) => (
 					<ClassThumb key={id} className={c} />

@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import ProjectContext from "./constants/Context";
@@ -8,8 +9,10 @@ import SignupPage from "./pages/SignupPage/SignupPage";
 import GlobalStyle from "./theme/globalStyle";
 
 function App() {
+	const [showModal, setShowModal] = useState(false);
+
 	return (
-		<ProjectContext.Provider value={{}}>
+		<ProjectContext.Provider value={{ showModal, setShowModal }}>
 			<BrowserRouter>
 				<GlobalStyle />
 				<ChakraProvider>

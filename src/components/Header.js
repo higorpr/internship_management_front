@@ -4,10 +4,13 @@ import { imageRepository } from "../assets/imageUrls";
 import headerText from "../functions/headerText";
 import { AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
-import { Icon, Tooltip } from "@chakra-ui/react";
+import { Tooltip } from "@chakra-ui/react";
+import { useContext } from "react";
+import ProjectContext from "../constants/Context";
 
 export default function Header() {
 	const location = useLocation();
+	const { setShowModal } = useContext(ProjectContext);
 
 	const text = headerText(location.pathname);
 
@@ -26,10 +29,11 @@ export default function Header() {
 						label="Adicionar nova turma"
 						placement="bottom"
 						hasArrow
-						// width={100}
 					>
 						<div>
-							<AiOutlinePlusCircle />
+							<AiOutlinePlusCircle
+								onClick={() => setShowModal(true)}
+							/>
 						</div>
 					</Tooltip>
 					<AiOutlineUser />

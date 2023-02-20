@@ -25,6 +25,7 @@ export default function LoginPage() {
 					placeholder="E-mail"
 					value={form.email}
 					onChange={handleForm}
+					required
 				/>
 				<input
 					type="password"
@@ -32,6 +33,7 @@ export default function LoginPage() {
 					placeholder="Senha"
 					value={form.password}
 					onChange={handleForm}
+					required
 				/>
 				<button>Login</button>
 			</StyledForm>

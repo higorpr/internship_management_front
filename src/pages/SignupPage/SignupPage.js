@@ -27,6 +27,7 @@ export default function SignupPage() {
 					placeholder="Nome Completo"
 					value={form.fullName}
 					onChange={handleForm}
+					required
 				/>
 				<input
 					type="email"
@@ -34,6 +35,7 @@ export default function SignupPage() {
 					placeholder="E-mail"
 					value={form.email}
 					onChange={handleForm}
+					required
 				/>
 				<input
 					type="password"
@@ -41,6 +43,7 @@ export default function SignupPage() {
 					placeholder="Senha"
 					value={form.password}
 					onChange={handleForm}
+					required
 				/>
 				<input
 					type="password"
@@ -48,6 +51,7 @@ export default function SignupPage() {
 					placeholder="Confirmar Senha"
 					value={form.passwordConfirmation}
 					onChange={handleForm}
+					required
 				/>
 				<button>Criar Conta</button>
 			</StyledForm>
