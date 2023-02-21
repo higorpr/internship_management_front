@@ -12,11 +12,7 @@ export default function ClassesPage() {
 		"Teste 2",
 		"Teste 3",
 		"Turma de Recuperação - Estágio Final",
-		"TESTE 8",
-		"TESTE 9",
-		"TESTE10",
-		"TESTE 4",
-		"TESTE5",
+
 	];
 	return (
 		<StyledPage>

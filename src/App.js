@@ -6,6 +6,7 @@ import ProjectContext from "./constants/Context";
 import ClassesPage from "./pages/ClassesPage/ClassesPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
+import SingleClassPage from "./pages/SingleClassPage/SingleClassPage";
 import GlobalStyle from "./theme/globalStyle";
 
 function App() {
@@ -21,7 +22,10 @@ function App() {
 						<Route path="/" element={<LoginPage />} />
 						<Route path="/signup" element={<SignupPage />} />
 						<Route path="/allclasses" element={<ClassesPage />} />
-						<Route path="/class/:classId" />
+						<Route
+							path="/class/:classId"
+							element={<SingleClassPage />}
+						/>
 						<Route path="/student/:studentId" />
 						<Route path="/internship/internshipId" />
 					</Routes>

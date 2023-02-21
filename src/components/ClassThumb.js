@@ -1,11 +1,14 @@
 import styled from "styled-components";
+import { imageRepository } from "../assets/imageUrls";
 
 export default function ClassThumb({ className }) {
 	const bcolor = "#000000";
 	return (
 		<StyledListEntry>
 			<ThumbHeader>
-				<Background backcolor={bcolor}></Background>
+				<Background backcolor={bcolor}>
+					<img src={imageRepository.classThumbnail} alt="" />
+				</Background>
 				<Title>{className}</Title>
 			</ThumbHeader>
 		</StyledListEntry>
@@ -26,7 +29,7 @@ const StyledListEntry = styled.li`
 
 const ThumbHeader = styled.div`
 	width: 100%;
-	height: 30%;
+	height: 35%;
 	position: relative;
 `;
 
@@ -36,6 +39,12 @@ const Background = styled.div`
 	width: 100%;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
+	img {
+		width: 100%;
+		height: 100%;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+	}
 `;
 
 const Title = styled.p`

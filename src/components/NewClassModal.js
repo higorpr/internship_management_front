@@ -4,17 +4,19 @@ import styled from "styled-components";
 import ProjectContext from "../constants/Context";
 
 export default function NewClassModal() {
-	const { showModal, setShowModal } = useContext(ProjectContext);
+	const { setShowModal } = useContext(ProjectContext);
 	const [form, setForm] = useState({
 		className: "",
 		startDate: "",
 		endDate: "",
-		reportFrequency: "",
-		reportQuantity: "",
+		classType: "",
 	});
+	console.log(form);
 
 	function handleForm(event) {
 		event.preventDefault();
+		// console.log(event.target.name);
+		// console.log(event.target.value);
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
@@ -26,7 +28,6 @@ export default function NewClassModal() {
 	}
 
 	function checkKey(event) {
-		console.log(event.key);
 		if (event.key === "Escape") {
 			setShowModal(false);
 		}
@@ -40,8 +41,9 @@ export default function NewClassModal() {
 		<StyledModal onKeyUp={checkKey}>
 			<h1>Criação de Nova Turma</h1>
 			<StyledForm onSubmit={createClass}>
-				<p>Nome da Turma</p>
+				<label htmlFor="class-name">Nome da Turma</label>
 				<input
+					id="class-name"
 					type="text"
 					name="className"
 					placeholder="Ex.: Turma de Estágio 2023/1"
@@ -49,8 +51,9 @@ export default function NewClassModal() {
 					onChange={handleForm}
 					required
 				/>
-				<p>Data de Início da Turma</p>
+				<label htmlFor="start-date">Data de Início da Turma</label>
 				<input
+					id="start-date"
 					type="date"
 					name="startDate"
 					placeholder="dd-mm-yyyy"
@@ -58,7 +61,7 @@ export default function NewClassModal() {
 					onChange={handleForm}
 					required
 				/>
-				<p>Data de Término da Turma</p>
+				<label>Data de Término da Turma</label>
 				<input
 					type="date"
 					name="endDate"
@@ -66,24 +69,23 @@ export default function NewClassModal() {
 					onChange={handleForm}
 					required
 				/>
-				<p>Periodicidade da Entrega dos Relatórios (em dias)</p>
-				<input
-					type="number"
-					name="reportFrequency"
-					placeholder="Ex.: 30"
-					value={form.reportFrequency}
+				<label htmlFor="class-type">Tipo de Turma</label>
+				<select
+					id="class-type"
 					onChange={handleForm}
+					name="classType"
 					required
-				/>
-				<p>Número de Relatórios a Serem Entregues pelos Alunos</p>
-				<input
-					type="number"
-					name="reportQuantity"
-					placeholder="Ex.: 3"
-					value={form.reportQuantity}
-					onChange={handleForm}
-					required
-				/>
+				>
+					<option value="">
+						-- Escolha um tipo de turma de estágio --
+					</option>
+					<option value="Turma de Estágio Obrigatório">
+						Turma de Estágio Obrigatório
+					</option>
+					<option value="Turma de Recuperação (RRP)">
+						Turma de Recuperação
+					</option>
+				</select>
 				<button type="submit">Criar Turma</button>
 			</StyledForm>
 		</StyledModal>
@@ -93,7 +95,7 @@ export default function NewClassModal() {
 const StyledModal = styled.div`
 	position: fixed;
 	width: 600px;
-	height: 600px;
+	height: auto;
 	top: 50vh;
 	left: 50vw;
 	margin: -300px 0 0 -300px;
@@ -123,10 +125,26 @@ const StyledForm = styled.form`
 	align-items: center;
 	margin-bottom: 10px;
 
-	p {
+	label {
 		text-align: left;
 		width: 100%;
 		margin-top: 10px;
+		font-family: "Lato", sans-serif;
+		font-size: 15px;
+	}
+
+	select {
+		width: 100%;
+		background-color: white;
+		border: 1px solid;
+		height: 30px;
+		font-family: "Lato", sans-serif;
+		font-size: 15px;
+	}
+
+	option {
+		font-family: "Lato", sans-serif;
+		font-size: 15px;
 	}
 
 	input {
@@ -136,6 +154,8 @@ const StyledForm = styled.form`
 		height: 40px;
 		text-indent: 5px;
 		border-radius: 10px;
+		font-family: "Lato", sans-serif;
+		font-size: 15px;
 
 		&::placholder {
 			color: #dbdbdb;
