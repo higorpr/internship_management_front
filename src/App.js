@@ -11,9 +11,12 @@ import GlobalStyle from "./theme/globalStyle";
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
+	const [page, setPage] = useState("");
 
 	return (
-		<ProjectContext.Provider value={{ showModal, setShowModal }}>
+		<ProjectContext.Provider
+			value={{ showModal, setShowModal, page, setPage }}
+		>
 			<BrowserRouter>
 				<GlobalStyle />
 				<ChakraProvider>

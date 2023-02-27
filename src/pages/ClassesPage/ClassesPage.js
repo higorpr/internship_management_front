@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import Backdrop from "../../components/Backdrop";
 import ClassThumb from "../../components/ClassThumb";
@@ -6,14 +6,17 @@ import NewClassModal from "../../components/NewClassModal";
 import ProjectContext from "../../constants/Context";
 
 export default function ClassesPage() {
-	const { showModal, setShowModal } = useContext(ProjectContext);
+	const { showModal, setPage } = useContext(ProjectContext);
 	const classes = [
 		"Teste 1",
 		"Teste 2",
 		"Teste 3",
 		"Turma de Recuperação - Estágio Final",
-
 	];
+
+	useEffect(() => {
+		setPage("Turmas");
+	}, []);
 	return (
 		<StyledPage>
 			{showModal ? (

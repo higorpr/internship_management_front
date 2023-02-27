@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../assets/imageUrls";
-import headerText from "../functions/headerText";
 import { AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { Tooltip } from "@chakra-ui/react";
@@ -10,9 +9,8 @@ import ProjectContext from "../constants/Context";
 
 export default function Header() {
 	const location = useLocation();
-	const { setShowModal } = useContext(ProjectContext);
-
-	const text = headerText(location.pathname);
+	const { setShowModal, page } = useContext(ProjectContext);
+	console.log(location.pathname);
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
@@ -22,21 +20,30 @@ export default function Header() {
 						src={imageRepository.logo}
 						alt="Logo Unifeso"
 					/>
-					<StyledText>{text}</StyledText>
+					<StyledText>{page}</StyledText>
 				</HeaderLeft>
 				<HeaderRight>
-					<Tooltip
-						label="Adicionar nova turma"
-						placement="bottom"
-						hasArrow
-					>
-						<div>
-							<AiOutlinePlusCircle
-								onClick={() => setShowModal(true)}
-							/>
-						</div>
-					</Tooltip>
-					<AiOutlineUser />
+					{location.pathname === "/allclasses" ? (
+						<Tooltip
+							label="Adicionar nova turma"
+							placement="bottom"
+							hasArrow
+						>
+							<div>
+								<AiOutlinePlusCircle
+									onClick={() => setShowModal(true)}
+								/>
+							</div>
+						</Tooltip>
+					) : (
+						<BlankBlock />
+					)}
+					{location.pathname !== "/" &&
+					location.pathname !== "/signup" ? (
+						<AiOutlineUser />
+					) : (
+						""
+					)}
 				</HeaderRight>
 			</StyledHeader>
 		</IconContext.Provider>
@@ -83,4 +90,8 @@ const HeaderRight = styled.div`
 	justify-content: space-between;
 	width: 70px;
 	margin-right: 10px;
+`;
+
+const BlankBlock = styled.div`
+	width: 30px;
 `;
