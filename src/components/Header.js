@@ -10,7 +10,6 @@ import ProjectContext from "../constants/Context";
 export default function Header() {
 	const location = useLocation();
 	const { setShowModal, page } = useContext(ProjectContext);
-	console.log(location.pathname);
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>

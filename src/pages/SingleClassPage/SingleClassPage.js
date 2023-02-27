@@ -16,23 +16,33 @@ export default function SingleClassPage() {
 	const studentList = [
 		{
 			studentName: "Higor P. R. de Faria",
-			lastReportStatus: "Aguardando",
+			reportOneStatus: "waiting",
+			reportTwoStatus: "waiting",
+			reportThreeStatus: "waiting",
 		},
 		{
-			studentName: "Tatiane Pilar de Almeida",
-			lastReportStatus: "Atrasado",
+			studentName: "Tatiane P. de Almeida",
+			reportOneStatus: "delivered",
+			reportTwoStatus: "waiting",
+			reportThreeStatus: "waiting",
 		},
 		{
-			studentName: "Ticiane Pilar",
-			lastReportStatus: "Entregue",
+			studentName: "Kazuzinho P. Rosa",
+			reportOneStatus: "refused",
+			reportTwoStatus: "waiting",
+			reportThreeStatus: "waiting",
 		},
 		{
-			studentName: "Dilma Dolores Pêgas",
-			lastReportStatus: "Aguardando",
+			studentName: "Ticiane P. Café",
+			reportOneStatus: "accepted",
+			reportTwoStatus: "waiting",
+			reportThreeStatus: "waiting",
 		},
 		{
-			studentName: "Kazuzinho Pilar Rosa",
-			lastReportStatus: "Atrasado",
+			studentName: "Rose F. P. de Almeida",
+			reportOneStatus: "late",
+			reportTwoStatus: "waiting",
+			reportThreeStatus: "waiting",
 		},
 	];
 
@@ -77,14 +87,18 @@ export default function SingleClassPage() {
 				<StudentsContainer>
 					<StudentListTitles>
 						<p>Nome do Aluno</p>
-						<p>Status dos Relatórios</p>
+						<p>Relatório 1</p>
+						<p>Relatório 2</p>
+						<p>Relatório 3</p>
 					</StudentListTitles>
 					<StudentList>
 						{studentList.map((student, id) => (
 							<StudentEntry
 								key={id}
 								studentName={student.studentName}
-								lastReportStatus={student.lastReportStatus}
+								reportOneStatus={student.reportOneStatus}
+								reportTwoStatus={student.reportTwoStatus}
+								reportThreeStatus={student.reportThreeStatus}
 								colorCode={id}
 							/>
 						))}
@@ -190,6 +204,12 @@ const StudentListTitles = styled.div`
 	/* font-size: px; */
 	font-weight: 700;
 	/* background-color: #f0efee; */
+	p {
+		width: 25%;
+		/* border: 1px solid; */
+		display: flex;
+		justify-content: center;
+	}
 `;
 
 const StudentList = styled.ul`
