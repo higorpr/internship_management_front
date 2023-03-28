@@ -1,24 +1,39 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
+import useLogin from "../../hooks/api/useLogin";
+import UserContext from "../../contexts/UserContext";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
 		email: "",
 		password: "",
 	});
-	async function login() {}
+
+	const { loginData, loginLoading, loginError, login } = useLogin();
+	const { setUserData } = useContext(UserContext);
+	console.log(loginLoading);
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
+
+	async function loginUser(event) {
+		event.preventDefault();
+		try {
+			const userData = await login(form.email, form.password);
+			console.log(userData);
+		} catch (err) {
+			console.log(err);
+		}
+	}
 	return (
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledP>Plataforma de Controle de Relatórios de Estágio</StyledP>
-			<StyledForm>
+			<StyledForm onSubmit={loginUser}>
 				<input
 					type="email"
 					name="email"
@@ -35,7 +50,9 @@ export default function LoginPage() {
 					onChange={handleForm}
 					required
 				/>
-				<button>Login</button>
+				<button type="submit" disabled={loginLoading}>
+					Login
+				</button>
 			</StyledForm>
 			<p>
 				<StyledLink to={"signup"}>
@@ -89,6 +106,10 @@ const StyledForm = styled.form`
 		color: white;
 		font-size: 25px;
 		border-radius: 10px;
+
+		&:disabled {
+			background-color: #bdbdbd;
+		}
 	}
 `;
 

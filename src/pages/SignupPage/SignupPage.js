@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
+import useSignUp from "../../hooks/api/useSignUp";
 
 export default function SignupPage() {
 	const [form, setForm] = useState({
@@ -10,17 +11,37 @@ export default function SignupPage() {
 		password: "",
 		passwordConfirmation: "",
 	});
-	async function login() {}
+	const navigate = useNavigate();
+
+	const { signUpLoading, signUpError, signUp } = useSignUp();
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
+
+	async function signUpUser(event) {
+		event.preventDefault();
+		if (form.password !== form.passwordConfirmation) {
+			alert("A senha e a confirmação de senha devem ser as mesmas");
+			return;
+		}
+
+		try {
+			await signUp(form.fullName, form.email, form.password);
+			alert("Usuário criado com sucesso!");
+			navigate("/");
+		} catch (err) {
+			alert(err.response.data);
+			console.log(err);
+		}
+	}
+
 	return (
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledP>Plataforma de Controle de Relatórios de Estágio</StyledP>
-			<StyledForm>
+			<StyledForm onSubmit={signUpUser}>
 				<input
 					type="text"
 					name="fullName"
@@ -53,7 +74,7 @@ export default function SignupPage() {
 					onChange={handleForm}
 					required
 				/>
-				<button>Criar Conta</button>
+				<button type="submit">Criar Conta</button>
 			</StyledForm>
 			<p>
 				<StyledLink to={"/"}>

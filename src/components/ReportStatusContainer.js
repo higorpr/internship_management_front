@@ -3,6 +3,7 @@ import { FaCheck } from "react-icons/fa";
 import { BsXLg } from "react-icons/bs";
 import { ImClock2 } from "react-icons/im";
 import { useState } from "react";
+import ProjectContext from "../constants/Context";
 
 export default function ReportStatusContainer({ reportStatus }) {
 	const [status, setStatus] = useState(reportStatus);
@@ -47,7 +48,7 @@ export default function ReportStatusContainer({ reportStatus }) {
 			icon: (
 				<BsXLg
 					style={{ color: "red", fontSize: "20px" }}
-					onClick={() => showReportTooltip(reportStatus)}
+					onClick={() => showReportTooltip(status)}
 				/>
 			),
 			state: "Recusado",
@@ -59,7 +60,11 @@ export default function ReportStatusContainer({ reportStatus }) {
 		setStatus("delivered");
 	}
 
-	return <Container>{statesObj[status].icon}</Container>;
+	return (
+		<Container onClick={() => showReportTooltip(status)}>
+			{statesObj[status].icon}
+		</Container>
+	);
 }
 
 const Container = styled.div`
