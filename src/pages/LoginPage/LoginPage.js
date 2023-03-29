@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import useLogin from "../../hooks/api/useLogin";
@@ -10,10 +10,18 @@ export default function LoginPage() {
 		email: "",
 		password: "",
 	});
+	const [newLogin, setNewLogin] = useState(false);
 
-	const { loginData, loginLoading, loginError, login } = useLogin();
+	useEffect(() => {
+		setForm({
+			email: "",
+			password: "",
+		});
+	}, [newLogin]);
+
+	const navigate = useNavigate();
+	const { loginLoading, login } = useLogin();
 	const { setUserData } = useContext(UserContext);
-	console.log(loginLoading);
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -23,10 +31,18 @@ export default function LoginPage() {
 	async function loginUser(event) {
 		event.preventDefault();
 		try {
-			const userData = await login(form.email, form.password);
-			console.log(userData);
+			const receivedUserData = await login(form.email, form.password);
+			setUserData(receivedUserData);
+			if (receivedUserData.user.user_types.name === "PROFESSOR") {
+				navigate("/allclasses");
+			} else {
+				alert("A página inicial de alunos ainda não está pronta.");
+			}
+			setNewLogin(!newLogin);
 		} catch (err) {
 			console.log(err);
+			alert(err.response.data);
+			setNewLogin(!newLogin);
 		}
 	}
 	return (

@@ -4,6 +4,7 @@ import Backdrop from "../../components/Backdrop";
 import ClassThumb from "../../components/ClassThumb";
 import NewClassModal from "../../components/NewClassModal";
 import ProjectContext from "../../constants/Context";
+import UserContext from "../../contexts/UserContext";
 
 export default function ClassesPage() {
 	const { showModal, setPage } = useContext(ProjectContext);
@@ -14,8 +15,11 @@ export default function ClassesPage() {
 		"Turma de Recuperação - Estágio Final",
 	];
 
+	const { userData } = useContext(UserContext);
+	console.log(userData);
 	useEffect(() => {
 		setPage("Turmas");
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<StyledPage>
