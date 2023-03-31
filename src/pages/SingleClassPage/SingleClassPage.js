@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
-import ProjectContext from "../../constants/Context";
+import ProjectContext from "../../contexts/ProjectContext";
 import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import StudentEntry from "../../components/StudentEntry";

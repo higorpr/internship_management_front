@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import ProjectContext from "./constants/Context";
+import ProjectContext from "./contexts/ProjectContext";
 import { UserProvider } from "./contexts/UserContext";
 import ClassesPage from "./pages/ClassesPage/ClassesPage";
 import LoginPage from "./pages/LoginPage/LoginPage";

@@ -5,11 +5,14 @@ import { AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { Tooltip } from "@chakra-ui/react";
 import { useContext } from "react";
-import ProjectContext from "../constants/Context";
+import ProjectContext from "../contexts/ProjectContext";
+import UserContext from "../contexts/UserContext";
 
 export default function Header() {
 	const location = useLocation();
 	const { setShowModal, page } = useContext(ProjectContext);
+	const { userData } = useContext(UserContext);
+	console.log(userData);
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
@@ -24,6 +27,7 @@ export default function Header() {
 				<HeaderRight>
 					{location.pathname === "/allclasses" ? (
 						<Tooltip
+							shouldWrapChildren
 							label="Adicionar nova turma"
 							placement="bottom"
 							hasArrow
@@ -39,7 +43,14 @@ export default function Header() {
 					)}
 					{location.pathname !== "/" &&
 					location.pathname !== "/signup" ? (
-						<AiOutlineUser />
+						<Tooltip
+							shouldWrapChildren
+							label={userData.user.name}
+							placement="bottom"
+							hasArrow
+						>
+							<AiOutlineUser />
+						</Tooltip>
 					) : (
 						""
 					)}

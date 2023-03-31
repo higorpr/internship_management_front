@@ -6,4 +6,10 @@ async function getAllClasses(token) {
 	return response.data;
 }
 
-export const classApi = { getAllClasses };
+async function postNewClass(token, body) {
+	const config = { headers: { Authorization: `Bearer ${token}` } };
+	const response = await api.post("/classroom/new", body, config);
+	return response.data;
+}
+
+export const classApi = { getAllClasses, postNewClass };

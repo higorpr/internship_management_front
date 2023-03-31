@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-
 import styled from "styled-components";
-import ProjectContext from "../constants/Context";
+import ProjectContext from "../contexts/ProjectContext";
+import usePostClass from "../hooks/api/usePostClass";
 
 export default function NewClassModal() {
 	const { setShowModal } = useContext(ProjectContext);
@@ -11,8 +11,8 @@ export default function NewClassModal() {
 		endDate: "",
 		classType: "",
 	});
+	const { postClass } = usePostClass();
 	console.log(form);
-
 	function handleForm(event) {
 		event.preventDefault();
 		// console.log(event.target.name);
@@ -20,10 +20,30 @@ export default function NewClassModal() {
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	function createClass(event) {
+	async function createClass(event) {
 		event.preventDefault();
 		if (form.startDate > form.endDate) {
 			alert("Uma turma não pode ter o seu término antes do seu início.");
+			return
+		}
+
+		try {
+			const body = {
+				name: form.className,
+				startDate: form.startDate,
+				endDate: form.endDate,
+				classType:
+					form.classType === "Turma de Estágio Obrigatório"
+						? "MANDATORY_INTERNSHIP"
+						: "REC",
+			};
+
+			const newClass = await postClass(body);
+			alert(`Você criou ${newClass.name} com sucesso!`);
+			setShowModal(false);
+		} catch (err) {
+			console.log(err);
+			alert(err.response.data);
 		}
 	}
 

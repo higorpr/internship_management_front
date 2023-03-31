@@ -1,14 +1,27 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { imageRepository } from "../assets/imageUrls";
 
-export default function ClassThumb({ className }) {
-	const bcolor = "#000000";
+export default function ClassThumb({
+	id,
+	className,
+	backgroundColor,
+	isActive,
+	setChangePage,
+}) {
+	const navigate = useNavigate();
 	return (
 		<StyledListEntry>
-			<ThumbHeader>
-				<Background backcolor={bcolor}>
-					<img src={imageRepository.classThumbnail} alt="" />
-				</Background>
+			{!isActive ? (
+				<Overlay onClick={() => navigate(`/class/${id}`)} />
+			) : (
+				""
+			)}
+			<ThumbHeader
+				onClick={() => {
+					navigate(`/class/${id}`);
+				}}
+			>
+				<Background backcolor={backgroundColor} />
 				<Title>{className}</Title>
 			</ThumbHeader>
 		</StyledListEntry>
@@ -27,10 +40,23 @@ const StyledListEntry = styled.li`
 	border-radius: 10px;
 `;
 
+const Overlay = styled.div`
+	position: fixed;
+	width: 250px;
+	height: 250px;
+	border-radius: 10px;
+	background-color: grey;
+	opacity: 0.4;
+	z-index: 1;
+	border: 1px solid rgba(156, 150, 153, 0.3);
+	cursor: pointer;
+`;
+
 const ThumbHeader = styled.div`
 	width: 100%;
 	height: 35%;
 	position: relative;
+	cursor: pointer;
 `;
 
 const Background = styled.div`

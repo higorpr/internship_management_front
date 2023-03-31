@@ -3,7 +3,7 @@ import { FaCheck } from "react-icons/fa";
 import { BsXLg } from "react-icons/bs";
 import { ImClock2 } from "react-icons/im";
 import { useState } from "react";
-import ProjectContext from "../constants/Context";
+import ProjectContext from "../contexts/ProjectContext";
 
 export default function ReportStatusContainer({ reportStatus }) {
 	const [status, setStatus] = useState(reportStatus);
