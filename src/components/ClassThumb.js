@@ -6,7 +6,6 @@ export default function ClassThumb({
 	className,
 	backgroundColor,
 	isActive,
-	setChangePage,
 }) {
 	const navigate = useNavigate();
 	return (

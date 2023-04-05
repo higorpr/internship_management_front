@@ -1,1 +1,2 @@
-export default function ReportStatusTooltip({}) {}
+// eslint-disable-next-line
+export default function ReportStatusTooltip() {}

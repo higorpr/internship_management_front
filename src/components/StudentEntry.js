@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ReportStatusTooltip from "./ReportStatusTooltip";
 import ReportStatusContainer from "./ReportStatusContainer";
 
 

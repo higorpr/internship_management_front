@@ -13,7 +13,7 @@ export default function SignupPage() {
 	});
 	const navigate = useNavigate();
 
-	const { signUpLoading, signUpError, signUp } = useSignUp();
+	const { signUp } = useSignUp();
 
 	function handleForm(event) {
 		event.preventDefault();

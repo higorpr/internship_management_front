@@ -2,27 +2,25 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import Backdrop from "./Backdrop";
 import ClassThumb from "./ClassThumb";
-import NewClassModal from "./NewClassModal";
-import useGetAllClasses from "../hooks/api/useGetClasses";
 import ProjectContext from "../contexts/ProjectContext";
-import UserContext from "../contexts/UserContext";
 import StudentClassEnrollModal from "./StudentClassEnrollModal";
+import useGetStudentClasses from "../hooks/api/useGetStudentClasses";
 
 export default function StudentClasses() {
-	const { showModal, setShowModal, setPage } = useContext(ProjectContext);
-	const { userData } = useContext(UserContext);
+	const { showModal, setShowModal } = useContext(ProjectContext);
 	const [classes, setClasses] = useState([]);
+	const { getStudentClasses } = useGetStudentClasses();
 
 	useEffect(() => {
-		// async function retrieveClasses() {
-		// 	try {
-		// 		const tempClasses = await getAllClasses();
-		// 		setClasses(tempClasses);
-		// 	} catch (err) {
-		// 		console.log(err.response.data);
-		// 	}
-		// }
-		// retrieveClasses();
+		async function retrieveStudentClasses() {
+			try {
+				const tempClasses = await getStudentClasses();
+				setClasses(tempClasses);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+		retrieveStudentClasses();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [showModal]);
 	return (

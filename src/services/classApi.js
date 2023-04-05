@@ -18,4 +18,15 @@ async function postEnrollStudent(token, body) {
 	return response.data;
 }
 
-export const classApi = { getAllClasses, postNewClass, postEnrollStudent };
+async function getStudentClasses(token) {
+	const config = { headers: { Authorization: `Bearer ${token}` } };
+	const response = await api.get("/classroom/studentClasses", config);
+	return response.data;
+}
+
+export const classApi = {
+	getAllClasses,
+	postNewClass,
+	postEnrollStudent,
+	getStudentClasses,
+};
