@@ -33,23 +33,18 @@ export default function LoginPage() {
 		try {
 			const receivedUserData = await login(form.email, form.password);
 			setUserData(receivedUserData);
-			if (receivedUserData.user.user_types.name === "PROFESSOR") {
-				navigate("/allclasses");
-			} else {
-				alert("A página inicial de alunos ainda não está pronta.");
-			}
+			navigate("/allclasses");
 			setNewLogin(!newLogin);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
-			setNewLogin(!newLogin);
 		}
 	}
 	return (
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledP>Plataforma de Controle de Relatórios de Estágio</StyledP>
-			<StyledForm onSubmit={loginUser}>
+			<StyledForm onSubmit={loginUser} autoComplete="on">
 				<input
 					type="email"
 					name="email"

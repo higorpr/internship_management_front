@@ -41,7 +41,7 @@ export default function SignupPage() {
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledP>Plataforma de Controle de Relatórios de Estágio</StyledP>
-			<StyledForm onSubmit={signUpUser}>
+			<StyledForm onSubmit={signUpUser} autoComplete="on">
 				<input
 					type="text"
 					name="fullName"
