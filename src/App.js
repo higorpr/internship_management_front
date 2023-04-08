@@ -8,6 +8,7 @@ import ClassesPage from "./pages/ClassesPage/ClassesPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import SingleClassPage from "./pages/SingleClassPage/SingleClassPage";
+import StudentPage from "./pages/StudentPage/StudentPage";
 import GlobalStyle from "./theme/globalStyle";
 
 function App() {
@@ -34,7 +35,10 @@ function App() {
 								path="/class/:classId"
 								element={<SingleClassPage />}
 							/>
-							<Route path="/student/:studentId" />
+							<Route
+								path="/student/:studentId"
+								element={<StudentPage />}
+							/>
 							<Route path="/internship/internshipId" />
 						</Routes>
 					</ChakraProvider>

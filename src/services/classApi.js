@@ -24,9 +24,19 @@ async function getStudentClasses(token) {
 	return response.data;
 }
 
+async function getClassInfo(token, classId) {
+	const config = { headers: { Authorization: `Bearer ${token}` } };
+	const response = await api.get(
+		`/classroom/singleClassInfo/${classId}`,
+		config
+	);
+	return response.data;
+}
+
 export const classApi = {
 	getAllClasses,
 	postNewClass,
 	postEnrollStudent,
 	getStudentClasses,
+	getClassInfo,
 };

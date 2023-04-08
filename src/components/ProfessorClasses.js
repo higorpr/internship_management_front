@@ -3,13 +3,11 @@ import styled from "styled-components";
 import Backdrop from "./Backdrop";
 import ClassThumb from "./ClassThumb";
 import ProjectContext from "../contexts/ProjectContext";
-import UserContext from "../contexts/UserContext";
 import useGetAllClasses from "../hooks/api/useGetClasses";
 import NewClassModal from "./NewClassModal";
 
 export default function ProfessorClasses() {
 	const { showModal, setPage } = useContext(ProjectContext);
-	const { userData } = useContext(UserContext);
 	const { getAllClasses } = useGetAllClasses();
 	const [classes, setClasses] = useState([]);
 

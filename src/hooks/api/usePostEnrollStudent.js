@@ -1,6 +1,6 @@
 import { classApi } from "../../services/classApi";
-import UseAsync from "../useAsync";
-import useUserToken from "../useUserToken";
+import UseAsync from "../UseAsync";
+import useUserToken from "../UseUserToken";
 
 export default function usePostEnrollStudent() {
 	const token = useUserToken();

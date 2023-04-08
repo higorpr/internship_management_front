@@ -1,17 +1,25 @@
 import styled from "styled-components";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaHourglassHalf } from "react-icons/fa";
 import { BsXLg } from "react-icons/bs";
 import { ImClock2 } from "react-icons/im";
 import { useState } from "react";
 
-
 export default function ReportStatusContainer({ reportStatus }) {
 	const [status, setStatus] = useState(reportStatus);
 	const statesObj = {
+		tbd: {
+			icon: (
+				<FaHourglassHalf
+					style={{ color: "#7677fb", fontSize: "20px" }}
+					onClick={() => showReportTooltip(status)}
+				/>
+			),
+			state: "A Ser Definido",
+		},
 		waiting: {
 			icon: (
 				<ImClock2
-					style={{ color: "#FFFB00", fontSize: "20px" }}
+					style={{ color: "#d8b31b", fontSize: "20px" }}
 					onClick={() => showReportTooltip(status)}
 				/>
 			),
@@ -20,7 +28,7 @@ export default function ReportStatusContainer({ reportStatus }) {
 		delivered: {
 			icon: (
 				<ImClock2
-					style={{ color: "green", fontSize: "20px" }}
+					style={{ color: "3ea83c", fontSize: "20px" }}
 					onClick={() => showReportTooltip(status)}
 				/>
 			),
@@ -29,7 +37,7 @@ export default function ReportStatusContainer({ reportStatus }) {
 		late: {
 			icon: (
 				<ImClock2
-					style={{ color: "red", fontSize: "20px" }}
+					style={{ color: "c01013", fontSize: "20px" }}
 					onClick={() => showReportTooltip(status)}
 				/>
 			),
@@ -38,7 +46,7 @@ export default function ReportStatusContainer({ reportStatus }) {
 		accepted: {
 			icon: (
 				<FaCheck
-					style={{ color: "green", fontSize: "20px" }}
+					style={{ color: "3ea83c", fontSize: "20px" }}
 					onClick={() => showReportTooltip(status)}
 				/>
 			),
@@ -47,7 +55,7 @@ export default function ReportStatusContainer({ reportStatus }) {
 		refused: {
 			icon: (
 				<BsXLg
-					style={{ color: "red", fontSize: "20px" }}
+					style={{ color: "c01013", fontSize: "20px" }}
 					onClick={() => showReportTooltip(status)}
 				/>
 			),
@@ -57,22 +65,28 @@ export default function ReportStatusContainer({ reportStatus }) {
 
 	function showReportTooltip(status) {
 		console.log(status);
-		setStatus("delivered");
+		setStatus("waiting");
 	}
 
 	return (
-		<Container onClick={() => showReportTooltip(status)}>
-			{statesObj[status].icon}
+		<Container>
+			<IconHolder onClick={() => showReportTooltip(status)}>
+				{statesObj[status].icon}
+			</IconHolder>
 		</Container>
 	);
 }
 
 const Container = styled.div`
-	/* font-size: 16px; */
-	/* font-weight: 500; */
 	width: 25%;
-	/* background-color: blue; */
 	display: flex;
 	align-items: center;
 	justify-content: center;
+`;
+
+const IconHolder = styled.div`
+	width: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;

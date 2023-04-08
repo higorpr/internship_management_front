@@ -6,49 +6,47 @@ import ProjectContext from "../../contexts/ProjectContext";
 import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import StudentEntry from "../../components/StudentEntry";
+import useGetClassInfo from "../../hooks/api/useGetClassInfo";
 
 export default function SingleClassPage() {
 	const { classId } = useParams();
 	const { setPage } = useContext(ProjectContext);
-	const [isActive, setIsActive] = useState(true);
+	const { getClassInfo } = useGetClassInfo();
 
-	const classCode = "G0w62k";
-	const studentList = [
-		{
-			studentName: "Higor P. R. de Faria",
-			reportOneStatus: "waiting",
-			reportTwoStatus: "waiting",
-			reportThreeStatus: "waiting",
-		},
-		{
-			studentName: "Tatiane P. de Almeida",
-			reportOneStatus: "delivered",
-			reportTwoStatus: "waiting",
-			reportThreeStatus: "waiting",
-		},
-		{
-			studentName: "Kazuzinho P. Rosa",
-			reportOneStatus: "refused",
-			reportTwoStatus: "waiting",
-			reportThreeStatus: "waiting",
-		},
-		{
-			studentName: "Ticiane P. Café",
-			reportOneStatus: "accepted",
-			reportTwoStatus: "waiting",
-			reportThreeStatus: "waiting",
-		},
-		{
-			studentName: "Rose F. P. de Almeida",
-			reportOneStatus: "late",
-			reportTwoStatus: "waiting",
-			reportThreeStatus: "waiting",
-		},
-	];
+	const [isActive, setIsActive] = useState();
+	const [studentsInfo, setStudentsInfo] = useState([]);
+	const [classInfo, setClassInfo] = useState({
+		className: "",
+		isActive: false,
+		classCode: "",
+		classType: "",
+		nReports: 0,
+	});
+	const [updateLocalPage, setUpdateLocalPage] = useState(false);
 
 	useEffect(() => {
+		async function fetchClassInfo() {
+			try {
+				const response = await getClassInfo(classId);
+				setClassInfo({
+					...classInfo,
+					className: response.name,
+					isActive: response.is_active,
+					classCode: response.class_code,
+					classType: response.class_type.name,
+					nReports: response.class_type.number_reports,
+				});
+
+				setStudentsInfo(response.students);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+		fetchClassInfo();
 		setPage(`Turma ${classId}`);
-	});
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [updateLocalPage]);
 
 	function toggleActivateClass() {
 		setIsActive(!isActive);
@@ -67,11 +65,11 @@ export default function SingleClassPage() {
 				<LeftMenu>
 					<ClassCodeContainer>
 						<h1>Código da Turma:</h1>
-						<p>{classCode}</p>
+						<p>{classInfo.classCode}</p>
 					</ClassCodeContainer>
 					<ToggleIcon>
 						<h1>Ativar / Desativar Turma</h1>
-						{isActive ? (
+						{classInfo.isActive ? (
 							<IconContext.Provider
 								value={{ color: "green", size: "40px" }}
 							>
@@ -92,14 +90,15 @@ export default function SingleClassPage() {
 						<p>Relatório 3</p>
 					</StudentListTitles>
 					<StudentList>
-						{studentList.map((student, id) => (
+						{studentsInfo.map((student, order) => (
 							<StudentEntry
-								key={id}
+								key={student.studentId}
 								studentName={student.studentName}
+								studentId={student.studentId}
 								reportOneStatus={student.reportOneStatus}
 								reportTwoStatus={student.reportTwoStatus}
 								reportThreeStatus={student.reportThreeStatus}
-								colorCode={id}
+								colorCode={order}
 							/>
 						))}
 					</StudentList>
@@ -123,7 +122,6 @@ const PageHeader = styled.div`
 	position: relative;
 	display: flex;
 	justify-content: center;
-	/* background-color: yellow; */
 	img {
 		border-radius: 10px;
 		width: 100%;
@@ -142,7 +140,6 @@ const PageHeader = styled.div`
 
 const PageBody = styled.div`
 	display: flex;
-	/* background-color: red; */
 	width: 60%;
 	margin-top: 15px;
 `;
@@ -150,7 +147,6 @@ const PageBody = styled.div`
 const LeftMenu = styled.div`
 	display: flex;
 	flex-direction: column;
-	/* background-color: blue; */
 	width: 20%;
 	margin-right: 20px;
 `;
@@ -178,7 +174,6 @@ const ClassCodeContainer = styled.div`
 `;
 
 const ToggleIcon = styled.div`
-	/* position: absolute; */
 	border: 1px solid black;
 	border-radius: 15px;
 	margin-top: 10px;
@@ -195,18 +190,14 @@ const ToggleIcon = styled.div`
 
 const StudentsContainer = styled.div`
 	width: 80%;
-	/* background-color: pink; */
 `;
 
 const StudentListTitles = styled.div`
 	display: flex;
 	justify-content: space-between;
-	/* font-size: px; */
 	font-weight: 700;
-	/* background-color: #f0efee; */
 	p {
 		width: 25%;
-		/* border: 1px solid; */
 		display: flex;
 		justify-content: center;
 	}

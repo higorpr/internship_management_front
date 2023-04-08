@@ -1,9 +1,9 @@
 import { classApi } from "../../services/classApi";
-import UseAsync from "../useAsync";
-import useUserToken from "../useUserToken";
+import UseAsync from "../UseAsync";
+import UseUserToken from "../UseUserToken";
 
 export default function useGetAllClasses() {
-	const token = useUserToken();
+	const token = UseUserToken();
 
 	const {
 		data: getAllClassesData,
