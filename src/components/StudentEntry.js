@@ -5,6 +5,7 @@ import ReportStatusContainer from "./ReportStatusContainer";
 export default function StudentEntry({
 	studentName,
 	studentId,
+	classId,
 	reportOneStatus,
 	reportTwoStatus,
 	reportThreeStatus,
@@ -17,7 +18,7 @@ export default function StudentEntry({
 			<NameContainer>
 				<p
 					onClick={() => {
-						navigate(`/student/${studentId}`);
+						navigate(`/class/${classId}/student/${studentId}`);
 					}}
 				>
 					{studentName}
@@ -47,7 +48,6 @@ const StyledLi = styled.li`
 const NameContainer = styled.div`
 	margin: 3px 0;
 	width: 25%;
-	/* background-color: red; */
 	p {
 		font-family: "Lato", sans-serif;
 		font-size: 16px;

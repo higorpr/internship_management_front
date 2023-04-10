@@ -22,12 +22,14 @@ export default function SingleClassPage() {
 		classType: "",
 		nReports: 0,
 	});
+	// Estado para disparar a atualização da página, se necessário
 	const [updateLocalPage, setUpdateLocalPage] = useState(false);
 
 	useEffect(() => {
 		async function fetchClassInfo() {
 			try {
 				const response = await getClassInfo(classId);
+				// Refatorar o back end para entregar um objeto mais bem estruturado
 				setClassInfo({
 					...classInfo,
 					className: response.name,
@@ -95,6 +97,7 @@ export default function SingleClassPage() {
 								key={student.studentId}
 								studentName={student.studentName}
 								studentId={student.studentId}
+								classId={classId}
 								reportOneStatus={student.reportOneStatus}
 								reportTwoStatus={student.reportTwoStatus}
 								reportThreeStatus={student.reportThreeStatus}

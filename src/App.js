@@ -36,7 +36,7 @@ function App() {
 								element={<SingleClassPage />}
 							/>
 							<Route
-								path="/student/:studentId"
+								path="/class/:classId/student/:studentId"
 								element={<StudentPage />}
 							/>
 							<Route path="/internship/internshipId" />
