@@ -10,6 +10,7 @@ import SignupPage from "./pages/SignupPage/SignupPage";
 import SingleClassPage from "./pages/SingleClassPage/SingleClassPage";
 import StudentPage from "./pages/StudentPage/StudentPage";
 import GlobalStyle from "./theme/globalStyle";
+import StudentClassPage from "./pages/StudentClassPage/StudentClassPage";
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
@@ -39,7 +40,10 @@ function App() {
 								path="/class/:classId/student/:studentId"
 								element={<StudentPage />}
 							/>
-							<Route path="/internship/internshipId" />
+							<Route
+								path="/studentclassPage/:studentId/:classId"
+								element={<StudentClassPage />}
+							/>
 						</Routes>
 					</ChakraProvider>
 				</UserProvider>

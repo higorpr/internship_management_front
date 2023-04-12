@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../assets/imageUrls";
 import { AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
@@ -12,6 +12,7 @@ export default function Header() {
 	const location = useLocation();
 	const { setShowModal, page } = useContext(ProjectContext);
 	const { userData } = useContext(UserContext);
+	const navigate = useNavigate();
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
@@ -48,7 +49,11 @@ export default function Header() {
 							placement="bottom"
 							hasArrow
 						>
-							<AiOutlineUser />
+							<StyledAiOutlineUser
+								onClick={() => {
+									navigate("/");
+								}}
+							/>
 						</Tooltip>
 					) : (
 						""
@@ -85,13 +90,11 @@ const StyledImage = styled.img`
 `;
 
 const StyledText = styled.p`
-	/* color: white; */
 	color: #545454;
 	font-size: 25px;
 	font-weight: 700;
 	margin: 12px 0px 0px 20px;
 	font-family: "Lato", sans-serif;
-	/* background-color: red; */
 `;
 
 const HeaderRight = styled.div`
@@ -99,6 +102,10 @@ const HeaderRight = styled.div`
 	justify-content: space-between;
 	width: 70px;
 	margin-right: 10px;
+`;
+
+const StyledAiOutlineUser = styled(AiOutlineUser)`
+	cursor: pointer;
 `;
 
 const BlankBlock = styled.div`

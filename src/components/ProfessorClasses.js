@@ -5,11 +5,13 @@ import ClassThumb from "./ClassThumb";
 import ProjectContext from "../contexts/ProjectContext";
 import useGetAllClasses from "../hooks/api/useGetClasses";
 import NewClassModal from "./NewClassModal";
+import UserContext from "../contexts/UserContext";
 
 export default function ProfessorClasses() {
 	const { showModal, setPage } = useContext(ProjectContext);
 	const { getAllClasses } = useGetAllClasses();
 	const [classes, setClasses] = useState([]);
+	const { userData } = useContext(UserContext);
 
 	useEffect(() => {
 		setPage("Turmas");
@@ -39,7 +41,9 @@ export default function ProfessorClasses() {
 				{classes.map((c) => (
 					<ClassThumb
 						key={c.id}
-						id={c.id}
+						classId={c.id}
+						userId={userData.user.id}
+						userType={userData.user.user_types.name}
 						className={c.name}
 						backgroundColor={c.background_color}
 						isActive={c.is_active}

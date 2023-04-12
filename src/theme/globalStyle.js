@@ -43,6 +43,9 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+strong {
+	font-weight: 700;
+}
 `;
 
 export default GlobalStyle;

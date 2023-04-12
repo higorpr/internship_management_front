@@ -5,9 +5,11 @@ import ClassThumb from "./ClassThumb";
 import ProjectContext from "../contexts/ProjectContext";
 import StudentClassEnrollModal from "./StudentClassEnrollModal";
 import useGetStudentClasses from "../hooks/api/useGetStudentClasses";
+import UserContext from "../contexts/UserContext";
 
 export default function StudentClasses() {
 	const { showModal, setShowModal } = useContext(ProjectContext);
+	const { userData } = useContext(UserContext);
 	const [classes, setClasses] = useState([]);
 	const { getStudentClasses } = useGetStudentClasses();
 
@@ -46,7 +48,9 @@ export default function StudentClasses() {
 					{classes.map((c) => (
 						<ClassThumb
 							key={c.id}
-							id={c.id}
+							classId={c.id}
+							userId={userData.user.id}
+							userType={userData.user.user_types.name}
 							className={c.name}
 							backgroundColor={c.background_color}
 							isActive={c.is_active}

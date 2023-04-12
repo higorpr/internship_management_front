@@ -1,42 +1,39 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import ProjectContext from "../contexts/ProjectContext";
-import usePostClass from "../hooks/api/usePostClass";
+import usePostNewInternship from "../hooks/api/usePostNewInternship";
 
-export default function NewClassModal() {
+export default function InternshipCreationModal({
+	classId,
+	reloadPage,
+	setReloadPage,
+}) {
 	const { setShowModal } = useContext(ProjectContext);
+	const { postNewInternship } = usePostNewInternship();
 	const [form, setForm] = useState({
-		className: "",
+		companyName: "",
 		startDate: "",
-		endDate: "",
-		classType: "",
+		weeklyHours: "",
 	});
-	const { postClass } = usePostClass();
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function createClass(event) {
+	async function createNewInternship(event) {
 		event.preventDefault();
-		if (form.startDate > form.endDate) {
-			alert("Uma turma não pode ter o seu término antes do seu início.");
-			return;
-		}
-
 		try {
 			const body = {
-				name: form.className,
+				companyName: form.companyName,
 				startDate: form.startDate,
-				endDate: form.endDate,
-				classType:
-					form.classType === "Turma de Estágio Obrigatório"
-						? "MANDATORY_INTERNSHIP"
-						: "REC",
+				weeklyHours: form.weeklyHours,
+				classId: classId,
 			};
 
-			const newClass = await postClass(body);
-			alert(`Você criou ${newClass.name} com sucesso!`);
+			const internship = await postNewInternship(body);
+			console.log(internship);
+            alert('Estágio registrado com sucesso!')
+			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
@@ -50,60 +47,48 @@ export default function NewClassModal() {
 		}
 
 		if (event.key === "Enter") {
-			createClass();
+			createNewInternship();
 		}
 	}
 
 	return (
 		<StyledModal onKeyUp={checkKey}>
-			<h1>Criação de Nova Turma</h1>
-			<StyledForm onSubmit={createClass}>
-				<label htmlFor="class-name">Nome da Turma</label>
+			<h1>Registro de um Novo Estágio</h1>
+			<StyledForm onSubmit={createNewInternship}>
+				<label htmlFor="company-name">Nome da Turma</label>
 				<input
-					id="class-name"
+					id="company-name"
 					type="text"
-					name="className"
-					placeholder="Ex.: Turma de Estágio 2023/1"
-					value={form.className}
+					name="companyName"
+					minLength={3}
+					placeholder="Ex.: Odebrecht S.A."
+					value={form.companyName}
 					onChange={handleForm}
 					required
 				/>
-				<label htmlFor="start-date">Data de Início da Turma</label>
+				<label htmlFor="start-date">Data de Início do Estágio</label>
 				<input
 					id="start-date"
 					type="date"
 					name="startDate"
-					placeholder="dd-mm-yyyy"
+					placeholder="mm/dd/yyyy"
 					value={form.startDate}
 					onChange={handleForm}
 					required
 				/>
-				<label>Data de Término da Turma</label>
+				<label htmlFor="weekly-hours">
+					Número de Horas Semanais Trabalhadas
+				</label>
 				<input
-					type="date"
-					name="endDate"
-					value={form.endDate}
+					id="weekly-hours"
+					type="number"
+					name="weeklyHours"
+					placeholder="Ex.: 20"
+					value={form.weeklyHours}
 					onChange={handleForm}
 					required
 				/>
-				<label htmlFor="class-type">Tipo de Turma</label>
-				<select
-					id="class-type"
-					onChange={handleForm}
-					name="classType"
-					required
-				>
-					<option value="">
-						-- Escolha um tipo de turma de estágio --
-					</option>
-					<option value="Turma de Estágio Obrigatório">
-						Turma de Estágio Obrigatório
-					</option>
-					<option value="Turma de Recuperação (RRP)">
-						Turma de Recuperação
-					</option>
-				</select>
-				<button type="submit">Criar Turma</button>
+				<button type="submit">Registrar Estágio</button>
 			</StyledForm>
 		</StyledModal>
 	);

@@ -2,24 +2,27 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function ClassThumb({
-	id,
+	classId,
+	userId,
+	userType,
 	className,
 	backgroundColor,
 	isActive,
 }) {
 	const navigate = useNavigate();
+
+	function rerouteToCorrectPage() {
+		if (userType === "PROFESSOR") {
+			navigate(`/class/${classId}`);
+		} else {
+			navigate(`/studentclassPage/${userId}/${classId}`);
+		}
+	}
+
 	return (
 		<StyledListEntry>
-			{!isActive ? (
-				<Overlay onClick={() => navigate(`/class/${id}`)} />
-			) : (
-				""
-			)}
-			<ThumbHeader
-				onClick={() => {
-					navigate(`/class/${id}`);
-				}}
-			>
+			{!isActive ? <Overlay onClick={rerouteToCorrectPage} /> : ""}
+			<ThumbHeader onClick={rerouteToCorrectPage}>
 				<Background backcolor={backgroundColor} />
 				<Title>{className}</Title>
 			</ThumbHeader>

@@ -24,11 +24,14 @@ export default function SingleClassPage() {
 	});
 	// Estado para disparar a atualização da página, se necessário
 	const [updateLocalPage, setUpdateLocalPage] = useState(false);
+	console.log(classInfo);
+	console.log(studentsInfo);
 
 	useEffect(() => {
 		async function fetchClassInfo() {
 			try {
 				const response = await getClassInfo(classId);
+				console.log(response);
 				// Refatorar o back end para entregar um objeto mais bem estruturado
 				setClassInfo({
 					...classInfo,
@@ -198,11 +201,13 @@ const StudentsContainer = styled.div`
 const StudentListTitles = styled.div`
 	display: flex;
 	justify-content: space-between;
-	font-weight: 700;
 	p {
+		font-family: "Lato", sans-serif;
 		width: 25%;
 		display: flex;
 		justify-content: center;
+		font-weight: 700;
+		font-size: 18px;
 	}
 `;
 
