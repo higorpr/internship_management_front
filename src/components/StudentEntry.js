@@ -43,6 +43,7 @@ const StyledLi = styled.li`
 	justify-content: space-between;
 	align-items: center;
 	background-color: ${(props) => props.bcolor};
+	
 `;
 
 const NameContainer = styled.div`

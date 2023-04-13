@@ -5,6 +5,8 @@ import ProjectContext from "../../contexts/ProjectContext";
 import styled from "styled-components";
 import Backdrop from "../../components/Backdrop";
 import InternshipCreationModal from "../../components/InternshipCreationModal";
+import ReportInfoComponent from "../../components/ReportInfoComponent";
+import { formatDate } from "../../functions/formatDate";
 
 export default function StudentClassPage() {
 	const { setPage, showModal, setShowModal } = useContext(ProjectContext);
@@ -14,7 +16,9 @@ export default function StudentClassPage() {
 	const [studentData, setStudentData] = useState({});
 	const [reloadPage, setReloadPage] = useState(false);
 	const [formattedStartDate, setFormattedStartDate] = useState("");
+	const [reports, setReports] = useState([]);
 	console.log(studentData);
+	console.log(reports);
 
 	useEffect(() => {
 		retrieveStudentData();
@@ -26,16 +30,17 @@ export default function StudentClassPage() {
 		try {
 			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);
-			console.log(tempStudentData);
 			setPage(
 				`Página do Aluno ${tempStudentData.studentInfo.studentName}`
 			);
 			setStudentData(tempStudentData);
 			setLoadingComplete(true);
+			const sortedReports = orderReports(tempStudentData.reportInfo);
+			setReports(sortedReports);
 
-			if (tempStudentData.internships.length !== 0) {
+			if (tempStudentData.internshipInfo !== {}) {
 				const tempDate = formatDate(
-					tempStudentData.internships[0].start_date
+					tempStudentData.internshipInfo.internshipStartDate
 				);
 				setFormattedStartDate(tempDate);
 			}
@@ -44,12 +49,18 @@ export default function StudentClassPage() {
 		}
 	}
 
-	function formatDate(dateString) {
-		const UTCDateString = new Date(dateString).toLocaleDateString("pt-BR", {
-			timeZone: "Europe/London",
-		});
-		return UTCDateString;
+	function orderReports(reportObj) {
+		const reportKeys = Object.keys(reportObj);
+		const order = ["firstReport", "secondReport", "thirdReport"];
+		const sortedKeys = reportKeys.sort(
+			(a, b) => order.indexOf(a) - order.indexOf(b)
+		);
+		const reportsArr = sortedKeys.map((key) => reportObj[key]);
+
+		return reportsArr;
 	}
+
+	
 
 	if (loadingComplete === false) {
 		return <></>;
@@ -95,12 +106,12 @@ export default function StudentClassPage() {
 				</p>
 			</StudentInfoField>
 
-			{studentData.internships.length !== 0 ? (
+			{studentData.internshipInfo !== {} ? (
 				<>
 					<StudentInfoField>
 						<p>
 							<strong>Empresa do Estágio: </strong>{" "}
-							{studentData.internships[0].companies.name}
+							{studentData.internshipInfo.companyName}
 						</p>
 					</StudentInfoField>
 
@@ -114,9 +125,21 @@ export default function StudentClassPage() {
 					<StudentInfoField>
 						<p>
 							<strong>Horas Semanais de Estágio: </strong>{" "}
-							{`${studentData.internships[0].weekly_hours} horas`}
+							{`${studentData.internshipInfo.weeklyHours} horas`}
 						</p>
 					</StudentInfoField>
+
+					<ReportsContainer>
+						{reports.map((report, id) => (
+							<ReportInfoComponent
+								key={id}
+								order={id}
+								deliveredDate={report.deliveredDate}
+								dueDate={report.dueDate}
+								reportStatus={report.reportStatus}
+							/>
+						))}
+					</ReportsContainer>
 				</>
 			) : (
 				<ButtonContainer>
@@ -136,6 +159,8 @@ const StyledPage = styled.div`
 	flex-direction: column;
 	height: 100vh;
 	width: 100vw;
+	padding: 10px;
+	box-sizing: border-box;
 `;
 
 const HeaderOffset = styled.div`
@@ -173,4 +198,11 @@ const InternshipRegistrationButton = styled.button`
 	&:disabled {
 		background-color: #bdbdbd;
 	}
+`;
+
+const ReportsContainer = styled.div`
+	margin-top: 15px;
+	display: flex;
+	justify-content: space-around;
+	/* background-color: red; */
 `;
