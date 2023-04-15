@@ -1,23 +1,19 @@
-import { useContext, useEffect, useState } from "react";
 import { BsXLg } from "react-icons/bs";
 import { FaCheck, FaHourglassHalf } from "react-icons/fa";
 import { ImClock2 } from "react-icons/im";
-import styled from "styled-components";
 import { formatDate } from "../functions/formatDate";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
 import { portugueseReportStatus } from "../functions/portugueseReportStatus";
-import ProjectContext from "../contexts/ProjectContext";
 
-export default function ReportInfoComponent({
-	reportId,
+export default function ProfessorReportInfoComponent({
 	deliveredDate,
 	dueDate,
 	reportStatus,
 	order,
-	setTargetReportId,
 }) {
 	const [translatedStatus, setTranslatedStatus] = useState("");
 	const [formattedDeliveryDate, setFormattedDeliveryDate] = useState("");
-	const { setShowModal } = useContext(ProjectContext);
 
 	const statesObj = {
 		TBD: {
@@ -55,11 +51,6 @@ export default function ReportInfoComponent({
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	function sendReportInformation() {
-		setTargetReportId(reportId);
-		setShowModal(true);
-	}
-
 	return (
 		<StyledComponent>
 			<Title>
@@ -72,13 +63,9 @@ export default function ReportInfoComponent({
 			<DeliveryDate>
 				<p>Entregue em: {formattedDeliveryDate}</p>
 			</DeliveryDate>
-			<DeliveryButton onClick={sendReportInformation}>
-				{!deliveredDate ? (
-					<p>Enviar relatório</p>
-				) : (
-					<p>Enviar nova versão do relatório</p>
-				)}
-			</DeliveryButton>
+			<DefineReportStatusButton disabled={!deliveredDate}>
+				<p>Definir Status do Relatório</p>
+			</DefineReportStatusButton>
 		</StyledComponent>
 	);
 }
@@ -87,6 +74,8 @@ const StyledComponent = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	/* justify-content: center; */
+	/* height: 500px; */
 	width: 500px;
 	border: 1px solid #bdbdbd;
 	border-radius: 15px;
@@ -117,19 +106,23 @@ const DeliveryDate = styled.div`
 	}
 `;
 
-const DeliveryButton = styled.button`
+const DefineReportStatusButton = styled.button`
 	margin: 30px 0 20px 0;
 	min-width: 300px;
 	min-height: 100px;
 	background-color: #127e71;
-	font-family: "Lato", sans-serif;
-	color: white;
-	font-size: 25px;
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	p {
+		font-family: "Lato", sans-serif;
+		color: white;
+		font-size: 25px;
 		width: 80%;
+	}
+
+	&:disabled {
+		background-color: #bdbdbd;
 	}
 `;

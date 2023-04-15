@@ -8,7 +8,7 @@ import ClassesPage from "./pages/ClassesPage/ClassesPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import SingleClassPage from "./pages/SingleClassPage/SingleClassPage";
-import StudentPage from "./pages/StudentPage/StudentPage";
+import ProfessorStudentPage from "./pages/ProfessorStudentPage/ProfessorStudentPage";
 import GlobalStyle from "./theme/globalStyle";
 import StudentClassPage from "./pages/StudentClassPage/StudentClassPage";
 
@@ -38,7 +38,7 @@ function App() {
 							/>
 							<Route
 								path="/class/:classId/student/:studentId"
-								element={<StudentPage />}
+								element={<ProfessorStudentPage />}
 							/>
 							<Route
 								path="/studentclassPage/:studentId/:classId"

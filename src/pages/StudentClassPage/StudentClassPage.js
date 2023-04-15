@@ -7,6 +7,8 @@ import Backdrop from "../../components/Backdrop";
 import InternshipCreationModal from "../../components/InternshipCreationModal";
 import ReportInfoComponent from "../../components/ReportInfoComponent";
 import { formatDate } from "../../functions/formatDate";
+import { orderReports } from "../../functions/orderReports";
+import SendReportModal from "../../components/SendReportModal";
 
 export default function StudentClassPage() {
 	const { setPage, showModal, setShowModal } = useContext(ProjectContext);
@@ -17,8 +19,10 @@ export default function StudentClassPage() {
 	const [reloadPage, setReloadPage] = useState(false);
 	const [formattedStartDate, setFormattedStartDate] = useState("");
 	const [reports, setReports] = useState([]);
-	console.log(studentData);
-	console.log(reports);
+	const [internshipCreated, setInternshipCreated] = useState(false);
+	const [targetReportId, setTargetReportId] = useState(0);
+	// console.log(studentData);
+	// console.log(reports);
 
 	useEffect(() => {
 		retrieveStudentData();
@@ -39,28 +43,17 @@ export default function StudentClassPage() {
 			setReports(sortedReports);
 
 			if (tempStudentData.internshipInfo !== {}) {
+				setInternshipCreated(true);
 				const tempDate = formatDate(
 					tempStudentData.internshipInfo.internshipStartDate
 				);
 				setFormattedStartDate(tempDate);
+				setInternshipCreated(true);
 			}
 		} catch (err) {
 			console.log(err);
 		}
 	}
-
-	function orderReports(reportObj) {
-		const reportKeys = Object.keys(reportObj);
-		const order = ["firstReport", "secondReport", "thirdReport"];
-		const sortedKeys = reportKeys.sort(
-			(a, b) => order.indexOf(a) - order.indexOf(b)
-		);
-		const reportsArr = sortedKeys.map((key) => reportObj[key]);
-
-		return reportsArr;
-	}
-
-	
 
 	if (loadingComplete === false) {
 		return <></>;
@@ -82,11 +75,19 @@ export default function StudentClassPage() {
 			{showModal ? (
 				<>
 					<Backdrop />
-					<InternshipCreationModal
-						classId={classId}
-						reloadPage={reloadPage}
-						setReloadPage={setReloadPage}
-					/>
+					{internshipCreated ? (
+						<SendReportModal
+							reloadPage={reloadPage}
+							setReloadPage={setReloadPage}
+							reportId={targetReportId}
+						/>
+					) : (
+						<InternshipCreationModal
+							classId={classId}
+							reloadPage={reloadPage}
+							setReloadPage={setReloadPage}
+						/>
+					)}
 				</>
 			) : (
 				""
@@ -133,10 +134,12 @@ export default function StudentClassPage() {
 						{reports.map((report, id) => (
 							<ReportInfoComponent
 								key={id}
+								reportId={report.id}
 								order={id}
 								deliveredDate={report.deliveredDate}
 								dueDate={report.dueDate}
 								reportStatus={report.reportStatus}
+								setTargetReportId={setTargetReportId}
 							/>
 						))}
 					</ReportsContainer>
@@ -204,5 +207,4 @@ const ReportsContainer = styled.div`
 	margin-top: 15px;
 	display: flex;
 	justify-content: space-around;
-	/* background-color: red; */
 `;
