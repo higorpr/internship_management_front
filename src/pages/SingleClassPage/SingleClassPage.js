@@ -89,7 +89,7 @@ export default function SingleClassPage() {
 				</LeftMenu>
 				<StudentsContainer>
 					<StudentListTitles>
-						<p>Nome do Aluno</p>
+						<p>Aluno</p>
 						<p>Relatório 1</p>
 						<p>Relatório 2</p>
 						<p>Relatório 3</p>
@@ -142,12 +142,24 @@ const PageHeader = styled.div`
 		font-size: 30px;
 		color: white;
 	}
+
+	@media (max-width: 400px) {
+		width: 95%;
+
+		h1 {
+			font-size: 25px;
+		}
+	}
 `;
 
 const PageBody = styled.div`
 	display: flex;
 	width: 60%;
 	margin-top: 15px;
+
+	@media (max-width: 400px) {
+		width: 95%;
+	}
 `;
 
 const LeftMenu = styled.div`
@@ -155,6 +167,10 @@ const LeftMenu = styled.div`
 	flex-direction: column;
 	width: 20%;
 	margin-right: 20px;
+
+	@media (max-width: 400px) {
+		margin-right: 5px;
+	}
 `;
 
 const ClassCodeContainer = styled.div`
@@ -177,6 +193,18 @@ const ClassCodeContainer = styled.div`
 		font-family: "Roboto", sans-serif;
 		font-size: 30px;
 	}
+
+	@media (max-width: 400px) {
+		h1 {
+			font-size: 15px;
+			text-align: center;
+			margin-bottom: 5px;
+		}
+
+		p {
+			font-size: 18px;
+		}
+	}
 `;
 
 const ToggleIcon = styled.div`
@@ -191,6 +219,14 @@ const ToggleIcon = styled.div`
 		font-size: 18px;
 		font-family: "Lato", sans-serif;
 		margin-top: 5px;
+	}
+
+	@media (max-width: 400px) {
+		h1 {
+			font-size: 15px;
+			text-align: center;
+			margin-bottom: 5px;
+		}
 	}
 `;
 
@@ -208,6 +244,12 @@ const StudentListTitles = styled.div`
 		justify-content: center;
 		font-weight: 700;
 		font-size: 18px;
+	}
+
+	@media (max-width: 400px) {
+		p {
+			font-size: 14px;
+			text-align: center;			
 	}
 `;
 

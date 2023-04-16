@@ -72,6 +72,11 @@ const ClassesContainer = styled.ul`
 	padding-left: 30px;
 	box-sizing: border-box;
 	flex-wrap: wrap;
+
+	@media (max-width: 400px) {
+		justify-content: center;
+		align-items: center;
+	}
 `;
 
 const StyledButtonBody = styled.div`

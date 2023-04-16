@@ -3,17 +3,22 @@ import { FaCheck, FaHourglassHalf } from "react-icons/fa";
 import { ImClock2 } from "react-icons/im";
 import { formatDate } from "../functions/formatDate";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { portugueseReportStatus } from "../functions/portugueseReportStatus";
+import ProjectContext from "../contexts/ProjectContext";
 
 export default function ProfessorReportInfoComponent({
 	deliveredDate,
 	dueDate,
 	reportStatus,
 	order,
+	reportId,
+	setTargetReportId,
+	setButtonClicked,
 }) {
 	const [translatedStatus, setTranslatedStatus] = useState("");
 	const [formattedDeliveryDate, setFormattedDeliveryDate] = useState("");
+	const { setShowModal } = useContext(ProjectContext);
 
 	const statesObj = {
 		TBD: {
@@ -51,6 +56,12 @@ export default function ProfessorReportInfoComponent({
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	function startSendReport() {
+		setTargetReportId(reportId);
+		setButtonClicked("report");
+		setShowModal(true);
+	}
+
 	return (
 		<StyledComponent>
 			<Title>
@@ -63,7 +74,10 @@ export default function ProfessorReportInfoComponent({
 			<DeliveryDate>
 				<p>Entregue em: {formattedDeliveryDate}</p>
 			</DeliveryDate>
-			<DefineReportStatusButton disabled={!deliveredDate}>
+			<DefineReportStatusButton
+				disabled={!deliveredDate}
+				onClick={startSendReport}
+			>
 				<p>Definir Status do Relatório</p>
 			</DefineReportStatusButton>
 		</StyledComponent>
@@ -74,11 +88,14 @@ const StyledComponent = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* justify-content: center; */
-	/* height: 500px; */
 	width: 500px;
 	border: 1px solid #bdbdbd;
 	border-radius: 15px;
+
+	@media (max-width: 400px) {
+		width: 90%;
+		margin-bottom: 10px;
+	}
 `;
 
 const Title = styled.h1`
@@ -108,21 +125,27 @@ const DeliveryDate = styled.div`
 
 const DefineReportStatusButton = styled.button`
 	margin: 30px 0 20px 0;
-	min-width: 300px;
-	min-height: 100px;
+	width: 300px;
+	height: 100px;
 	background-color: #127e71;
+	font-family: "Lato", sans-serif;
+	color: white;
+	font-size: 25px;
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	p {
-		font-family: "Lato", sans-serif;
-		color: white;
-		font-size: 25px;
 		width: 80%;
 	}
 
 	&:disabled {
 		background-color: #bdbdbd;
+	}
+
+	@media (max-width: 400px) {
+		width: 70%;
+		height: 80px;
+		font-size: 20px;
 	}
 `;

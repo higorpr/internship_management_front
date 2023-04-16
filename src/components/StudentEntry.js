@@ -43,7 +43,6 @@ const StyledLi = styled.li`
 	justify-content: space-between;
 	align-items: center;
 	background-color: ${(props) => props.bcolor};
-	
 `;
 
 const NameContainer = styled.div`
@@ -54,5 +53,11 @@ const NameContainer = styled.div`
 		font-size: 16px;
 		font-weight: 500;
 		cursor: pointer;
+	}
+
+	@media (max-width: 400px) {
+		p {
+			text-align: center;
+		}
 	}
 `;

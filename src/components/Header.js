@@ -87,6 +87,10 @@ const HeaderLeft = styled.div`
 const StyledImage = styled.img`
 	height: 80%;
 	margin-left: 10px;
+
+	@media (max-width: 400px) {
+		height: 70%;
+	}
 `;
 
 const StyledText = styled.p`
@@ -95,6 +99,10 @@ const StyledText = styled.p`
 	font-weight: 700;
 	margin: 12px 0px 0px 20px;
 	font-family: "Lato", sans-serif;
+
+	@media (max-width: 400px) {
+		font-size: 17px;
+	}
 `;
 
 const HeaderRight = styled.div`

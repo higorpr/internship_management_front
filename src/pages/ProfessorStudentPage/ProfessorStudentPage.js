@@ -8,16 +8,20 @@ import { orderReports } from "../../functions/orderReports";
 import { formatDate } from "../../functions/formatDate";
 import ProfessorReportInfoComponent from "../../components/ProfessorReportInfoComponent";
 import { portugueseStudentStatus } from "../../functions/portugueseStudentStatus";
+import Backdrop from "../../components/Backdrop";
+import DefineReportStatusModal from "../../components/DefineReportStatusModal";
 
 export default function ProfessorStudentPage() {
 	const { studentId, classId } = useParams();
-	const { setPage } = useContext(ProjectContext);
+	const { setPage, showModal } = useContext(ProjectContext);
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const [studentData, setStudentData] = useState({});
-	const [updatePage, setUpdatePage] = useState(false);
+	const [reloadPage, setReloadPage] = useState(false);
 	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [reports, setReports] = useState([]);
-	console.log(studentData);
+	const [targetReportId, setTargetReportId] = useState(0);
+	const [buttonClicked, setButtonClicked] = useState("");
+	console.log(reports);
 
 	useEffect(() => {
 		let tempStudentData = {};
@@ -27,9 +31,7 @@ export default function ProfessorStudentPage() {
 					studentId,
 					classId
 				);
-				setPage(
-					`Página do Aluno ${tempStudentData.studentInfo.studentName}`
-				);
+				setPage(`Controle de Relatórios`);
 
 				setStudentData(tempStudentData);
 				setLoadingComplete(true);
@@ -40,13 +42,10 @@ export default function ProfessorStudentPage() {
 			}
 		}
 
-		function translatePageInfo() {}
-
 		retrieveStudentData();
-		translatePageInfo();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [updatePage]);
+	}, [reloadPage]);
 
 	if (loadingComplete === false) {
 		return <></>;
@@ -54,6 +53,22 @@ export default function ProfessorStudentPage() {
 
 	return (
 		<StyledPage>
+			{showModal ? (
+				<>
+					<Backdrop />
+					{buttonClicked === "report" ? (
+						<DefineReportStatusModal
+							reloadPage={reloadPage}
+							setReloadPage={setReloadPage}
+							reportId={targetReportId}
+						/>
+					) : (
+						""
+					)}
+				</>
+			) : (
+				""
+			)}
 			<HeaderOffset />
 			<StudentInfoField>
 				<p>
@@ -99,19 +114,23 @@ export default function ProfessorStudentPage() {
 				</p>
 			</StudentInfoField>
 			<ReportsContainer>
-				{reports.map((report, id) => (
+				{reports.map((report, idx) => (
 					<ProfessorReportInfoComponent
-						key={id}
-						order={id}
+						key={idx}
+						reportId={report.id}
+						order={idx}
 						deliveredDate={report.deliveredDate}
 						dueDate={report.dueDate}
 						reportStatus={report.reportStatus}
+						setTargetReportId={setTargetReportId}
+						setButtonClicked={setButtonClicked}
 					/>
 				))}
 			</ReportsContainer>
 			<DefineStudentStatusButton>
-				<p>Definir Status do Aluno</p>
+				<p>Alterar Status do Aluno</p>
 			</DefineStudentStatusButton>
+			<BlankSpace />
 		</StyledPage>
 	);
 }
@@ -143,12 +162,17 @@ const ReportsContainer = styled.div`
 	margin-top: 15px;
 	display: flex;
 	justify-content: space-around;
+
+	@media (max-width: 400px) {
+		flex-direction: column;
+		align-items: center;
+	}
 `;
 
 const DefineStudentStatusButton = styled.button`
 	margin: 30px auto;
 	width: 300px;
-	height: 100px;
+	min-height: 120px;
 	background-color: #127e71;
 	border-radius: 10px;
 	display: flex;
@@ -162,4 +186,17 @@ const DefineStudentStatusButton = styled.button`
 		font-size: 25px;
 		width: 80%;
 	}
+
+	@media (max-width: 400px) {
+		min-height: 80px;
+		width: 250px;
+
+		p {
+			font-size: 20px;
+		}
+	}
+`;
+
+const BlankSpace = styled.div`
+	min-height: 10px;
 `;

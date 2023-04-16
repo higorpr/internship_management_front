@@ -90,6 +90,11 @@ const StyledComponent = styled.div`
 	width: 500px;
 	border: 1px solid #bdbdbd;
 	border-radius: 15px;
+
+	@media (max-width: 400px) {
+		width: 90%;
+		margin-bottom: 10px;
+	}
 `;
 
 const Title = styled.h1`
@@ -119,8 +124,8 @@ const DeliveryDate = styled.div`
 
 const DeliveryButton = styled.button`
 	margin: 30px 0 20px 0;
-	min-width: 300px;
-	min-height: 100px;
+	width: 300px;
+	height: 100px;
 	background-color: #127e71;
 	font-family: "Lato", sans-serif;
 	color: white;
@@ -131,5 +136,11 @@ const DeliveryButton = styled.button`
 	justify-content: center;
 	p {
 		width: 80%;
+	}
+
+	@media (max-width: 400px) {
+		width: 70%;
+		height: 80px;
+		font-size: 20px;
 	}
 `;

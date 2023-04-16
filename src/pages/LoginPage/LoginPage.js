@@ -43,7 +43,7 @@ export default function LoginPage() {
 	return (
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
-			<StyledP>Plataforma de Controle de Relatórios de Estágio</StyledP>
+			<StyledH1>Plataforma de Controle de Relatórios de Estágio</StyledH1>
 			<StyledForm onSubmit={loginUser} autoComplete="on">
 				<input
 					type="email"
@@ -65,27 +65,36 @@ export default function LoginPage() {
 					Login
 				</button>
 			</StyledForm>
-			<p>
+			<StyledP>
 				<StyledLink to={"signup"}>
-					Se ainda não tem uma conta cadastrada, clique aqui
+					<span>
+						{" "}
+						Se ainda não tem uma conta cadastrada, clique aqui
+					</span>
 				</StyledLink>
-			</p>
+			</StyledP>
 		</StyledPage>
 	);
 }
 
+const StyledImage = styled.img`
+	margin-top: 100px;
+	width: 30vw;
+
+	@media (max-width: 400px) {
+		width: 80%;
+	}
+`;
+
 const StyledPage = styled.div`
-	margin-top: 60px;
 	display: flex;
 	flex-direction: column;
-	/* color: white; */
 	font-family: "Lato", sans-serif;
 	font-weight: 400;
 	font-size: 20px;
 	height: 100%;
 	justify-content: center;
 	align-items: center;
-	/* background-color: pink; */
 `;
 
 const StyledForm = styled.form`
@@ -122,21 +131,35 @@ const StyledForm = styled.form`
 			background-color: #bdbdbd;
 		}
 	}
+
+	@media (max-width: 400px) {
+		width: 100vw;
+		input {
+			width: 90%;
+		}
+
+		button {
+			width: 70%;
+		}
+	}
 `;
 
-const StyledImage = styled.img`
-	margin-top: 100px;
-	width: 30vw;
-`;
-
-const StyledP = styled.p`
+const StyledH1 = styled.h1`
 	font-family: "Lato", sans-serif;
 	margin: 20px 0 30px 0;
 	font-size: 30px;
 	font-weight: 700;
+
+	@media (max-width: 400px) {
+		text-align: center;
+	}
 `;
 
 const StyledLink = styled(Link)`
 	text-decoration: none;
 	color: black;
+`;
+
+const StyledP = styled.p`
+	text-align: center;
 `;

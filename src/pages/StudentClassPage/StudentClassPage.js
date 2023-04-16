@@ -21,12 +21,9 @@ export default function StudentClassPage() {
 	const [reports, setReports] = useState([]);
 	const [internshipCreated, setInternshipCreated] = useState(false);
 	const [targetReportId, setTargetReportId] = useState(0);
-	// console.log(studentData);
-	// console.log(reports);
 
 	useEffect(() => {
 		retrieveStudentData();
-
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
 
@@ -34,9 +31,7 @@ export default function StudentClassPage() {
 		try {
 			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);
-			setPage(
-				`Página do Aluno ${tempStudentData.studentInfo.studentName}`
-			);
+			setPage(`Controle de Estágio`);
 			setStudentData(tempStudentData);
 			setLoadingComplete(true);
 			const sortedReports = orderReports(tempStudentData.reportInfo);
@@ -60,17 +55,6 @@ export default function StudentClassPage() {
 	}
 
 	return (
-		// Essa página deve possuir:
-		// Nome do Aluno
-		// Classe na qual ele está inscrito
-		// Se não houver estágio para essa turma:
-		// Botão de criação de estágio
-		// Se houver estágio para a turma:
-		// Informações do Estágio
-		// Campo para Informações dos Relatórios:
-		// Status de cada relatório
-		// Se o relatório já foi entregue: data de quando foi entrege e versão do relatório entregue
-		// Se o relatório não foi entregue: data limite de entrega
 		<StyledPage>
 			{showModal ? (
 				<>
@@ -207,4 +191,9 @@ const ReportsContainer = styled.div`
 	margin-top: 15px;
 	display: flex;
 	justify-content: space-around;
+
+	@media (max-width: 400px) {
+		flex-direction: column;
+		align-items: center;
+	}
 `;
