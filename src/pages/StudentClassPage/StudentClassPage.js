@@ -187,6 +187,12 @@ const InternshipRegistrationButton = styled.button`
 	&:disabled {
 		background-color: #bdbdbd;
 	}
+
+	@media (max-width: 400px) {
+		width: 300px;
+		height: 50px;
+		font-size: 20px;
+	}
 `;
 
 const ReportsContainer = styled.div`

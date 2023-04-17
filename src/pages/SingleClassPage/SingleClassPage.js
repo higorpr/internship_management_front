@@ -31,8 +31,7 @@ export default function SingleClassPage() {
 		async function fetchClassInfo() {
 			try {
 				const response = await getClassInfo(classId);
-				console.log(response);
-				setPage(`${response.className}`);
+				setPage(`${response.name}`);
 				// Refatorar o back end para entregar um objeto mais bem estruturado
 				setClassInfo({
 					...classInfo,

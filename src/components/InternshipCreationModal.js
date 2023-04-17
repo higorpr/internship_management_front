@@ -32,7 +32,7 @@ export default function InternshipCreationModal({
 
 			const internship = await postNewInternship(body);
 			console.log(internship);
-            alert('Estágio registrado com sucesso!')
+			alert("Estágio registrado com sucesso!");
 			setReloadPage(reloadPage + 1);
 			setShowModal(false);
 		} catch (err) {
@@ -118,6 +118,11 @@ const StyledModal = styled.div`
 		margin-bottom: 10px;
 		text-align: center;
 	}
+
+	@media (max-width: 400px) {
+		width: 360px;
+		margin: -250px 0 0 -180px;
+	}
 `;
 
 const StyledForm = styled.form`
@@ -173,5 +178,13 @@ const StyledForm = styled.form`
 		color: white;
 		font-size: 25px;
 		border-radius: 10px;
+	}
+
+	@media (max-width: 400px) {
+		button {
+			width: 250px;
+			font-size: 20px;
+			height: 50px;
+		}
 	}
 `;

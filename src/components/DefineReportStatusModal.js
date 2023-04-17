@@ -14,6 +14,7 @@ export default function DefineReportStatusModal({
 		reportStatus: "",
 	});
 
+
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
@@ -34,7 +35,7 @@ export default function DefineReportStatusModal({
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
-			alert(err.response.data);
+			alert('Erro ao definir o status desse relatório.');
 		}
 	}
 
@@ -95,6 +96,11 @@ const StyledModal = styled.div`
 		margin-bottom: 10px;
 		text-align: center;
 	}
+
+	@media (max-width: 400px) {
+		width: 360px;
+		margin: -180px 0 0 -180px;
+	}
 `;
 
 const StyledForm = styled.form`
@@ -150,5 +156,13 @@ const StyledForm = styled.form`
 		color: white;
 		font-size: 25px;
 		border-radius: 10px;
+	}
+
+	@media (max-width: 400px) {
+		button {
+			width: 250px;
+			font-size: 20px;
+			height: 50px;
+		}
 	}
 `;

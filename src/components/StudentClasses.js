@@ -99,4 +99,9 @@ const StyledClassEnrollButton = styled.button`
 	&:disabled {
 		background-color: #bdbdbd;
 	}
+
+	@media (max-width: 400px) {
+		width: 80%;
+		font-size: 22px;
+	}
 `;
