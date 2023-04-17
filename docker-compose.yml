@@ -1,0 +1,28 @@
+services:
+    react:
+        container_name: react
+        build: ./front-end
+        image: fullstack/front-end
+        volumes:
+            - react-volume:var/www/html
+
+    nginx:
+        container_name: ngnix
+        build: ./nginx
+        image: fullstack/nginx
+        networks:
+            - fullstack-network
+        ports:
+            - 80:80
+        volumes:
+            - react-volume:var/www/html
+        depends_on:
+            - react
+
+networks:
+    fullstack-network:
+        name: fullstack-network
+        external: true
+
+volumes:
+    react-volume:
