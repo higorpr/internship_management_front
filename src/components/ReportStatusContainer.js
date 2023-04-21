@@ -64,8 +64,8 @@ export default function ReportStatusContainer({ reportStatus }) {
 	};
 
 	function showReportTooltip(status) {
-		console.log(status);
-		setStatus("waiting");
+		// console.log(status);
+		// setStatus("waiting");
 	}
 
 	return (

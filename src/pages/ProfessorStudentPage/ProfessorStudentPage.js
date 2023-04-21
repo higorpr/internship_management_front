@@ -10,10 +10,11 @@ import ProfessorReportInfoComponent from "../../components/ProfessorReportInfoCo
 import { portugueseStudentStatus } from "../../functions/portugueseStudentStatus";
 import Backdrop from "../../components/Backdrop";
 import DefineReportStatusModal from "../../components/DefineReportStatusModal";
+import DefineStudentStatusModal from "../../components/DefineStudentStatusModal";
 
 export default function ProfessorStudentPage() {
 	const { studentId, classId } = useParams();
-	const { setPage, showModal } = useContext(ProjectContext);
+	const { setPage, showModal, setShowModal } = useContext(ProjectContext);
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const [studentData, setStudentData] = useState({});
 	const [reloadPage, setReloadPage] = useState(false);
@@ -47,6 +48,11 @@ export default function ProfessorStudentPage() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
 
+	function startDefineStudentStatus() {
+		setButtonClicked("student");
+		setShowModal(true);
+	}
+
 	if (loadingComplete === false) {
 		return <></>;
 	}
@@ -63,7 +69,12 @@ export default function ProfessorStudentPage() {
 							reportId={targetReportId}
 						/>
 					) : (
-						""
+						<DefineStudentStatusModal
+							studentId={studentId}
+							classId={classId}
+							reloadPage={reloadPage}
+							setReloadPage={setReloadPage}
+						/>
 					)}
 				</>
 			) : (
@@ -79,7 +90,7 @@ export default function ProfessorStudentPage() {
 
 			<StudentInfoField>
 				<p>
-					<strong>Status do Aluno: </strong>{" "}
+					<strong>Status do Estudante: </strong>{" "}
 					{portugueseStudentStatus(
 						studentData.studentInfo.studentStatus
 					)}
@@ -127,8 +138,8 @@ export default function ProfessorStudentPage() {
 					/>
 				))}
 			</ReportsContainer>
-			<DefineStudentStatusButton>
-				<p>Alterar Status do Aluno</p>
+			<DefineStudentStatusButton onClick={startDefineStudentStatus}>
+				<p>Alterar Status do Estudante</p>
 			</DefineStudentStatusButton>
 			<BlankSpace />
 		</StyledPage>

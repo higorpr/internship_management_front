@@ -32,6 +32,7 @@ export default function SingleClassPage() {
 			try {
 				const response = await getClassInfo(classId);
 				console.log(response);
+				setPage(`${response.className}`);
 				// Refatorar o back end para entregar um objeto mais bem estruturado
 				setClassInfo({
 					...classInfo,
@@ -48,7 +49,6 @@ export default function SingleClassPage() {
 			}
 		}
 		fetchClassInfo();
-		setPage(`Turma ${classId}`);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [updateLocalPage]);
@@ -89,7 +89,7 @@ export default function SingleClassPage() {
 				</LeftMenu>
 				<StudentsContainer>
 					<StudentListTitles>
-						<p>Aluno</p>
+						<p>Estudante</p>
 						<p>Relatório 1</p>
 						<p>Relatório 2</p>
 						<p>Relatório 3</p>

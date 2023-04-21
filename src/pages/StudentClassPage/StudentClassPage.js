@@ -16,7 +16,7 @@ export default function StudentClassPage() {
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [studentData, setStudentData] = useState({});
-	const [reloadPage, setReloadPage] = useState(false);
+	const [reloadPage, setReloadPage] = useState(0);
 	const [formattedStartDate, setFormattedStartDate] = useState("");
 	const [reports, setReports] = useState([]);
 	const [internshipCreated, setInternshipCreated] = useState(false);
@@ -28,16 +28,15 @@ export default function StudentClassPage() {
 	}, [reloadPage]);
 
 	async function retrieveStudentData() {
+		setPage(`Controle de Estágio`);
 		try {
 			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);
-			setPage(`Controle de Estágio`);
-			setStudentData(tempStudentData);
-			setLoadingComplete(true);
+
 			const sortedReports = orderReports(tempStudentData.reportInfo);
 			setReports(sortedReports);
 
-			if (tempStudentData.internshipInfo !== {}) {
+			if (Object.keys(tempStudentData.internshipInfo).length !== 0) {
 				setInternshipCreated(true);
 				const tempDate = formatDate(
 					tempStudentData.internshipInfo.internshipStartDate
@@ -45,6 +44,8 @@ export default function StudentClassPage() {
 				setFormattedStartDate(tempDate);
 				setInternshipCreated(true);
 			}
+			setStudentData(tempStudentData);
+			setLoadingComplete(true);
 		} catch (err) {
 			console.log(err);
 		}
@@ -91,7 +92,7 @@ export default function StudentClassPage() {
 				</p>
 			</StudentInfoField>
 
-			{studentData.internshipInfo !== {} ? (
+			{Object.keys(studentData.internshipInfo).length !== 0 ? (
 				<>
 					<StudentInfoField>
 						<p>
@@ -124,6 +125,7 @@ export default function StudentClassPage() {
 								dueDate={report.dueDate}
 								reportStatus={report.reportStatus}
 								setTargetReportId={setTargetReportId}
+								reloadPage={reloadPage}
 							/>
 						))}
 					</ReportsContainer>

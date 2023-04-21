@@ -33,7 +33,7 @@ export default function InternshipCreationModal({
 			const internship = await postNewInternship(body);
 			console.log(internship);
             alert('Estágio registrado com sucesso!')
-			setReloadPage(!reloadPage);
+			setReloadPage(reloadPage + 1);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
@@ -55,7 +55,7 @@ export default function InternshipCreationModal({
 		<StyledModal onKeyUp={checkKey}>
 			<h1>Registro de um Novo Estágio</h1>
 			<StyledForm onSubmit={createNewInternship}>
-				<label htmlFor="company-name">Nome da Turma</label>
+				<label htmlFor="company-name">Nome da Empresa</label>
 				<input
 					id="company-name"
 					type="text"

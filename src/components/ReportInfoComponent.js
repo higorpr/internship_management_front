@@ -16,7 +16,7 @@ export default function ReportInfoComponent({
 	setTargetReportId,
 }) {
 	const [translatedStatus, setTranslatedStatus] = useState("");
-	const [formattedDeliveryDate, setFormattedDeliveryDate] = useState("");
+	const [formattedDeliveryDate, setFormattedDeliveryDate] = useState(null);
 	const { setShowModal } = useContext(ProjectContext);
 
 	const statesObj = {
@@ -53,7 +53,7 @@ export default function ReportInfoComponent({
 			setFormattedDeliveryDate("-");
 		}
 		//eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [deliveredDate]);
 
 	function sendReportInformation() {
 		setTargetReportId(reportId);
