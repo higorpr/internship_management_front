@@ -7,6 +7,8 @@ import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { IconContext } from "react-icons";
 import StudentEntry from "../../components/StudentEntry";
 import useGetClassInfo from "../../hooks/api/useGetClassInfo";
+import CrumbsContext from "../../contexts/CrumbsContext";
+import updateCrumbArray from "../../functions/updateCrumbArray";
 
 export default function SingleClassPage() {
 	const { classId } = useParams();
@@ -24,8 +26,8 @@ export default function SingleClassPage() {
 	});
 	// Estado para disparar a atualização da página, se necessário
 	const [updateLocalPage, setUpdateLocalPage] = useState(false);
-	console.log(classInfo);
-	console.log(studentsInfo);
+	const { crumbs, setCrumbs } = useContext(CrumbsContext);
+	console.log(crumbs);
 
 	useEffect(() => {
 		async function fetchClassInfo() {
@@ -43,6 +45,18 @@ export default function SingleClassPage() {
 				});
 
 				setStudentsInfo(response.students);
+
+				const crumbIndex = 1;
+				const pageName = response.name;
+				const pageRoute = `/class/${classId}`;
+				updateCrumbArray(
+					crumbs,
+					setCrumbs,
+					crumbIndex,
+					pageName,
+					pageRoute
+				);
+
 			} catch (err) {
 				console.log(err);
 			}
@@ -63,7 +77,7 @@ export default function SingleClassPage() {
 					src={imageRepository.classThumbnail}
 					alt="class thumbnail"
 				/>
-				<h1>{`Turma ${classId}`}</h1>
+				<h1>{classInfo.className}</h1>
 			</PageHeader>
 			<PageBody>
 				<LeftMenu>

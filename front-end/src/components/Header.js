@@ -14,6 +14,7 @@ export default function Header() {
 	const { userData } = useContext(UserContext);
 	const navigate = useNavigate();
 
+
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
 			<StyledHeader>

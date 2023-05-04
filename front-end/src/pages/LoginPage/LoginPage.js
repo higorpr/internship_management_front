@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import useLogin from "../../hooks/api/useLogin";
 import UserContext from "../../contexts/UserContext";
+import CrumbsContext from "../../contexts/CrumbsContext";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
@@ -11,12 +12,14 @@ export default function LoginPage() {
 		password: "",
 	});
 	const [newLogin, setNewLogin] = useState(false);
+	const { setCrumbs } = useContext(CrumbsContext);
 
 	useEffect(() => {
 		setForm({
 			email: "",
 			password: "",
 		});
+		setCrumbs([]);
 	}, [newLogin]);
 
 	const navigate = useNavigate();
