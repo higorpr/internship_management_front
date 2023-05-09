@@ -9,9 +9,12 @@ import ReportInfoComponent from "../../components/ReportInfoComponent";
 import { formatDate } from "../../functions/formatDate";
 import { orderReports } from "../../functions/orderReports";
 import SendReportModal from "../../components/SendReportModal";
+import updateCrumbArray from "../../functions/updateCrumbArray";
+import CrumbsContext from "../../contexts/CrumbsContext";
 
 export default function StudentClassPage() {
 	const { showModal, setShowModal } = useContext(ProjectContext);
+	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const { studentId, classId } = useParams();
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const [loadingComplete, setLoadingComplete] = useState(false);
@@ -24,6 +27,11 @@ export default function StudentClassPage() {
 
 	useEffect(() => {
 		retrieveStudentData();
+
+		const crumbIndex = 1;
+		const pageName = "Controle de Relatórios";
+		const pageRoute = `/studentclassPage/${studentId}/${classId}`;
+		updateCrumbArray(crumbs, setCrumbs, crumbIndex, pageName, pageRoute);
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
 
