@@ -11,7 +11,7 @@ import { orderReports } from "../../functions/orderReports";
 import SendReportModal from "../../components/SendReportModal";
 
 export default function StudentClassPage() {
-	const { setPage, showModal, setShowModal } = useContext(ProjectContext);
+	const { showModal, setShowModal } = useContext(ProjectContext);
 	const { studentId, classId } = useParams();
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const [loadingComplete, setLoadingComplete] = useState(false);
@@ -28,7 +28,6 @@ export default function StudentClassPage() {
 	}, [reloadPage]);
 
 	async function retrieveStudentData() {
-		setPage(`Controle de Estágio`);
 		try {
 			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);

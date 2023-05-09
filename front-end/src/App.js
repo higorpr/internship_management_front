@@ -15,12 +15,11 @@ import { CrumbsProvider } from "./contexts/CrumbsContext";
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
-	const [page, setPage] = useState("");
 
 	return (
 		<CrumbsProvider>
 			<ProjectContext.Provider
-				value={{ showModal, setShowModal, page, setPage }}
+				value={{ showModal, setShowModal }}
 			>
 				<BrowserRouter>
 					<GlobalStyle />

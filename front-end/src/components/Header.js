@@ -7,13 +7,13 @@ import { Tooltip } from "@chakra-ui/react";
 import { useContext } from "react";
 import ProjectContext from "../contexts/ProjectContext";
 import UserContext from "../contexts/UserContext";
+import BreadCrumbs from "./HeaderComponents/BreadCrumbs";
 
 export default function Header() {
 	const location = useLocation();
-	const { setShowModal, page } = useContext(ProjectContext);
+	const { setShowModal } = useContext(ProjectContext);
 	const { userData } = useContext(UserContext);
 	const navigate = useNavigate();
-
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
@@ -23,7 +23,7 @@ export default function Header() {
 						src={imageRepository.logo}
 						alt="Logo Unifeso"
 					/>
-					<StyledText>{page}</StyledText>
+					<BreadCrumbs />
 				</HeaderLeft>
 				<HeaderRight>
 					{location.pathname === "/allclasses" ? (
@@ -87,14 +87,14 @@ const HeaderLeft = styled.div`
 
 const StyledImage = styled.img`
 	height: 80%;
-	margin-left: 10px;
+	margin: 0px 10px;
 
 	@media (max-width: 400px) {
 		height: 70%;
 	}
 `;
 
-const StyledText = styled.p`
+const StyledText = styled.span`
 	color: #545454;
 	font-size: 25px;
 	font-weight: 700;

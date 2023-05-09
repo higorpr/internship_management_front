@@ -12,7 +12,6 @@ import updateCrumbArray from "../../functions/updateCrumbArray";
 
 export default function SingleClassPage() {
 	const { classId } = useParams();
-	const { setPage } = useContext(ProjectContext);
 	const { getClassInfo } = useGetClassInfo();
 
 	const [isActive, setIsActive] = useState();
@@ -33,7 +32,6 @@ export default function SingleClassPage() {
 		async function fetchClassInfo() {
 			try {
 				const response = await getClassInfo(classId);
-				setPage(`${response.name}`);
 				// Refatorar o back end para entregar um objeto mais bem estruturado
 				setClassInfo({
 					...classInfo,

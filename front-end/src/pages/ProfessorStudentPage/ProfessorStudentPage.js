@@ -11,18 +11,21 @@ import { portugueseStudentStatus } from "../../functions/portugueseStudentStatus
 import Backdrop from "../../components/Backdrop";
 import DefineReportStatusModal from "../../components/DefineReportStatusModal";
 import DefineStudentStatusModal from "../../components/DefineStudentStatusModal";
+import updateCrumbArray from "../../functions/updateCrumbArray";
+import CrumbsContext from "../../contexts/CrumbsContext";
 
 export default function ProfessorStudentPage() {
 	const { studentId, classId } = useParams();
-	const { setPage, showModal, setShowModal } = useContext(ProjectContext);
+	const { showModal, setShowModal } = useContext(ProjectContext);
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
+	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const [studentData, setStudentData] = useState({});
 	const [reloadPage, setReloadPage] = useState(false);
 	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [reports, setReports] = useState([]);
 	const [targetReportId, setTargetReportId] = useState(0);
 	const [buttonClicked, setButtonClicked] = useState("");
-	console.log(reports);
+	console.log(crumbs);
 
 	useEffect(() => {
 		let tempStudentData = {};
@@ -32,12 +35,22 @@ export default function ProfessorStudentPage() {
 					studentId,
 					classId
 				);
-				setPage(`Controle de Relatórios`);
 
 				setStudentData(tempStudentData);
 				setLoadingComplete(true);
 				const sortedReports = orderReports(tempStudentData.reportInfo);
 				setReports(sortedReports);
+
+				const crumbIndex = 2;
+				const pageName = "Controle de Relatórios";
+				const pageRoute = `/class/${classId}/student/${studentId}`;
+				updateCrumbArray(
+					crumbs,
+					setCrumbs,
+					crumbIndex,
+					pageName,
+					pageRoute
+				);
 			} catch (err) {
 				console.log(err);
 			}

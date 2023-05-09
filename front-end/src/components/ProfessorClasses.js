@@ -8,13 +8,12 @@ import NewClassModal from "./NewClassModal";
 import UserContext from "../contexts/UserContext";
 
 export default function ProfessorClasses() {
-	const { showModal, setPage } = useContext(ProjectContext);
+	const { showModal, setShowModal } = useContext(ProjectContext);
 	const { getAllClasses } = useGetAllClasses();
 	const [classes, setClasses] = useState([]);
 	const { userData } = useContext(UserContext);
 
 	useEffect(() => {
-		setPage("Turmas");
 		async function retrieveClasses() {
 			try {
 				const tempClasses = await getAllClasses();
@@ -26,6 +25,18 @@ export default function ProfessorClasses() {
 		retrieveClasses();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [showModal]);
+
+	if (classes.length === 0 && showModal === false) {
+		return (
+			<StyledButtonBody>
+				<StyledClassCreateButton
+					onClick={() => setShowModal(!showModal)}
+				>
+					Criar nova turma
+				</StyledClassCreateButton>
+			</StyledButtonBody>
+		);
+	}
 	return (
 		<StyledPage>
 			{showModal ? (
@@ -68,5 +79,32 @@ const ClassesContainer = styled.ul`
 	@media (max-width: 400px) {
 		justify-content: center;
 		align-items: center;
+	}
+`;
+
+const StyledButtonBody = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 400px;
+`;
+
+const StyledClassCreateButton = styled.button`
+	margin: 10px 0;
+	width: 400px;
+	height: 65px;
+	background-color: #127e71;
+	font-family: "Lato", sans-serif;
+	color: white;
+	font-size: 25px;
+	border-radius: 10px;
+
+	&:disabled {
+		background-color: #bdbdbd;
+	}
+
+	@media (max-width: 400px) {
+		width: 80%;
+		font-size: 22px;
 	}
 `;
