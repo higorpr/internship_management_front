@@ -1,47 +1,34 @@
-import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
-import useLogin from "../../hooks/api/useLogin";
-import UserContext from "../../contexts/UserContext";
-import CrumbsContext from "../../contexts/CrumbsContext";
+import { useEffect, useState } from "react";
 
-export default function LoginPage() {
-	const [form, setForm] = useState({
-		email: "",
-		password: "",
-	});
-	const [newLogin, setNewLogin] = useState(false);
-	const { setCrumbs } = useContext(CrumbsContext);
-
-	useEffect(() => {
-		setForm({
-			email: "",
-			password: "",
-		});
-		setCrumbs([]);
-	}, [newLogin]);
-
+export default function MailConfirmationPage() {
 	const navigate = useNavigate();
-	const { loginLoading, login } = useLogin();
-	const { setUserData } = useContext(UserContext);
+	const [form, setForm] = useState({
+		userId: 0,
+		confirmationCode: "",
+	});
+	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {}, []);
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function loginUser(event) {
+	async function validateEmail(event) {
 		event.preventDefault();
 		try {
-			const receivedUserData = await login(form.email, form.password);
-			if (receivedUserData.validatedMail === false) {
-				navigate('/emailConfirmation')
-			} else {
-				setUserData(receivedUserData.userInfo);
-				navigate("/allclasses");
-			}
-			setNewLogin(!newLogin);
+			// const receivedUserData = await login(form.email, form.password);
+			// if (receivedUserData.validatedMail === false) {
+			// 	alert("Go to email confirmation page");
+			// } else {
+			// 	setUserData(receivedUserData.userInfo);
+			// 	navigate("/allclasses");
+			// }
+			// setNewLogin(!newLogin);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
@@ -51,33 +38,25 @@ export default function LoginPage() {
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledH1>Plataforma de Controle de Relatórios de Estágio</StyledH1>
-			<StyledForm onSubmit={loginUser} autoComplete="on">
+			<StyledH2>
+				Insira o código de confirmação enviado para o seu e-mail
+			</StyledH2>
+			<StyledForm onSubmit={validateEmail}>
 				<input
-					type="email"
-					name="email"
-					placeholder="E-mail"
-					value={form.email}
+					type="text"
+					name="confirmationCode"
+					placeholder="------"
+					value={form.confirmationCode}
 					onChange={handleForm}
 					required
 				/>
-				<input
-					type="password"
-					name="password"
-					placeholder="Senha"
-					value={form.password}
-					onChange={handleForm}
-					required
-				/>
-				<button type="submit" disabled={loginLoading}>
-					Login
+				<button type="submit" disabled={loading}>
+					Validar E-mail
 				</button>
 			</StyledForm>
 			<StyledP>
-				<StyledLink to={"/signup"}>
-					<span>
-						{" "}
-						Se ainda não tem uma conta cadastrada, clique aqui
-					</span>
+				<StyledLink to={"/"}>
+					<span> Clique aqui para entrar com outro e-mail</span>
 				</StyledLink>
 			</StyledP>
 		</StyledPage>
@@ -118,6 +97,7 @@ const StyledForm = styled.form`
 		height: 65px;
 		text-indent: 5px;
 		border-radius: 10px;
+		text-align: center;
 
 		&::placholder {
 			color: #dbdbdb;
@@ -156,6 +136,17 @@ const StyledH1 = styled.h1`
 	margin: 20px 0 30px 0;
 	font-size: 30px;
 	font-weight: 700;
+
+	@media (max-width: 400px) {
+		text-align: center;
+	}
+`;
+
+const StyledH2 = styled.h2`
+	font-family: "Lato", sans-serif;
+	margin: 0px 0 15px 0;
+	font-size: 20px;
+	font-weight: 600;
 
 	@media (max-width: 400px) {
 		text-align: center;

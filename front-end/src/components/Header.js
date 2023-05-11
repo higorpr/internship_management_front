@@ -94,18 +94,6 @@ const StyledImage = styled.img`
 	}
 `;
 
-const StyledText = styled.span`
-	color: #545454;
-	font-size: 25px;
-	font-weight: 700;
-	margin: 12px 0px 0px 20px;
-	font-family: "Lato", sans-serif;
-
-	@media (max-width: 400px) {
-		font-size: 17px;
-	}
-`;
-
 const HeaderRight = styled.div`
 	display: flex;
 	justify-content: space-between;

@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import ProjectContext from "./contexts/ProjectContext";
@@ -12,15 +12,14 @@ import ProfessorStudentPage from "./pages/ProfessorStudentPage/ProfessorStudentP
 import GlobalStyle from "./theme/globalStyle";
 import StudentClassPage from "./pages/StudentClassPage/StudentClassPage";
 import { CrumbsProvider } from "./contexts/CrumbsContext";
+import MailConfirmationPage from "./pages/MailConfirmationPage/MailConfirmationPage";
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
 		<CrumbsProvider>
-			<ProjectContext.Provider
-				value={{ showModal, setShowModal }}
-			>
+			<ProjectContext.Provider value={{ showModal, setShowModal }}>
 				<BrowserRouter>
 					<GlobalStyle />
 					<UserProvider>
@@ -28,6 +27,10 @@ function App() {
 							<Header />
 							<Routes>
 								<Route path="/" element={<LoginPage />} />
+								<Route
+									path="/emailConfirmation"
+									element={<MailConfirmationPage />}
+								/>
 								<Route
 									path="/signup"
 									element={<SignupPage />}

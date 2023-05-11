@@ -153,8 +153,8 @@ export default function StudentClassPage() {
 const StyledPage = styled.div`
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
-	width: 100vw;
+	height: 100%;
+	width: 100%;
 	padding: 10px;
 	box-sizing: border-box;
 `;

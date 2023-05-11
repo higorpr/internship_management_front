@@ -23,7 +23,7 @@ export default function SingleClassPage() {
 		nReports: 0,
 	});
 	// Estado para disparar a atualização da página, se necessário
-	const [updateLocalPage, setUpdateLocalPage] = useState(false);
+
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	console.log(crumbs);
 
@@ -53,7 +53,6 @@ export default function SingleClassPage() {
 					pageName,
 					pageRoute
 				);
-
 			} catch (err) {
 				console.log(err);
 			}
@@ -61,7 +60,7 @@ export default function SingleClassPage() {
 		fetchClassInfo();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [updateLocalPage]);
+	}, []);
 
 	function toggleActivateClass() {
 		setIsActive(!isActive);
@@ -259,7 +258,8 @@ const StudentListTitles = styled.div`
 	@media (max-width: 400px) {
 		p {
 			font-size: 14px;
-			text-align: center;			
+			text-align: center;
+		}
 	}
 `;
 
