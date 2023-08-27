@@ -43,7 +43,8 @@ export default function Header() {
 						<BlankBlock />
 					)}
 					{location.pathname !== "/" &&
-					location.pathname !== "/signup" ? (
+					location.pathname !== "/signup" &&
+					location.pathname !== "/emailConfirmation" ? (
 						<Tooltip
 							shouldWrapChildren
 							label={userData.user.name}

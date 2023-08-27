@@ -1,34 +1,37 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserProvider } from "../../contexts/UserContext";
+import useValidateEmail from "../../hooks/api/useValidateEmail";
 
 export default function MailConfirmationPage() {
+	const {setUserData} = useContext(UserProvider)
 	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		userId: 0,
 		confirmationCode: "",
 	});
 	const [loading, setLoading] = useState(false);
-
-	useEffect(() => {}, []);
+	const { validateEmail } = useValidateEmail();
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function validateEmail(event) {
+	async function mailValidation(event) {
 		event.preventDefault();
 		try {
-			// const receivedUserData = await login(form.email, form.password);
-			// if (receivedUserData.validatedMail === false) {
-			// 	alert("Go to email confirmation page");
-			// } else {
-			// 	setUserData(receivedUserData.userInfo);
-			// 	navigate("/allclasses");
-			// }
-			// setNewLogin(!newLogin);
+			const receivedMailData = await validateEmail(form.userId, form.confirmationCode);
+			console.log(receivedMailData)
+			if (receivedMailData.statusCode === 202) {
+				alert("E-mail validade com sucesso!");
+			} else {
+				setUserData(receivedUserData.userInfo);
+				navigate("/allclasses");
+			}
+			setNewLogin(!newLogin);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
@@ -41,7 +44,7 @@ export default function MailConfirmationPage() {
 			<StyledH2>
 				Insira o código de confirmação enviado para o seu e-mail
 			</StyledH2>
-			<StyledForm onSubmit={validateEmail}>
+			<StyledForm onSubmit={mailValidation}>
 				<input
 					type="text"
 					name="confirmationCode"
