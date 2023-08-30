@@ -16,10 +16,11 @@ import MailConfirmationPage from "./pages/MailConfirmationPage/MailConfirmationP
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
+	const [newLogin,setNewLogin] = useState(false)
 
 	return (
 		<CrumbsProvider>
-			<ProjectContext.Provider value={{ showModal, setShowModal }}>
+			<ProjectContext.Provider value={{ showModal, setShowModal, newLogin, setNewLogin }}>
 				<BrowserRouter>
 					<GlobalStyle />
 					<UserProvider>

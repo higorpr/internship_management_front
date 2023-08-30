@@ -7,7 +7,7 @@ export default function useValidateEmail() {
 		loading: validateEmailLoading,
 		error: validateEmailError,
 		act: validateEmail,
-	} = UseAsync((email, confirmationCode) => authApi.postEnrollStudent(email, confirmationCode), false);
+	} = UseAsync((email, confirmationCode) => authApi.validateEmail(email, confirmationCode), false);
 
 	return {
 		validateEmailData,

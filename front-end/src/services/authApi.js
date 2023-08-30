@@ -15,7 +15,7 @@ async function login(email, password) {
 async function validateEmail(email, confirmationCode) {
   const body = { email, confirmationCode };
   const response = await api.put("/auth/usermail", body);
-  return response.data;
+  return response;
 }
 
 export const authApi = { signUp, login, validateEmail };
