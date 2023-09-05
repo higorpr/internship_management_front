@@ -2,14 +2,17 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import ProjectContext from "../contexts/ProjectContext";
 import usePostClass from "../hooks/api/usePostClass";
+import UserContext from "../contexts/UserContext";
 
 export default function NewClassModal() {
 	const { setShowModal } = useContext(ProjectContext);
+	const { userData } = useContext(UserContext);
 	const [form, setForm] = useState({
 		className: "",
 		startDate: "",
 		endDate: "",
 		classType: "",
+		ownerId: "",
 	});
 	const { postClass } = usePostClass();
 	function handleForm(event) {
@@ -33,6 +36,7 @@ export default function NewClassModal() {
 					form.classType === "Turma de Estágio Obrigatório"
 						? "MANDATORY_INTERNSHIP"
 						: "REC",
+				ownerId: userData.user.id,
 			};
 
 			const newClass = await postClass(body);

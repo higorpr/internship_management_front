@@ -27,9 +27,7 @@ export default function DefineReportStatusModal({
 				reportId: reportId,
 				reportStatus: form.reportStatus,
 			};
-			console.log(body);
 			const newStatus = await updateReportStatus(body);
-			console.log(newStatus);
 			alert("Status do relatório definido");
 			setReloadPage(!reloadPage);
 			setShowModal(false);

@@ -31,7 +31,6 @@ export default function InternshipCreationModal({
 			};
 
 			const internship = await postNewInternship(body);
-			console.log(internship);
 			alert("Estágio registrado com sucesso!");
 			setReloadPage(reloadPage + 1);
 			setShowModal(false);

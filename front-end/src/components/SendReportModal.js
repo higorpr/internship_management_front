@@ -7,6 +7,7 @@ export default function SendReportModal({
 	reportId,
 	reloadPage,
 	setReloadPage,
+	classId,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
 	const { sendReport } = useSendReport();
@@ -26,16 +27,19 @@ export default function SendReportModal({
 			const formData = new FormData();
 			formData.append("files", form.reportFile);
 			formData.append("reportId", reportId);
-
-			await sendReport(formData);
+			formData.append("classId", classId);
+			const test = await sendReport(formData);
 			alert("Relatório enviado com sucesso!");
 			setReloadPage(reloadPage + 1);
 			setShowModal(false);
 		} catch (err) {
-			console.log(err);
-			alert(
-				"Houve um erro no envio do relatório. Por favor, reinicie a página e tente novamente"
-			);
+			if (err.response.status === 406) {
+				alert(`${err.response.data}`);
+			} else {
+				alert(
+					"Houve um erro no envio do relatório. Por favor, reinicie a página e tente novamente e avise o(a) professor(a)."
+				);
+			}
 		}
 	}
 

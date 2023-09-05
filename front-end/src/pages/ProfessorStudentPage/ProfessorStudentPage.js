@@ -25,7 +25,6 @@ export default function ProfessorStudentPage() {
 	const [reports, setReports] = useState([]);
 	const [targetReportId, setTargetReportId] = useState(0);
 	const [buttonClicked, setButtonClicked] = useState("");
-	console.log(crumbs);
 
 	useEffect(() => {
 		let tempStudentData = {};

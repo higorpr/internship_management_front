@@ -25,7 +25,6 @@ export default function SingleClassPage() {
 	// Estado para disparar a atualização da página, se necessário
 
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
-	console.log(crumbs);
 
 	useEffect(() => {
 		async function fetchClassInfo() {

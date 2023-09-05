@@ -28,10 +28,8 @@ export default function DefineStudentStatusModal({
 				classId: classId,
 				studentStatus: form.studentStatus,
 			};
-			console.log(body);
 
 			const newStatus = await updateStudentStatus(body);
-			console.log(newStatus);
 			alert("Status do estudante definido");
 			setReloadPage(!reloadPage);
 			setShowModal(false);

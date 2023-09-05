@@ -36,7 +36,6 @@ export default function LoginPage() {
     event.preventDefault();
     try {
       const receivedUserData = await login(form.email, form.password);
-      console.log(receivedUserData);
       if (receivedUserData.response.validatedEmail === false) {
         const tempUserData = { email: form.email };
         setUserData(tempUserData);

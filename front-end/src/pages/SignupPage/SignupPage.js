@@ -6,7 +6,8 @@ import useSignUp from "../../hooks/api/useSignUp";
 
 export default function SignupPage() {
 	const [form, setForm] = useState({
-		fullName: "",
+		firstName: "",
+		lastName: "",
 		email: "",
 		password: "",
 		passwordConfirmation: "",
@@ -28,7 +29,8 @@ export default function SignupPage() {
 		}
 
 		try {
-			await signUp(form.fullName, form.email, form.password);
+			const fullName = `${form.firstName} ${form.lastName}`;
+			await signUp(fullName, form.email, form.password);
 			alert("Usuário criado com sucesso!");
 			navigate("/");
 		} catch (err) {
@@ -44,9 +46,17 @@ export default function SignupPage() {
 			<StyledForm onSubmit={signUpUser} autoComplete="on">
 				<input
 					type="text"
-					name="fullName"
-					placeholder="Nome Completo"
-					value={form.fullName}
+					name="firstName"
+					placeholder="Nome"
+					value={form.firstName}
+					onChange={handleForm}
+					required
+				/>
+				<input
+					type="text"
+					name="lastName"
+					placeholder="Sobrenome Completo"
+					value={form.lastName}
 					onChange={handleForm}
 					required
 				/>

@@ -72,6 +72,7 @@ export default function StudentClassPage() {
 							reloadPage={reloadPage}
 							setReloadPage={setReloadPage}
 							reportId={targetReportId}
+							classId={classId}
 						/>
 					) : (
 						<InternshipCreationModal
