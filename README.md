@@ -1,5 +1,5 @@
 # internship_management_front
-Repositry for front-end of Internship Management Project
+Repository for front-end of Internship Management Project
 
 The main project can be accessed through folder "front-end".
 
