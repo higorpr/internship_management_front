@@ -13,8 +13,8 @@ export default function SignupPage() {
 		passwordConfirmation: "",
 	});
 	const navigate = useNavigate();
-
-	const { signUpLoading, signUp } = useSignUp();
+	const { signUp } = useSignUp();
+	const [loading, setLoading] = useState(false);
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
@@ -22,8 +22,10 @@ export default function SignupPage() {
 
 	async function signUpUser(event) {
 		event.preventDefault();
+		setLoading(true);
 		if (form.password !== form.passwordConfirmation) {
 			alert("A senha e a confirmação de senha devem ser as mesmas");
+			setLoading(false);
 			return;
 		}
 
@@ -31,6 +33,7 @@ export default function SignupPage() {
 			const fullName = `${form.firstName} ${form.lastName}`;
 			await signUp(fullName, form.email, form.password);
 			alert("Usuário criado com sucesso!");
+			setLoading(false);
 			navigate("/");
 		} catch (err) {
 			alert(err.response.data);
@@ -83,7 +86,7 @@ export default function SignupPage() {
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit" disabled={signUpLoading}>
+				<button type="submit" disabled={loading}>
 					Criar Conta
 				</button>
 			</StyledForm>
