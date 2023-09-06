@@ -23,6 +23,7 @@ export default function LoginPage() {
       password: "",
     });
     setCrumbs([]);
+    setUserData({})
     // eslint-disable-next-line
   }, [newLogin]);
 

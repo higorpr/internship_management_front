@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import Backdrop from "../AuxiliaryComponents/Backdrop";
-import ClassThumb from "../MultiplePageComponents/ClassThumb";
+import ClassThumb from "../AuxiliaryComponents/ClassThumb";
 import ProjectContext from "../../contexts/ProjectContext";
 import useGetAllClasses from "../../hooks/api/useGetClasses";
 import NewClassModal from "../ModalComponents/NewClassModal";
