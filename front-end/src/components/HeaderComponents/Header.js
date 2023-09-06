@@ -14,7 +14,6 @@ export default function Header() {
 	const { setShowModal } = useContext(ProjectContext);
 	const { userData } = useContext(UserContext);
 	const navigate = useNavigate();
-	console.log(userData)
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
