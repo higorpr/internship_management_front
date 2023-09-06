@@ -10,7 +10,8 @@ export default function DefineStudentStatusModal({
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { updateStudentStatus } = useUpdateStudentStatus();
+	const { updateStudentStatusLoading, updateStudentStatus } =
+		useUpdateStudentStatus();
 	const [form, setForm] = useState({
 		studentStatus: "",
 	});
@@ -29,7 +30,7 @@ export default function DefineStudentStatusModal({
 				studentStatus: form.studentStatus,
 			};
 
-			const newStatus = await updateStudentStatus(body);
+			await updateStudentStatus(body);
 			alert("Status do estudante definido");
 			setReloadPage(!reloadPage);
 			setShowModal(false);
@@ -67,7 +68,9 @@ export default function DefineStudentStatusModal({
 					<option value="APPROVED">Aprovado</option>
 					<option value="REPROVED">Reprovado</option>
 				</select>
-				<button type="submit">Salvar</button>
+				<button type="submit" disabled={updateStudentStatusLoading}>
+					Salvar
+				</button>
 			</StyledForm>
 		</StyledModal>
 	);

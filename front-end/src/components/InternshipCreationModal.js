@@ -9,7 +9,8 @@ export default function InternshipCreationModal({
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { postNewInternship } = usePostNewInternship();
+	const { postNewInternshipLoading, postNewInternship } =
+		usePostNewInternship();
 	const [form, setForm] = useState({
 		companyName: "",
 		startDate: "",
@@ -30,7 +31,7 @@ export default function InternshipCreationModal({
 				classId: classId,
 			};
 
-			const internship = await postNewInternship(body);
+			await postNewInternship(body);
 			alert("Estágio registrado com sucesso!");
 			setReloadPage(reloadPage + 1);
 			setShowModal(false);
@@ -87,7 +88,9 @@ export default function InternshipCreationModal({
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit">Registrar Estágio</button>
+				<button type="submit" disabled={postNewInternshipLoading}>
+					Registrar Estágio
+				</button>
 			</StyledForm>
 		</StyledModal>
 	);

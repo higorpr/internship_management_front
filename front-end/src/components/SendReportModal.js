@@ -10,7 +10,7 @@ export default function SendReportModal({
 	classId,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { sendReport } = useSendReport();
+	const { sendReportLoading, sendReport } = useSendReport();
 
 	const [form, setForm] = useState({
 		reportFile: undefined,
@@ -28,7 +28,7 @@ export default function SendReportModal({
 			formData.append("files", form.reportFile);
 			formData.append("reportId", reportId);
 			formData.append("classId", classId);
-			const test = await sendReport(formData);
+			await sendReport(formData);
 			alert("Relatório enviado com sucesso!");
 			setReloadPage(reloadPage + 1);
 			setShowModal(false);
@@ -66,7 +66,9 @@ export default function SendReportModal({
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit">Enviar Relatório</button>
+				<button type="submit" disabled={sendReportLoading}>
+					Enviar Relatório
+				</button>
 			</StyledForm>
 		</StyledModal>
 	);

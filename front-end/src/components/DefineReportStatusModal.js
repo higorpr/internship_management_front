@@ -9,11 +9,11 @@ export default function DefineReportStatusModal({
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { updateReportStatus } = useUpdateReportStatus();
+	const { updateReportStatusLoading, updateReportStatus } =
+		useUpdateReportStatus();
 	const [form, setForm] = useState({
 		reportStatus: "",
 	});
-
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -27,13 +27,13 @@ export default function DefineReportStatusModal({
 				reportId: reportId,
 				reportStatus: form.reportStatus,
 			};
-			const newStatus = await updateReportStatus(body);
+			await updateReportStatus(body);
 			alert("Status do relatório definido");
 			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
-			alert('Erro ao definir o status desse relatório.');
+			alert("Erro ao definir o status desse relatório.");
 		}
 	}
 
@@ -64,7 +64,9 @@ export default function DefineReportStatusModal({
 					<option value="ACCEPTED">Aceito</option>
 					<option value="REFUSED">Recusado</option>
 				</select>
-				<button type="submit">Salvar</button>
+				<button type="submit" disabled={updateReportStatusLoading}>
+					Salvar
+				</button>
 			</StyledForm>
 		</StyledModal>
 	);

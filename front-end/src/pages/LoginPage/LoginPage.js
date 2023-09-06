@@ -23,6 +23,7 @@ export default function LoginPage() {
       password: "",
     });
     setCrumbs([]);
+    // eslint-disable-next-line
   }, [newLogin]);
 
   const navigate = useNavigate();

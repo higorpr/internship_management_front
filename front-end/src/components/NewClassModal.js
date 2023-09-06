@@ -14,7 +14,7 @@ export default function NewClassModal() {
 		classType: "",
 		ownerId: "",
 	});
-	const { postClass } = usePostClass();
+	const { postClassLoading, postClass } = usePostClass();
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
@@ -107,7 +107,9 @@ export default function NewClassModal() {
 						Turma de Recuperação
 					</option>
 				</select>
-				<button type="submit">Criar Turma</button>
+				<button type="submit" disabled={postClassLoading}>
+					Criar Turma
+				</button>
 			</StyledForm>
 		</StyledModal>
 	);

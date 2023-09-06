@@ -10,7 +10,8 @@ export default function StudentClassEnrollModal() {
 		classCode: "",
 	});
 
-	const { postEnrollStudent } = usePostEnrollStudent();
+	const { postEnrollStudentLoading, postEnrollStudent } =
+		usePostEnrollStudent();
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -58,7 +59,9 @@ export default function StudentClassEnrollModal() {
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit">Entrar na Turma</button>
+				<button type="submit" disabled={postEnrollStudentLoading}>
+					Entrar na Turma
+				</button>
 			</StyledForm>
 		</StyledModal>
 	);

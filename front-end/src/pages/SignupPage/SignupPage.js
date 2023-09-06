@@ -14,8 +14,7 @@ export default function SignupPage() {
 	});
 	const navigate = useNavigate();
 
-	const { signUp } = useSignUp();
-
+	const { signUpLoading, signUp } = useSignUp();
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
@@ -84,7 +83,9 @@ export default function SignupPage() {
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit">Criar Conta</button>
+				<button type="submit" disabled={signUpLoading}>
+					Criar Conta
+				</button>
 			</StyledForm>
 			<StyledP>
 				<StyledLink to={"/"}>
