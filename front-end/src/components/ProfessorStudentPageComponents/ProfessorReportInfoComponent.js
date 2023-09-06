@@ -1,11 +1,11 @@
 import { BsXLg } from "react-icons/bs";
 import { FaCheck, FaHourglassHalf } from "react-icons/fa";
 import { ImClock2 } from "react-icons/im";
-import { formatDate } from "../functions/formatDate";
+import { formatDate } from "../../functions/formatDate";
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import { portugueseReportStatus } from "../functions/portugueseReportStatus";
-import ProjectContext from "../contexts/ProjectContext";
+import { portugueseReportStatus } from "../../functions/portugueseReportStatus";
+import ProjectContext from "../../contexts/ProjectContext";
 
 export default function ProfessorReportInfoComponent({
 	deliveredDate,

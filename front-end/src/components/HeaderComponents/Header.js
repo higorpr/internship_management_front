@@ -1,19 +1,20 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { imageRepository } from "../assets/imageUrls";
+import { imageRepository } from "../../assets/imageUrls";
 import { AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { Tooltip } from "@chakra-ui/react";
 import { useContext } from "react";
-import ProjectContext from "../contexts/ProjectContext";
-import UserContext from "../contexts/UserContext";
-import BreadCrumbs from "./HeaderComponents/BreadCrumbs";
+import ProjectContext from "../../contexts/ProjectContext";
+import UserContext from "../../contexts/UserContext";
+import BreadCrumbs from "./BreadCrumbs";
 
 export default function Header() {
 	const location = useLocation();
 	const { setShowModal } = useContext(ProjectContext);
 	const { userData } = useContext(UserContext);
 	const navigate = useNavigate();
+	console.log(userData)
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
@@ -29,7 +30,7 @@ export default function Header() {
 					{location.pathname === "/allclasses" ? (
 						<Tooltip
 							shouldWrapChildren
-							label="Adicionar nova turma"
+							label={userData.user.user_types.id === 1 ? "Adicionar nova turma" : "Ingressar em uma nova turma"}
 							placement="bottom"
 							hasArrow
 						>

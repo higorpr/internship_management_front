@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import UserContext from "../../contexts/UserContext";
-import ProfessorClasses from "../../components/ProfessorClasses";
-import StudentClasses from "../../components/StudentClasses";
+import ProfessorClasses from "../../components/ClassesPageComponents/ProfessorClasses";
+import StudentClasses from "../../components/ClassesPageComponents/StudentClasses";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 

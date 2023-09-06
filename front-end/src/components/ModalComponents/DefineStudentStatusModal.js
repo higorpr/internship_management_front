@@ -1,45 +1,42 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import ProjectContext from "../contexts/ProjectContext";
-import useSendReport from "../hooks/api/useSendReport";
+import ProjectContext from "../../contexts/ProjectContext";
+import useUpdateStudentStatus from "../../hooks/api/useUpdateStudentStatus";
 
-export default function SendReportModal({
-	reportId,
+export default function DefineStudentStatusModal({
+	studentId,
+	classId,
 	reloadPage,
 	setReloadPage,
-	classId,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { sendReportLoading, sendReport } = useSendReport();
-
+	const { updateStudentStatusLoading, updateStudentStatus } =
+		useUpdateStudentStatus();
 	const [form, setForm] = useState({
-		reportFile: undefined,
+		studentStatus: "",
 	});
+
 	function handleForm(event) {
 		event.preventDefault();
-		const file = event.target.files[0];
-		setForm({ ...form, [event.target.name]: file });
+		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function sendSingleReport(event) {
+	async function defineStudentStatus(event) {
 		event.preventDefault();
 		try {
-			const formData = new FormData();
-			formData.append("files", form.reportFile);
-			formData.append("reportId", reportId);
-			formData.append("classId", classId);
-			await sendReport(formData);
-			alert("Relatório enviado com sucesso!");
-			setReloadPage(reloadPage + 1);
+			const body = {
+				studentId: studentId,
+				classId: classId,
+				studentStatus: form.studentStatus,
+			};
+
+			await updateStudentStatus(body);
+			alert("Status do estudante definido");
+			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
-			if (err.response.status === 406) {
-				alert(`${err.response.data}`);
-			} else {
-				alert(
-					"Houve um erro no envio do relatório. Por favor, reinicie a página e tente novamente e avise o(a) professor(a)."
-				);
-			}
+			console.log(err);
+			// alert(err.response.data);
 		}
 	}
 
@@ -49,25 +46,30 @@ export default function SendReportModal({
 		}
 
 		if (event.key === "Enter") {
-			sendSingleReport();
+			defineStudentStatus();
 		}
 	}
 
 	return (
 		<StyledModal onKeyUp={checkKey}>
-			<h1>Envio do Relatório de Estágio</h1>
-			<StyledForm onSubmit={sendSingleReport}>
-				<label htmlFor="report-file"></label>
-				<input
-					id="report-file"
-					type="file"
-					accept=".pdf"
-					name="reportFile"
+			<h1>Definição do Status do Estudante</h1>
+			<StyledForm onSubmit={defineStudentStatus}>
+				<label htmlFor="student-status">Status</label>
+				<select
+					id="student-status"
 					onChange={handleForm}
+					name="studentStatus"
 					required
-				/>
-				<button type="submit" disabled={sendReportLoading}>
-					Enviar Relatório
+				>
+					<option value="">
+						-- Escolha um status para o estudante --
+					</option>
+					<option value="ENROLLED">Matriculado</option>
+					<option value="APPROVED">Aprovado</option>
+					<option value="REPROVED">Reprovado</option>
+				</select>
+				<button type="submit" disabled={updateStudentStatusLoading}>
+					Salvar
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -101,7 +103,7 @@ const StyledModal = styled.div`
 
 	@media (max-width: 400px) {
 		width: 360px;
-		margin: -250px 0 0 -180px;
+		margin: -300px 0 0 -180px;
 	}
 `;
 
@@ -136,7 +138,7 @@ const StyledForm = styled.form`
 
 	input {
 		margin: 1px 0px;
-		/* border: 1px solid #000000; */
+		border: 1px solid #000000;
 		width: 100%;
 		height: 40px;
 		text-indent: 5px;

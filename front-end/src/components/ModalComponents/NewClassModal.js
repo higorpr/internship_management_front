@@ -1,39 +1,50 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import ProjectContext from "../contexts/ProjectContext";
-import useUpdateReportStatus from "../hooks/api/useUpdateReportStatus";
+import ProjectContext from "../../contexts/ProjectContext";
+import usePostClass from "../../hooks/api/usePostClass";
+import UserContext from "../../contexts/UserContext";
 
-export default function DefineReportStatusModal({
-	reportId,
-	reloadPage,
-	setReloadPage,
-}) {
+export default function NewClassModal() {
 	const { setShowModal } = useContext(ProjectContext);
-	const { updateReportStatusLoading, updateReportStatus } =
-		useUpdateReportStatus();
+	const { userData } = useContext(UserContext);
 	const [form, setForm] = useState({
-		reportStatus: "",
+		className: "",
+		startDate: "",
+		endDate: "",
+		classType: "",
+		ownerId: "",
 	});
-
+	const { postClassLoading, postClass } = usePostClass();
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function defineReportStatus(event) {
+	async function createClass(event) {
 		event.preventDefault();
+		if (form.startDate > form.endDate) {
+			alert("Uma turma não pode ter o seu término antes do seu início.");
+			return;
+		}
+
 		try {
 			const body = {
-				reportId: reportId,
-				reportStatus: form.reportStatus,
+				name: form.className,
+				startDate: form.startDate,
+				endDate: form.endDate,
+				classType:
+					form.classType === "Turma de Estágio Obrigatório"
+						? "MANDATORY_INTERNSHIP"
+						: "REC",
+				ownerId: userData.user.id,
 			};
-			await updateReportStatus(body);
-			alert("Status do relatório definido");
-			setReloadPage(!reloadPage);
+
+			const newClass = await postClass(body);
+			alert(`Você criou ${newClass.name} com sucesso!`);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
-			alert("Erro ao definir o status desse relatório.");
+			alert(err.response.data);
 		}
 	}
 
@@ -43,29 +54,61 @@ export default function DefineReportStatusModal({
 		}
 
 		if (event.key === "Enter") {
-			defineReportStatus();
+			createClass();
 		}
 	}
 
 	return (
 		<StyledModal onKeyUp={checkKey}>
-			<h1>Definição do Status do Relatório</h1>
-			<StyledForm onSubmit={defineReportStatus}>
-				<label htmlFor="report-status">Status</label>
-				<select
-					id="report-status"
+			<h1>Criação de Nova Turma</h1>
+			<StyledForm onSubmit={createClass}>
+				<label htmlFor="class-name">Nome da Turma</label>
+				<input
+					id="class-name"
+					type="text"
+					name="className"
+					placeholder="Ex.: Turma de Estágio 2023/1"
+					value={form.className}
 					onChange={handleForm}
-					name="reportStatus"
+					required
+				/>
+				<label htmlFor="start-date">Data de Início da Turma</label>
+				<input
+					id="start-date"
+					type="date"
+					name="startDate"
+					placeholder="dd-mm-yyyy"
+					value={form.startDate}
+					onChange={handleForm}
+					required
+				/>
+				<label>Data de Término da Turma</label>
+				<input
+					type="date"
+					name="endDate"
+					value={form.endDate}
+					onChange={handleForm}
+					required
+				/>
+				<label htmlFor="class-type">Tipo de Turma</label>
+				<select
+					id="class-type"
+					onChange={handleForm}
+					name="classType"
 					required
 				>
 					<option value="">
-						-- Escolha uma situação para o Relatório --
+						-- Escolha um tipo de turma de estágio --
 					</option>
-					<option value="ACCEPTED">Aceito</option>
-					<option value="REFUSED">Recusado</option>
+					<option value="Turma de Estágio Obrigatório">
+						Turma de Estágio Obrigatório
+					</option>
+					<option value="Turma de Recuperação (RRP)">
+						Turma de Recuperação
+					</option>
 				</select>
-				<button type="submit" disabled={updateReportStatusLoading}>
-					Salvar
+				<button type="submit" disabled={postClassLoading}>
+					Criar Turma
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -99,7 +142,7 @@ const StyledModal = styled.div`
 
 	@media (max-width: 400px) {
 		width: 360px;
-		margin: -180px 0 0 -180px;
+		margin: -300px 0 0 -180px;
 	}
 `;
 

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import ProjectContext from "../contexts/ProjectContext";
+import ProjectContext from "../../contexts/ProjectContext";
 
 export default function Backdrop() {
 	const { setShowModal } = useContext(ProjectContext);

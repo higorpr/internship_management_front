@@ -1,43 +1,39 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import ProjectContext from "../contexts/ProjectContext";
-import usePostNewInternship from "../hooks/api/usePostNewInternship";
+import ProjectContext from "../../contexts/ProjectContext";
+import useUpdateReportStatus from "../../hooks/api/useUpdateReportStatus";
 
-export default function InternshipCreationModal({
-	classId,
+export default function DefineReportStatusModal({
+	reportId,
 	reloadPage,
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { postNewInternshipLoading, postNewInternship } =
-		usePostNewInternship();
+	const { updateReportStatusLoading, updateReportStatus } =
+		useUpdateReportStatus();
 	const [form, setForm] = useState({
-		companyName: "",
-		startDate: "",
-		weeklyHours: "",
+		reportStatus: "",
 	});
+
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function createNewInternship(event) {
+	async function defineReportStatus(event) {
 		event.preventDefault();
 		try {
 			const body = {
-				companyName: form.companyName,
-				startDate: form.startDate,
-				weeklyHours: form.weeklyHours,
-				classId: classId,
+				reportId: reportId,
+				reportStatus: form.reportStatus,
 			};
-
-			await postNewInternship(body);
-			alert("Estágio registrado com sucesso!");
-			setReloadPage(reloadPage + 1);
+			await updateReportStatus(body);
+			alert("Status do relatório definido");
+			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
-			alert(err.response.data);
+			alert("Erro ao definir o status desse relatório.");
 		}
 	}
 
@@ -47,49 +43,29 @@ export default function InternshipCreationModal({
 		}
 
 		if (event.key === "Enter") {
-			createNewInternship();
+			defineReportStatus();
 		}
 	}
 
 	return (
 		<StyledModal onKeyUp={checkKey}>
-			<h1>Registro de um Novo Estágio</h1>
-			<StyledForm onSubmit={createNewInternship}>
-				<label htmlFor="company-name">Nome da Empresa</label>
-				<input
-					id="company-name"
-					type="text"
-					name="companyName"
-					minLength={3}
-					placeholder="Ex.: Odebrecht S.A."
-					value={form.companyName}
+			<h1>Definição do Status do Relatório</h1>
+			<StyledForm onSubmit={defineReportStatus}>
+				<label htmlFor="report-status">Status</label>
+				<select
+					id="report-status"
 					onChange={handleForm}
+					name="reportStatus"
 					required
-				/>
-				<label htmlFor="start-date">Data de Início do Estágio</label>
-				<input
-					id="start-date"
-					type="date"
-					name="startDate"
-					placeholder="mm/dd/yyyy"
-					value={form.startDate}
-					onChange={handleForm}
-					required
-				/>
-				<label htmlFor="weekly-hours">
-					Número de Horas Semanais Trabalhadas
-				</label>
-				<input
-					id="weekly-hours"
-					type="number"
-					name="weeklyHours"
-					placeholder="Ex.: 20"
-					value={form.weeklyHours}
-					onChange={handleForm}
-					required
-				/>
-				<button type="submit" disabled={postNewInternshipLoading}>
-					Registrar Estágio
+				>
+					<option value="">
+						-- Escolha uma situação para o Relatório --
+					</option>
+					<option value="ACCEPTED">Aceito</option>
+					<option value="REFUSED">Recusado</option>
+				</select>
+				<button type="submit" disabled={updateReportStatusLoading}>
+					Salvar
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -123,7 +99,7 @@ const StyledModal = styled.div`
 
 	@media (max-width: 400px) {
 		width: 360px;
-		margin: -250px 0 0 -180px;
+		margin: -180px 0 0 -180px;
 	}
 `;
 

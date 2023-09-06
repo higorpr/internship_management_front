@@ -1,42 +1,37 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import ProjectContext from "../contexts/ProjectContext";
-import useUpdateStudentStatus from "../hooks/api/useUpdateStudentStatus";
+import ProjectContext from "../../contexts/ProjectContext";
+import usePostEnrollStudent from "../../hooks/api/usePostEnrollStudent";
 
-export default function DefineStudentStatusModal({
-	studentId,
-	classId,
-	reloadPage,
-	setReloadPage,
-}) {
+export default function StudentClassEnrollModal() {
 	const { setShowModal } = useContext(ProjectContext);
-	const { updateStudentStatusLoading, updateStudentStatus } =
-		useUpdateStudentStatus();
+
 	const [form, setForm] = useState({
-		studentStatus: "",
+		classCode: "",
 	});
+
+	const { postEnrollStudentLoading, postEnrollStudent } =
+		usePostEnrollStudent();
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function defineStudentStatus(event) {
+	async function classEnrollement(event) {
 		event.preventDefault();
+
 		try {
 			const body = {
-				studentId: studentId,
-				classId: classId,
-				studentStatus: form.studentStatus,
+				classCode: form.classCode,
 			};
 
-			await updateStudentStatus(body);
-			alert("Status do estudante definido");
-			setReloadPage(!reloadPage);
+			const targetClass = await postEnrollStudent(body);
+			alert(`Você entrou na ${targetClass.className} com sucesso!`);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
-			// alert(err.response.data);
+			alert(err.response.data);
 		}
 	}
 
@@ -46,30 +41,26 @@ export default function DefineStudentStatusModal({
 		}
 
 		if (event.key === "Enter") {
-			defineStudentStatus();
+			classEnrollement();
 		}
 	}
 
 	return (
 		<StyledModal onKeyUp={checkKey}>
-			<h1>Definição do Status do Estudante</h1>
-			<StyledForm onSubmit={defineStudentStatus}>
-				<label htmlFor="student-status">Status</label>
-				<select
-					id="student-status"
+			<h1>Registro em Turma</h1>
+			<StyledForm onSubmit={classEnrollement}>
+				<label htmlFor="class-code">Código da Turma</label>
+				<input
+					id="class-code"
+					type="text"
+					name="classCode"
+					// placeholder="Ex.: A0e6h2"
+					value={form.classCode}
 					onChange={handleForm}
-					name="studentStatus"
 					required
-				>
-					<option value="">
-						-- Escolha um status para o estudante --
-					</option>
-					<option value="ENROLLED">Matriculado</option>
-					<option value="APPROVED">Aprovado</option>
-					<option value="REPROVED">Reprovado</option>
-				</select>
-				<button type="submit" disabled={updateStudentStatusLoading}>
-					Salvar
+				/>
+				<button type="submit" disabled={postEnrollStudentLoading}>
+					Entrar na Turma
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -103,7 +94,7 @@ const StyledModal = styled.div`
 
 	@media (max-width: 400px) {
 		width: 360px;
-		margin: -300px 0 0 -180px;
+		margin: -180px 0 0 -180px;
 	}
 `;
 

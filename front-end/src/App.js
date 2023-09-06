@@ -1,7 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/HeaderComponents/Header";
 import ProjectContext from "./contexts/ProjectContext";
 import { UserProvider } from "./contexts/UserContext";
 import ClassesPage from "./pages/ClassesPage/ClassesPage";
@@ -16,11 +16,13 @@ import MailConfirmationPage from "./pages/MailConfirmationPage/MailConfirmationP
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
-	const [newLogin,setNewLogin] = useState(false)
+	const [newLogin, setNewLogin] = useState(false);
 
 	return (
 		<CrumbsProvider>
-			<ProjectContext.Provider value={{ showModal, setShowModal, newLogin, setNewLogin }}>
+			<ProjectContext.Provider
+				value={{ showModal, setShowModal, newLogin, setNewLogin }}
+			>
 				<BrowserRouter>
 					<GlobalStyle />
 					<UserProvider>

@@ -3,12 +3,12 @@ import useGetStudentInfoInClass from "../../hooks/api/useGetStudentInfoInClass";
 import { useContext, useEffect, useState } from "react";
 import ProjectContext from "../../contexts/ProjectContext";
 import styled from "styled-components";
-import Backdrop from "../../components/Backdrop";
-import InternshipCreationModal from "../../components/InternshipCreationModal";
-import ReportInfoComponent from "../../components/ReportInfoComponent";
+import Backdrop from "../../components/AuxiliaryComponents/Backdrop";
+import InternshipCreationModal from "../../components/StudentClassPageComponents/InternshipCreationModal";
+import ReportInfoComponent from "../../components/StudentClassPageComponents/ReportInfoComponent";
 import { formatDate } from "../../functions/formatDate";
 import { orderReports } from "../../functions/orderReports";
-import SendReportModal from "../../components/SendReportModal";
+import SendReportModal from "../../components/ModalComponents/SendReportModal";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
 

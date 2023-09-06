@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import { BsToggleOff, BsToggleOn } from "react-icons/bs";
 import { IconContext } from "react-icons";
-import StudentEntry from "../../components/StudentEntry";
+import StudentEntry from "../../components/SingleClassPageComponents/StudentEntry";
 import useGetClassInfo from "../../hooks/api/useGetClassInfo";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import updateCrumbArray from "../../functions/updateCrumbArray";

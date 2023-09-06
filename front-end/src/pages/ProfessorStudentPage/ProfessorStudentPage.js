@@ -6,11 +6,11 @@ import useGetStudentInfoInClass from "../../hooks/api/useGetStudentInfoInClass";
 import ProjectContext from "../../contexts/ProjectContext";
 import { orderReports } from "../../functions/orderReports";
 import { formatDate } from "../../functions/formatDate";
-import ProfessorReportInfoComponent from "../../components/ProfessorReportInfoComponent";
+import ProfessorReportInfoComponent from "../../components/ProfessorStudentPageComponents/ProfessorReportInfoComponent";
 import { portugueseStudentStatus } from "../../functions/portugueseStudentStatus";
-import Backdrop from "../../components/Backdrop";
-import DefineReportStatusModal from "../../components/DefineReportStatusModal";
-import DefineStudentStatusModal from "../../components/DefineStudentStatusModal";
+import Backdrop from "../../components/AuxiliaryComponents/Backdrop";
+import DefineReportStatusModal from "../../components/ModalComponents/DefineReportStatusModal";
+import DefineStudentStatusModal from "../../components/ModalComponents/DefineStudentStatusModal";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
 

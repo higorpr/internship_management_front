@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ReportStatusContainer from "./ReportStatusContainer";
+import ReportStatusContainer from "../AuxiliaryComponents/ReportStatusContainer";
 
 export default function StudentEntry({
 	studentName,

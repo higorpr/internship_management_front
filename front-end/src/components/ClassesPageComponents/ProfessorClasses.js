@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import Backdrop from "./Backdrop";
-import ClassThumb from "./MultiplePageComponents/ClassThumb";
-import ProjectContext from "../contexts/ProjectContext";
-import useGetAllClasses from "../hooks/api/useGetClasses";
-import NewClassModal from "./NewClassModal";
-import UserContext from "../contexts/UserContext";
+import Backdrop from "../AuxiliaryComponents/Backdrop";
+import ClassThumb from "../MultiplePageComponents/ClassThumb";
+import ProjectContext from "../../contexts/ProjectContext";
+import useGetAllClasses from "../../hooks/api/useGetClasses";
+import NewClassModal from "../ModalComponents/NewClassModal";
+import UserContext from "../../contexts/UserContext";
 
 export default function ProfessorClasses() {
 	const { showModal, setShowModal } = useContext(ProjectContext);

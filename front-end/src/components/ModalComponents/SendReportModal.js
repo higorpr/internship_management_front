@@ -1,37 +1,45 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import ProjectContext from "../contexts/ProjectContext";
-import usePostEnrollStudent from "../hooks/api/usePostEnrollStudent";
+import ProjectContext from "../../contexts/ProjectContext";
+import useSendReport from "../../hooks/api/useSendReport";
 
-export default function StudentClassEnrollModal() {
+export default function SendReportModal({
+	reportId,
+	reloadPage,
+	setReloadPage,
+	classId,
+}) {
 	const { setShowModal } = useContext(ProjectContext);
+	const { sendReportLoading, sendReport } = useSendReport();
 
 	const [form, setForm] = useState({
-		classCode: "",
+		reportFile: undefined,
 	});
-
-	const { postEnrollStudentLoading, postEnrollStudent } =
-		usePostEnrollStudent();
-
 	function handleForm(event) {
 		event.preventDefault();
-		setForm({ ...form, [event.target.name]: event.target.value });
+		const file = event.target.files[0];
+		setForm({ ...form, [event.target.name]: file });
 	}
 
-	async function classEnrollement(event) {
+	async function sendSingleReport(event) {
 		event.preventDefault();
-
 		try {
-			const body = {
-				classCode: form.classCode,
-			};
-
-			const targetClass = await postEnrollStudent(body);
-			alert(`Você entrou na ${targetClass.className} com sucesso!`);
+			const formData = new FormData();
+			formData.append("files", form.reportFile);
+			formData.append("reportId", reportId);
+			formData.append("classId", classId);
+			await sendReport(formData);
+			alert("Relatório enviado com sucesso!");
+			setReloadPage(reloadPage + 1);
 			setShowModal(false);
 		} catch (err) {
-			console.log(err);
-			alert(err.response.data);
+			if (err.response.status === 406) {
+				alert(`${err.response.data}`);
+			} else {
+				alert(
+					"Houve um erro no envio do relatório. Por favor, reinicie a página e tente novamente e avise o(a) professor(a)."
+				);
+			}
 		}
 	}
 
@@ -41,26 +49,25 @@ export default function StudentClassEnrollModal() {
 		}
 
 		if (event.key === "Enter") {
-			classEnrollement();
+			sendSingleReport();
 		}
 	}
 
 	return (
 		<StyledModal onKeyUp={checkKey}>
-			<h1>Registro em Turma</h1>
-			<StyledForm onSubmit={classEnrollement}>
-				<label htmlFor="class-code">Código da Turma</label>
+			<h1>Envio do Relatório de Estágio</h1>
+			<StyledForm onSubmit={sendSingleReport}>
+				<label htmlFor="report-file"></label>
 				<input
-					id="class-code"
-					type="text"
-					name="classCode"
-					// placeholder="Ex.: A0e6h2"
-					value={form.classCode}
+					id="report-file"
+					type="file"
+					accept=".pdf"
+					name="reportFile"
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit" disabled={postEnrollStudentLoading}>
-					Entrar na Turma
+				<button type="submit" disabled={sendReportLoading}>
+					Enviar Relatório
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -94,7 +101,7 @@ const StyledModal = styled.div`
 
 	@media (max-width: 400px) {
 		width: 360px;
-		margin: -180px 0 0 -180px;
+		margin: -250px 0 0 -180px;
 	}
 `;
 
@@ -129,7 +136,7 @@ const StyledForm = styled.form`
 
 	input {
 		margin: 1px 0px;
-		border: 1px solid #000000;
+		/* border: 1px solid #000000; */
 		width: 100%;
 		height: 40px;
 		text-indent: 5px;

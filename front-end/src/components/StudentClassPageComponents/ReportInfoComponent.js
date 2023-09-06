@@ -3,9 +3,9 @@ import { BsXLg } from "react-icons/bs";
 import { FaCheck, FaHourglassHalf } from "react-icons/fa";
 import { ImClock2 } from "react-icons/im";
 import styled from "styled-components";
-import { formatDate } from "../functions/formatDate";
-import { portugueseReportStatus } from "../functions/portugueseReportStatus";
-import ProjectContext from "../contexts/ProjectContext";
+import { formatDate } from "../../functions/formatDate";
+import { portugueseReportStatus } from "../../functions/portugueseReportStatus";
+import ProjectContext from "../../contexts/ProjectContext";
 
 export default function ReportInfoComponent({
 	reportId,
