@@ -15,6 +15,7 @@ export default function SignupPage() {
 	const navigate = useNavigate();
 
 	const { signUpLoading, signUp } = useSignUp();
+	console.log(signUpLoading)
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
@@ -30,6 +31,7 @@ export default function SignupPage() {
 		try {
 			const fullName = `${form.firstName} ${form.lastName}`;
 			await signUp(fullName, form.email, form.password);
+			console.log(signUpLoading)
 			alert("Usuário criado com sucesso!");
 			navigate("/");
 		} catch (err) {

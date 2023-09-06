@@ -151,6 +151,10 @@ const StyledForm = styled.form`
 		color: white;
 		font-size: 25px;
 		border-radius: 10px;
+
+		&:disabled {
+			background-color: #bdbdbd;
+		}
 	}
 
 	@media (max-width: 400px) {
