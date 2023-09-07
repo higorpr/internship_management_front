@@ -14,10 +14,12 @@ export default function LoginPage() {
 		password: "",
 	});
 	const [loading, setLoading] = useState(false);
+	const [passwordShow, setPasswordShow] = useState(false);
 	const { setCrumbs } = useContext(CrumbsContext);
 	const { newLogin, setNewLogin } = useContext(ProjectContext);
 	const { login } = useLogin();
 	const { setUserData } = useContext(UserContext);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setForm({
@@ -26,10 +28,9 @@ export default function LoginPage() {
 		});
 		setCrumbs([]);
 		setUserData({});
+		setPasswordShow(false);
 		// eslint-disable-next-line
 	}, [newLogin]);
-
-	const navigate = useNavigate();
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -72,13 +73,24 @@ export default function LoginPage() {
 					required
 				/>
 				<input
-					type="password"
+					type={passwordShow ? "text" : "password"}
 					name="password"
 					placeholder="Senha"
 					value={form.password}
 					onChange={handleForm}
 					required
 				/>
+				<CheckBoxContainer>
+					<input
+						onClick={() => setPasswordShow(!passwordShow)}
+						className="checkBox"
+						type="checkbox"
+						id="input1"
+						checked={passwordShow}
+					/>
+					<label htmlFor="input1">Mostrar Senha</label>
+				</CheckBoxContainer>
+
 				<button type="submit" disabled={loading}>
 					{loading ? (
 						<ColorRing
@@ -180,6 +192,24 @@ const StyledForm = styled.form`
 		button {
 			width: 70%;
 		}
+	}
+`;
+
+const CheckBoxContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	width: 450px;
+	padding-left: 10px;
+	font-size: 15px;
+
+	input.checkBox {
+		width: 20px;
+		height: 20px;
+	}
+
+	label {
+		margin-left: 10px;
 	}
 `;
 

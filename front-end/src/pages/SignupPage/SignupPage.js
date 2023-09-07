@@ -14,6 +14,7 @@ export default function SignupPage() {
 	});
 	const { signUp } = useSignUp();
 	const [loading, setLoading] = useState(false);
+	const [passwordShow, setPasswordShow] = useState(false);
 	const navigate = useNavigate();
 
 	function handleForm(event) {
@@ -73,7 +74,7 @@ export default function SignupPage() {
 					required
 				/>
 				<input
-					type="password"
+					type={passwordShow ? "text" : "password"}
 					name="password"
 					placeholder="Senha"
 					value={form.password}
@@ -81,13 +82,23 @@ export default function SignupPage() {
 					required
 				/>
 				<input
-					type="password"
+					type={passwordShow ? "text" : "password"}
 					name="passwordConfirmation"
 					placeholder="Confirmar Senha"
 					value={form.passwordConfirmation}
 					onChange={handleForm}
 					required
 				/>
+				<CheckBoxContainer>
+					<input
+						onClick={() => setPasswordShow(!passwordShow)}
+						className="checkBox"
+						type="checkbox"
+						id="input1"
+						checked={passwordShow}
+					/>
+					<label htmlFor="input1">Mostrar Senha</label>
+				</CheckBoxContainer>
 				<button type="submit" disabled={loading}>
 					Criar Conta
 				</button>
@@ -156,6 +167,24 @@ const StyledForm = styled.form`
 		button {
 			width: 70%;
 		}
+	}
+`;
+
+const CheckBoxContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	width: 450px;
+	padding-left: 10px;
+	font-size: 15px;
+
+	input.checkBox {
+		width: 20px;
+		height: 20px;
+	}
+
+	label {
+		margin-left: 10px;
 	}
 `;
 
