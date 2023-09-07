@@ -81,7 +81,7 @@ export default function LoginPage() {
 				/>
 				<button type="submit" disabled={loading}>
 					{loading ? (
-						<InfinitySpin width="100" color="#4fa94d" />
+						<InfinitySpin width="70" color="#4fa94d" />
 					) : (
 						"Login"
 					)}
@@ -140,6 +140,9 @@ const StyledForm = styled.form`
 	}
 
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 10px 0;
 		width: 400px;
 		height: 65px;
