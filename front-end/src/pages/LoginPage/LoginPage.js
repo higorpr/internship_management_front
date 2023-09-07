@@ -38,6 +38,7 @@ export default function LoginPage() {
 
 	async function loginUser(event) {
 		event.preventDefault();
+		setLoading(true);
 		try {
 			const receivedUserData = await login(form.email, form.password);
 			if (receivedUserData.response.validatedEmail === false) {
@@ -79,7 +80,6 @@ export default function LoginPage() {
 					required
 				/>
 				<button type="submit" disabled={loading}>
-					{/* Login */}
 					{loading ? (
 						<InfinitySpin width="100" color="#4fa94d" />
 					) : (
