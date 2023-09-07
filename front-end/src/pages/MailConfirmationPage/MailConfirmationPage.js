@@ -37,7 +37,7 @@ export default function MailConfirmationPage() {
       );
       if (receivedMailData.status === 202) {
         alert(
-          "E-mail validade com sucesso! Por favor faça o login na página inicial"
+          "E-mail validado com sucesso! Por favor faça o login na página inicial"
         );
         setLoading(false);
         navigate("/");

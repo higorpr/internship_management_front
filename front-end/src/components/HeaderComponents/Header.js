@@ -8,6 +8,7 @@ import { useContext } from "react";
 import ProjectContext from "../../contexts/ProjectContext";
 import UserContext from "../../contexts/UserContext";
 import BreadCrumbs from "./BreadCrumbs";
+import IconMenu from "./IconMenu";
 
 export default function Header() {
 	const location = useLocation();
@@ -29,7 +30,11 @@ export default function Header() {
 					{location.pathname === "/allclasses" ? (
 						<Tooltip
 							shouldWrapChildren
-							label={userData.user.user_types.id === 1 ? "Adicionar nova turma" : "Ingressar em uma nova turma"}
+							label={
+								userData.user.user_types.id === 1
+									? "Adicionar nova turma"
+									: "Ingressar em uma nova turma"
+							}
 							placement="bottom"
 							hasArrow
 						>
@@ -51,11 +56,7 @@ export default function Header() {
 							placement="bottom"
 							hasArrow
 						>
-							<StyledAiOutlineUser
-								onClick={() => {
-									navigate("/");
-								}}
-							/>
+							<IconMenu />
 						</Tooltip>
 					) : (
 						""

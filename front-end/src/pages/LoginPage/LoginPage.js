@@ -6,6 +6,7 @@ import useLogin from "../../hooks/api/useLogin";
 import UserContext from "../../contexts/UserContext";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import ProjectContext from "../../contexts/ProjectContext";
+import { InfinitySpin } from "react-loader-spinner";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
@@ -78,7 +79,12 @@ export default function LoginPage() {
 					required
 				/>
 				<button type="submit" disabled={loading}>
-					Login
+					{/* Login */}
+					{loading ? (
+						<InfinitySpin width="100" color="#4fa94d" />
+					) : (
+						"Login"
+					)}
 				</button>
 			</StyledForm>
 			<StyledP>
