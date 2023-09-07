@@ -9,9 +9,9 @@ export default function StudentClassEnrollModal() {
 	const [form, setForm] = useState({
 		classCode: "",
 	});
+	const [loading, setLoading] = useState(false);
 
-	const { postEnrollStudentLoading, postEnrollStudent } =
-		usePostEnrollStudent();
+	const { postEnrollStudent } = usePostEnrollStudent();
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -20,7 +20,7 @@ export default function StudentClassEnrollModal() {
 
 	async function classEnrollement(event) {
 		event.preventDefault();
-
+		setLoading(true);
 		try {
 			const body = {
 				classCode: form.classCode,
@@ -28,10 +28,12 @@ export default function StudentClassEnrollModal() {
 
 			const targetClass = await postEnrollStudent(body);
 			alert(`Você entrou na ${targetClass.className} com sucesso!`);
+			setLoading(false);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
+			setLoading(false);
 		}
 	}
 
@@ -59,7 +61,7 @@ export default function StudentClassEnrollModal() {
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit" disabled={postEnrollStudentLoading}>
+				<button type="submit" disabled={loading}>
 					Entrar na Turma
 				</button>
 			</StyledForm>

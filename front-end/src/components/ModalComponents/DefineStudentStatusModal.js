@@ -10,11 +10,11 @@ export default function DefineStudentStatusModal({
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { updateStudentStatusLoading, updateStudentStatus } =
-		useUpdateStudentStatus();
+	const { updateStudentStatus } = useUpdateStudentStatus();
 	const [form, setForm] = useState({
 		studentStatus: "",
 	});
+	const [loading, setLoading] = useState(false);
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -23,6 +23,7 @@ export default function DefineStudentStatusModal({
 
 	async function defineStudentStatus(event) {
 		event.preventDefault();
+		setLoading(true);
 		try {
 			const body = {
 				studentId: studentId,
@@ -32,10 +33,12 @@ export default function DefineStudentStatusModal({
 
 			await updateStudentStatus(body);
 			alert("Status do estudante definido");
+			setLoading(false);
 			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
+			setLoading(false);
 			// alert(err.response.data);
 		}
 	}
@@ -68,7 +71,7 @@ export default function DefineStudentStatusModal({
 					<option value="APPROVED">Aprovado</option>
 					<option value="REPROVED">Reprovado</option>
 				</select>
-				<button type="submit" disabled={updateStudentStatusLoading}>
+				<button type="submit" disabled={loading}>
 					Salvar
 				</button>
 			</StyledForm>

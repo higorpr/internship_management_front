@@ -9,8 +9,8 @@ export default function InternshipCreationModal({
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { postNewInternshipLoading, postNewInternship } =
-		usePostNewInternship();
+	const { postNewInternship } = usePostNewInternship();
+	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({
 		companyName: "",
 		startDate: "",
@@ -23,6 +23,7 @@ export default function InternshipCreationModal({
 
 	async function createNewInternship(event) {
 		event.preventDefault();
+		setLoading(true);
 		try {
 			const body = {
 				companyName: form.companyName,
@@ -33,11 +34,13 @@ export default function InternshipCreationModal({
 
 			await postNewInternship(body);
 			alert("Estágio registrado com sucesso!");
+			setLoading(false);
 			setReloadPage(reloadPage + 1);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
+			setLoading(false);
 		}
 	}
 
@@ -88,7 +91,7 @@ export default function InternshipCreationModal({
 					onChange={handleForm}
 					required
 				/>
-				<button type="submit" disabled={postNewInternshipLoading}>
+				<button type="submit" disabled={loading}>
 					Registrar Estágio
 				</button>
 			</StyledForm>

@@ -9,11 +9,11 @@ export default function DefineReportStatusModal({
 	setReloadPage,
 }) {
 	const { setShowModal } = useContext(ProjectContext);
-	const { updateReportStatusLoading, updateReportStatus } =
-		useUpdateReportStatus();
+	const { updateReportStatus } = useUpdateReportStatus();
 	const [form, setForm] = useState({
 		reportStatus: "",
 	});
+	const [loading, setLoading] = useState(false);
 
 	function handleForm(event) {
 		event.preventDefault();
@@ -22,6 +22,7 @@ export default function DefineReportStatusModal({
 
 	async function defineReportStatus(event) {
 		event.preventDefault();
+		setLoading(true);
 		try {
 			const body = {
 				reportId: reportId,
@@ -29,11 +30,13 @@ export default function DefineReportStatusModal({
 			};
 			await updateReportStatus(body);
 			alert("Status do relatório definido");
+			setLoading(false);
 			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
 			alert("Erro ao definir o status desse relatório.");
+			setLoading(false);
 		}
 	}
 
@@ -64,7 +67,7 @@ export default function DefineReportStatusModal({
 					<option value="ACCEPTED">Aceito</option>
 					<option value="REFUSED">Recusado</option>
 				</select>
-				<button type="submit" disabled={updateReportStatusLoading}>
+				<button type="submit" disabled={loading}>
 					Salvar
 				</button>
 			</StyledForm>
@@ -158,8 +161,8 @@ const StyledForm = styled.form`
 		border-radius: 10px;
 
 		&:disabled {
-      background-color: #bdbdbd;
-    }
+			background-color: #bdbdbd;
+		}
 	}
 
 	@media (max-width: 400px) {

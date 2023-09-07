@@ -14,7 +14,9 @@ export default function NewClassModal() {
 		classType: "",
 		ownerId: "",
 	});
-	const { postClassLoading, postClass } = usePostClass();
+	const { postClass } = usePostClass();
+	const [loading, setLoading] = useState(false);
+
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
@@ -22,8 +24,10 @@ export default function NewClassModal() {
 
 	async function createClass(event) {
 		event.preventDefault();
+		setLoading(true);
 		if (form.startDate > form.endDate) {
 			alert("Uma turma não pode ter o seu término antes do seu início.");
+			setLoading(false);
 			return;
 		}
 
@@ -41,10 +45,12 @@ export default function NewClassModal() {
 
 			const newClass = await postClass(body);
 			alert(`Você criou ${newClass.name} com sucesso!`);
+			setLoading(false);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
+			setLoading(false);
 		}
 	}
 
@@ -107,7 +113,7 @@ export default function NewClassModal() {
 						Turma de Recuperação
 					</option>
 				</select>
-				<button type="submit" disabled={postClassLoading}>
+				<button type="submit" disabled={loading}>
 					Criar Turma
 				</button>
 			</StyledForm>
