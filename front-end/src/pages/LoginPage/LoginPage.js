@@ -6,7 +6,7 @@ import useLogin from "../../hooks/api/useLogin";
 import UserContext from "../../contexts/UserContext";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import ProjectContext from "../../contexts/ProjectContext";
-import { InfinitySpin } from "react-loader-spinner";
+import { ColorRing } from "react-loader-spinner";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
@@ -81,7 +81,21 @@ export default function LoginPage() {
 				/>
 				<button type="submit" disabled={loading}>
 					{loading ? (
-						<InfinitySpin width="70" color="#4fa94d" />
+						<ColorRing
+							visible={true}
+							height="50"
+							width="50"
+							ariaLabel="circle-loading"
+							wrapperStyle={{}}
+							wrapperClass="blocks-wrapper"
+							colors={[
+								"#4fa94d",
+								"#4fa94d",
+								"#4fa94d",
+								"#4fa94d",
+								"#4fa94d",
+							]}
+						/>
 					) : (
 						"Login"
 					)}
