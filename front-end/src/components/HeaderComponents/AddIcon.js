@@ -42,16 +42,21 @@ export default function AddIcon() {
 
 	async function addClick() {
 		if (page === "studentInternship") {
-			try {
-				const internshipId = userData.internshipInfo.id;
-				await deleteInternship(internshipId);
-				const tempUserData = { ...userData };
-				delete tempUserData.internshipInfo;
-				setUserData(tempUserData);
-				setReloadPage(!reloadPage);
-				setShowModal(true);
-			} catch (err) {
-				console.log(err);
+			const confirmation = window.confirm(
+				"O estágio atual será apagado. \nGostaria de continuar? "
+			);
+			if (confirmation) {
+				try {
+					const internshipId = userData.internshipInfo.id;
+					await deleteInternship(internshipId);
+					const tempUserData = { ...userData };
+					delete tempUserData.internshipInfo;
+					setUserData(tempUserData);
+					setReloadPage(!reloadPage);
+					setShowModal(true);
+				} catch (err) {
+					console.log(err);
+				}
 			}
 		} else if (page === "allClasses") {
 			setShowModal(true);
