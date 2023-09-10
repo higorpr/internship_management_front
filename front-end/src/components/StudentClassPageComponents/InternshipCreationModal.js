@@ -3,12 +3,9 @@ import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import usePostNewInternship from "../../hooks/api/usePostNewInternship";
 
-export default function InternshipCreationModal({
-	classId,
-	reloadPage,
-	setReloadPage,
-}) {
-	const { setShowModal } = useContext(ProjectContext);
+export default function InternshipCreationModal({ classId }) {
+	const { setShowModal, reloadPage, setReloadPage } =
+		useContext(ProjectContext);
 	const { postNewInternship } = usePostNewInternship();
 	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({
@@ -35,7 +32,7 @@ export default function InternshipCreationModal({
 			await postNewInternship(body);
 			alert("Estágio registrado com sucesso!");
 			setLoading(false);
-			setReloadPage(reloadPage + 1);
+			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			console.log(err);

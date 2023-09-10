@@ -1,21 +1,20 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
-import { AiOutlineUser, AiOutlinePlusCircle } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { Tooltip } from "@chakra-ui/react";
-import { useContext } from "react";
-import ProjectContext from "../../contexts/ProjectContext";
+import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import BreadCrumbs from "./BreadCrumbs";
 import IconMenu from "./IconMenu";
+import AddIcon from "./AddIcon";
 
 export default function Header() {
 	const location = useLocation();
-	const { setShowModal } = useContext(ProjectContext);
 	const { userData } = useContext(UserContext);
-	const navigate = useNavigate();
-
+	const [openedMenu, setOpenedMenu] = useState(false);
+	// console.log(location.pathname.split("/").includes("studentclassPage"));
+	// console.log(openedMenu);
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
 			<StyledHeader>
@@ -27,26 +26,7 @@ export default function Header() {
 					<BreadCrumbs />
 				</HeaderLeft>
 				<HeaderRight>
-					{location.pathname === "/allclasses" ? (
-						<Tooltip
-							shouldWrapChildren
-							label={
-								userData.user.user_types.id === 1
-									? "Adicionar nova turma"
-									: "Ingressar em uma nova turma"
-							}
-							placement="bottom"
-							hasArrow
-						>
-							<div>
-								<AiOutlinePlusCircle
-									onClick={() => setShowModal(true)}
-								/>
-							</div>
-						</Tooltip>
-					) : (
-						<BlankBlock />
-					)}
+					<AddIcon />
 					{location.pathname !== "/" &&
 					location.pathname !== "/signup" &&
 					location.pathname !== "/emailConfirmation" ? (
@@ -54,9 +34,11 @@ export default function Header() {
 							shouldWrapChildren
 							label={userData.user.name}
 							placement="bottom"
-							hasArrow
+							hasArrow="true"
+							isDisabled={openedMenu}
+							// isDisabled="true"
 						>
-							<IconMenu />
+							<IconMenu setOpenedMenu={setOpenedMenu} />
 						</Tooltip>
 					) : (
 						""
@@ -101,10 +83,6 @@ const HeaderRight = styled.div`
 	justify-content: space-between;
 	width: 70px;
 	margin-right: 10px;
-`;
-
-const StyledAiOutlineUser = styled(AiOutlineUser)`
-	cursor: pointer;
 `;
 
 const BlankBlock = styled.div`

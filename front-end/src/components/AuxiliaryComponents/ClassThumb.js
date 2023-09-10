@@ -15,7 +15,7 @@ export default function ClassThumb({
 		if (userType === "PROFESSOR") {
 			navigate(`/class/${classId}`);
 		} else {
-			navigate(`/studentclassPage/${userId}/${classId}`);
+			navigate(`/studentclasspage/${userId}/${classId}`);
 		}
 	}
 

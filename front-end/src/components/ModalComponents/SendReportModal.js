@@ -3,13 +3,9 @@ import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import useSendReport from "../../hooks/api/useSendReport";
 
-export default function SendReportModal({
-	reportId,
-	reloadPage,
-	setReloadPage,
-	classId,
-}) {
-	const { setShowModal } = useContext(ProjectContext);
+export default function SendReportModal({ reportId, classId }) {
+	const { setShowModal, reloadPage, setReloadPage } =
+		useContext(ProjectContext);
 	const { sendReport } = useSendReport();
 	const [loading, setLoading] = useState(false);
 	const [form, setForm] = useState({
@@ -32,7 +28,7 @@ export default function SendReportModal({
 			await sendReport(formData);
 			alert("Relatório enviado com sucesso!");
 			setLoading(false);
-			setReloadPage(reloadPage + 1);
+			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
 			setLoading(false);

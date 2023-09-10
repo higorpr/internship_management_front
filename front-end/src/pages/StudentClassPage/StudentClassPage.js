@@ -13,13 +13,12 @@ import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
 
 export default function StudentClassPage() {
-	const { showModal, setShowModal } = useContext(ProjectContext);
+	const { showModal, setShowModal, reloadPage } = useContext(ProjectContext);
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const { studentId, classId } = useParams();
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [studentData, setStudentData] = useState({});
-	const [reloadPage, setReloadPage] = useState(0);
 	const [formattedStartDate, setFormattedStartDate] = useState("");
 	const [reports, setReports] = useState([]);
 	const [internshipCreated, setInternshipCreated] = useState(false);
@@ -69,17 +68,11 @@ export default function StudentClassPage() {
 					<Backdrop />
 					{internshipCreated ? (
 						<SendReportModal
-							reloadPage={reloadPage}
-							setReloadPage={setReloadPage}
 							reportId={targetReportId}
 							classId={classId}
 						/>
 					) : (
-						<InternshipCreationModal
-							classId={classId}
-							reloadPage={reloadPage}
-							setReloadPage={setReloadPage}
-						/>
+						<InternshipCreationModal classId={classId} />
 					)}
 				</>
 			) : (
@@ -133,7 +126,6 @@ export default function StudentClassPage() {
 								dueDate={report.dueDate}
 								reportStatus={report.reportStatus}
 								setTargetReportId={setTargetReportId}
-								reloadPage={reloadPage}
 							/>
 						))}
 					</ReportsContainer>

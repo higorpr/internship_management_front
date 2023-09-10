@@ -17,11 +17,19 @@ import MailConfirmationPage from "./pages/MailConfirmationPage/MailConfirmationP
 function App() {
 	const [showModal, setShowModal] = useState(false);
 	const [newLogin, setNewLogin] = useState(false);
+	const [reloadPage, setReloadPage] = useState(false);
 
 	return (
 		<CrumbsProvider>
 			<ProjectContext.Provider
-				value={{ showModal, setShowModal, newLogin, setNewLogin }}
+				value={{
+					showModal,
+					setShowModal,
+					newLogin,
+					setNewLogin,
+					reloadPage,
+					setReloadPage,
+				}}
 			>
 				<BrowserRouter>
 					<GlobalStyle />
@@ -51,7 +59,7 @@ function App() {
 									element={<ProfessorStudentPage />}
 								/>
 								<Route
-									path="/studentclassPage/:studentId/:classId"
+									path="/studentclasspage/:studentId/:classId"
 									element={<StudentClassPage />}
 								/>
 							</Routes>

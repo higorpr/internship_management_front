@@ -3,12 +3,9 @@ import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import useUpdateReportStatus from "../../hooks/api/useUpdateReportStatus";
 
-export default function DefineReportStatusModal({
-	reportId,
-	reloadPage,
-	setReloadPage,
-}) {
-	const { setShowModal } = useContext(ProjectContext);
+export default function DefineReportStatusModal({ reportId }) {
+	const { setShowModal, reloadPage, setReloadPage } =
+		useContext(ProjectContext);
 	const { updateReportStatus } = useUpdateReportStatus();
 	const [form, setForm] = useState({
 		reportStatus: "",

@@ -3,13 +3,9 @@ import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import useUpdateStudentStatus from "../../hooks/api/useUpdateStudentStatus";
 
-export default function DefineStudentStatusModal({
-	studentId,
-	classId,
-	reloadPage,
-	setReloadPage,
-}) {
-	const { setShowModal } = useContext(ProjectContext);
+export default function DefineStudentStatusModal({ studentId, classId }) {
+	const { setShowModal, reloadPage, setReloadPage } =
+		useContext(ProjectContext);
 	const { updateStudentStatus } = useUpdateStudentStatus();
 	const [form, setForm] = useState({
 		studentStatus: "",

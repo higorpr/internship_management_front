@@ -16,11 +16,11 @@ import CrumbsContext from "../../contexts/CrumbsContext";
 
 export default function ProfessorStudentPage() {
 	const { studentId, classId } = useParams();
-	const { showModal, setShowModal } = useContext(ProjectContext);
+	const { showModal, setShowModal, reloadPage } =
+		useContext(ProjectContext);
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const [studentData, setStudentData] = useState({});
-	const [reloadPage, setReloadPage] = useState(false);
 	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [reports, setReports] = useState([]);
 	const [targetReportId, setTargetReportId] = useState(0);
@@ -76,16 +76,12 @@ export default function ProfessorStudentPage() {
 					<Backdrop />
 					{buttonClicked === "report" ? (
 						<DefineReportStatusModal
-							reloadPage={reloadPage}
-							setReloadPage={setReloadPage}
 							reportId={targetReportId}
 						/>
 					) : (
 						<DefineStudentStatusModal
 							studentId={studentId}
 							classId={classId}
-							reloadPage={reloadPage}
-							setReloadPage={setReloadPage}
 						/>
 					)}
 				</>
