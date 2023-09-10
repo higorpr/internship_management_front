@@ -7,6 +7,7 @@ import UserContext from "../../contexts/UserContext";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import ProjectContext from "../../contexts/ProjectContext";
 import { ColorRing } from "react-loader-spinner";
+import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
 
 export default function LoginPage() {
 	const [form, setForm] = useState({
@@ -93,21 +94,7 @@ export default function LoginPage() {
 
 				<button type="submit" disabled={loading}>
 					{loading ? (
-						<ColorRing
-							visible={true}
-							height="50"
-							width="50"
-							ariaLabel="circle-loading"
-							wrapperStyle={{}}
-							wrapperClass="blocks-wrapper"
-							colors={[
-								"#4fa94d",
-								"#4fa94d",
-								"#4fa94d",
-								"#4fa94d",
-								"#4fa94d",
-							]}
-						/>
+						<ColorRingIcon height={50} width={50} />
 					) : (
 						"Login"
 					)}

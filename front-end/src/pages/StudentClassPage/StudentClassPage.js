@@ -12,6 +12,7 @@ import SendReportModal from "../../components/ModalComponents/SendReportModal";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import UserContext from "../../contexts/UserContext";
+import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
 
 export default function StudentClassPage() {
 	const { showModal, setShowModal, reloadPage } = useContext(ProjectContext);
@@ -70,7 +71,11 @@ export default function StudentClassPage() {
 	}
 
 	if (loadingComplete === false) {
-		return <></>;
+		return (
+			<StyledPage>
+				<ColorRingIcon height={200} width={200} />
+			</StyledPage>
+		);
 	}
 
 	return (
