@@ -6,4 +6,13 @@ async function postNewInternship(token, body) {
 	return response.data;
 }
 
-export const internshipApi = { postNewInternship };
+async function deleteInternship(token, internshipId) {
+	const config = { headers: { Authorization: `Bearer ${token}` } };
+	const response = await api.delete(
+		`/internship/delete/${internshipId}`,
+		config
+	);
+	return response.data;
+}
+
+export const internshipApi = { postNewInternship, deleteInternship };

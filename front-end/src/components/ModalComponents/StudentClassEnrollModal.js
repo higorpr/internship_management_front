@@ -4,7 +4,8 @@ import ProjectContext from "../../contexts/ProjectContext";
 import usePostEnrollStudent from "../../hooks/api/usePostEnrollStudent";
 
 export default function StudentClassEnrollModal() {
-	const { setShowModal } = useContext(ProjectContext);
+	const { setShowModal, reloadPage, setReloadPage } =
+		useContext(ProjectContext);
 
 	const [form, setForm] = useState({
 		classCode: "",
@@ -30,6 +31,7 @@ export default function StudentClassEnrollModal() {
 			alert(`Você entrou na ${targetClass.className} com sucesso!`);
 			setLoading(false);
 			setShowModal(false);
+			setReloadPage(!reloadPage);
 		} catch (err) {
 			console.log(err);
 			alert(err.response.data);
@@ -56,7 +58,6 @@ export default function StudentClassEnrollModal() {
 					id="class-code"
 					type="text"
 					name="classCode"
-					// placeholder="Ex.: A0e6h2"
 					value={form.classCode}
 					onChange={handleForm}
 					required

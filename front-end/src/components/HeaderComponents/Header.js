@@ -84,7 +84,3 @@ const HeaderRight = styled.div`
 	width: 70px;
 	margin-right: 10px;
 `;
-
-const BlankBlock = styled.div`
-	width: 30px;
-`;

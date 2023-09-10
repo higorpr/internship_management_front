@@ -4,16 +4,18 @@ import { useContext, useEffect, useState } from "react";
 import ProjectContext from "../../contexts/ProjectContext";
 import styled from "styled-components";
 import Backdrop from "../../components/AuxiliaryComponents/Backdrop";
-import InternshipCreationModal from "../../components/StudentClassPageComponents/InternshipCreationModal";
+import InternshipCreationModal from "../../components/ModalComponents/InternshipCreationModal";
 import ReportInfoComponent from "../../components/StudentClassPageComponents/ReportInfoComponent";
 import { formatDate } from "../../functions/formatDate";
 import { orderReports } from "../../functions/orderReports";
 import SendReportModal from "../../components/ModalComponents/SendReportModal";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
+import UserContext from "../../contexts/UserContext";
 
 export default function StudentClassPage() {
 	const { showModal, setShowModal, reloadPage } = useContext(ProjectContext);
+	const { userData, setUserData } = useContext(UserContext);
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const { studentId, classId } = useParams();
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
@@ -23,6 +25,7 @@ export default function StudentClassPage() {
 	const [reports, setReports] = useState([]);
 	const [internshipCreated, setInternshipCreated] = useState(false);
 	const [targetReportId, setTargetReportId] = useState(0);
+	const [localReload, setLocalReload] = useState(false);
 
 	useEffect(() => {
 		retrieveStudentData();
@@ -33,6 +36,7 @@ export default function StudentClassPage() {
 		updateCrumbArray(crumbs, setCrumbs, crumbIndex, pageName, pageRoute);
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
+	console.log(userData);
 
 	async function retrieveStudentData() {
 		try {
@@ -42,16 +46,24 @@ export default function StudentClassPage() {
 			const sortedReports = orderReports(tempStudentData.reportInfo);
 			setReports(sortedReports);
 
-			if (Object.keys(tempStudentData.internshipInfo).length !== 0) {
-				setInternshipCreated(true);
+			if (tempStudentData.hasOwnProperty("internshipInfo")) {
 				const tempDate = formatDate(
 					tempStudentData.internshipInfo.internshipStartDate
 				);
 				setFormattedStartDate(tempDate);
 				setInternshipCreated(true);
+
+				const testData = {
+					...userData,
+					internshipInfo: tempStudentData.internshipInfo,
+				};
+				setUserData(testData);
+			} else {
+				setInternshipCreated(false);
 			}
 			setStudentData(tempStudentData);
 			setLoadingComplete(true);
+			setLocalReload(!localReload);
 		} catch (err) {
 			console.log(err);
 		}
@@ -93,7 +105,7 @@ export default function StudentClassPage() {
 				</p>
 			</StudentInfoField>
 
-			{Object.keys(studentData.internshipInfo).length !== 0 ? (
+			{internshipCreated ? (
 				<>
 					<StudentInfoField>
 						<p>
