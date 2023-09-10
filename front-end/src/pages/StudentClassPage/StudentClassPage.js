@@ -23,11 +23,13 @@ export default function StudentClassPage() {
 	const [studentData, setStudentData] = useState({});
 	const [formattedStartDate, setFormattedStartDate] = useState("");
 	const [reports, setReports] = useState([]);
-	const [internshipCreated, setInternshipCreated] = useState(false);
+	const [internshipCreated, setInternshipCreated] = useState(null);
 	const [targetReportId, setTargetReportId] = useState(0);
 	const [localReload, setLocalReload] = useState(false);
+	console.log(internshipCreated);
 
 	useEffect(() => {
+		setLoadingComplete(false);
 		retrieveStudentData();
 
 		const crumbIndex = 1;
@@ -36,7 +38,6 @@ export default function StudentClassPage() {
 		updateCrumbArray(crumbs, setCrumbs, crumbIndex, pageName, pageRoute);
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
-	console.log(userData);
 
 	async function retrieveStudentData() {
 		try {
