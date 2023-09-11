@@ -1,6 +1,6 @@
 import { Tooltip } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import ProjectContext from "../../contexts/ProjectContext";
@@ -47,13 +47,22 @@ export default function AddIcon() {
 			);
 			if (confirmation) {
 				try {
-					const internshipId = userData.internshipInfo.id;
-					await deleteInternship(internshipId);
-					const tempUserData = { ...userData };
-					delete tempUserData.internshipInfo;
-					setUserData(tempUserData);
-					setReloadPage(!reloadPage);
-					setShowModal(true);
+					const docConfirmation = window.confirm(
+						"Seu novo estágio está vigente e foi aprovado pela Unifeso?"
+					);
+					if (docConfirmation) {
+						const internshipId = userData.internshipInfo.id;
+						await deleteInternship(internshipId);
+						const tempUserData = { ...userData };
+						delete tempUserData.internshipInfo;
+						setUserData(tempUserData);
+						setReloadPage(!reloadPage);
+						setShowModal(true);
+					} else {
+						alert(
+							"Você deve regularizar a documentação do seu estágio antes de registrá-lo na plataforma."
+						);
+					}
 				} catch (err) {
 					console.log(err);
 				}

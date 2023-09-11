@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetStudentInfoInClass from "../../hooks/api/useGetStudentInfoInClass";
 import { useContext, useEffect, useState } from "react";
 import ProjectContext from "../../contexts/ProjectContext";
@@ -27,7 +27,7 @@ export default function StudentClassPage() {
 	const [internshipCreated, setInternshipCreated] = useState(null);
 	const [targetReportId, setTargetReportId] = useState(0);
 	const [localReload, setLocalReload] = useState(false);
-	console.log(loadingComplete);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setLoadingComplete(false);
@@ -68,6 +68,18 @@ export default function StudentClassPage() {
 			setLocalReload(!localReload);
 		} catch (err) {
 			console.log(err);
+		}
+	}
+
+	function verifyDocumentationForInternship() {
+		const docConfirmation = window.confirm(
+			"Seu estágio está vigente e foi aprovado pela Unifeso?"
+		);
+		if (docConfirmation) {
+			setShowModal(true);
+		} else {
+			alert('Você deve regularizar a documentação do seu estágio antes de registrá-lo na plataforma.');
+			navigate("/allclasses");
 		}
 	}
 
@@ -152,7 +164,7 @@ export default function StudentClassPage() {
 			) : (
 				<ButtonContainer>
 					<InternshipRegistrationButton
-						onClick={() => setShowModal(true)}
+						onClick={verifyDocumentationForInternship}
 					>
 						Registrar Estágio
 					</InternshipRegistrationButton>
