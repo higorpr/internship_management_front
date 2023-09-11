@@ -1,6 +1,6 @@
 import { Tooltip } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import ProjectContext from "../../contexts/ProjectContext";

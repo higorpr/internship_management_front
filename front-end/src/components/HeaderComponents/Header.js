@@ -13,8 +13,6 @@ export default function Header() {
 	const location = useLocation();
 	const { userData } = useContext(UserContext);
 	const [openedMenu, setOpenedMenu] = useState(false);
-	// console.log(location.pathname.split("/").includes("studentclassPage"));
-	// console.log(openedMenu);
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
 			<StyledHeader>

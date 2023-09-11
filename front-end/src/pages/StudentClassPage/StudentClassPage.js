@@ -20,13 +20,12 @@ export default function StudentClassPage() {
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const { studentId, classId } = useParams();
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
-	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [studentData, setStudentData] = useState({});
 	const [formattedStartDate, setFormattedStartDate] = useState("");
 	const [reports, setReports] = useState([]);
 	const [internshipCreated, setInternshipCreated] = useState(null);
 	const [targetReportId, setTargetReportId] = useState(0);
-	const [localReload, setLocalReload] = useState(false);
+	const [loadingComplete, setLoadingComplete] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -65,7 +64,6 @@ export default function StudentClassPage() {
 			}
 			setStudentData(tempStudentData);
 			setLoadingComplete(true);
-			setLocalReload(!localReload);
 		} catch (err) {
 			console.log(err);
 		}
@@ -78,7 +76,9 @@ export default function StudentClassPage() {
 		if (docConfirmation) {
 			setShowModal(true);
 		} else {
-			alert('Você deve regularizar a documentação do seu estágio antes de registrá-lo na plataforma.');
+			alert(
+				"Você deve regularizar a documentação do seu estágio antes de registrá-lo na plataforma."
+			);
 			navigate("/allclasses");
 		}
 	}
