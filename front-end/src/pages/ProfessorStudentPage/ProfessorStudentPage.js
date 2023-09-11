@@ -25,34 +25,40 @@ export default function ProfessorStudentPage() {
 	const [reports, setReports] = useState([]);
 	const [targetReportId, setTargetReportId] = useState(0);
 	const [buttonClicked, setButtonClicked] = useState("");
+	const [internshipCreated, setInternshipCreated] = useState(null);
+	const [formattedStartDate, setFormattedStartDate] = useState("");
 
 	useEffect(() => {
 		setLoadingComplete(false);
-
 		retrieveStudentData();
+
+		const crumbIndex = 1;
+		const pageName = "Controle de Relatórios";
+		const pageRoute = `/class/${classId}/student/${studentId}`;
+		updateCrumbArray(crumbs, setCrumbs, crumbIndex, pageName, pageRoute);
+		//eslint-disable-next-line react-hooks/exhaustive-deps
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
 
 	async function retrieveStudentData() {
-		let tempStudentData = {};
 		try {
+			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);
 
-			setStudentData(tempStudentData);
-			setLoadingComplete(true);
 			const sortedReports = orderReports(tempStudentData.reportInfo);
 			setReports(sortedReports);
 
-			const crumbIndex = 2;
-			const pageName = "Controle de Relatórios";
-			const pageRoute = `/class/${classId}/student/${studentId}`;
-			updateCrumbArray(
-				crumbs,
-				setCrumbs,
-				crumbIndex,
-				pageName,
-				pageRoute
-			);
+			if (tempStudentData.hasOwnProperty("internshipInfo")) {
+				const tempDate = formatDate(
+					tempStudentData.internshipInfo.internshipStartDate
+				);
+				setFormattedStartDate(tempDate);
+				setInternshipCreated(true);
+			} else {
+				setInternshipCreated(false);
+			}
+			setStudentData(tempStudentData);
 			setLoadingComplete(true);
 		} catch (err) {
 			console.log(err);
@@ -109,44 +115,52 @@ export default function ProfessorStudentPage() {
 				</p>
 			</StudentInfoField>
 
-			<StudentInfoField>
-				<p>
-					<strong>Empresa do Estágio: </strong>{" "}
-					{studentData.internshipInfo.companyName}
-				</p>
-			</StudentInfoField>
-
-			<StudentInfoField>
-				<p>
-					<strong>Data de Início do Estágio: </strong>{" "}
-					{formatDate(studentData.internshipInfo.internshipStartDate)}
-				</p>
-			</StudentInfoField>
-
-			<StudentInfoField>
-				<p>
-					<strong>Horas Semanais de Estágio: </strong>{" "}
-					{studentData.internshipInfo.weeklyHours} horas
-				</p>
-			</StudentInfoField>
-			<ReportsContainer>
-				{reports.map((report, idx) => (
-					<ProfessorReportInfoComponent
-						key={idx}
-						reportId={report.id}
-						order={idx}
-						deliveredDate={report.deliveredDate}
-						dueDate={report.dueDate}
-						reportStatus={report.reportStatus}
-						setTargetReportId={setTargetReportId}
-						setButtonClicked={setButtonClicked}
-					/>
-				))}
-			</ReportsContainer>
-			<DefineStudentStatusButton onClick={startDefineStudentStatus}>
-				<p>Alterar Status do Estudante</p>
-			</DefineStudentStatusButton>
-			<BlankSpace />
+			{internshipCreated ? (
+				<>
+					<StudentInfoField>
+						<p>
+							<strong>Empresa do Estágio: </strong>{" "}
+							{studentData.internshipInfo.companyName}
+						</p>
+					</StudentInfoField>
+					<StudentInfoField>
+						<p>
+							<strong>Data de Início do Estágio: </strong>{" "}
+							{formatDate(
+								studentData.internshipInfo.internshipStartDate
+							)}
+						</p>
+					</StudentInfoField>
+					<StudentInfoField>
+						<p>
+							<strong>Horas Semanais de Estágio: </strong>{" "}
+							{studentData.internshipInfo.weeklyHours} horas
+						</p>
+					</StudentInfoField>
+					<ReportsContainer>
+						{reports.map((report, idx) => (
+							<ProfessorReportInfoComponent
+								key={idx}
+								reportId={report.id}
+								order={idx}
+								deliveredDate={report.deliveredDate}
+								dueDate={report.dueDate}
+								reportStatus={report.reportStatus}
+								setTargetReportId={setTargetReportId}
+								setButtonClicked={setButtonClicked}
+							/>
+						))}
+					</ReportsContainer>
+					<DefineStudentStatusButton
+						onClick={startDefineStudentStatus}
+					>
+						<p>Alterar Status do Estudante</p>
+					</DefineStudentStatusButton>
+					<BlankSpace />{" "}
+				</>
+			) : (
+				""
+			)}
 		</StyledPage>
 	);
 }
