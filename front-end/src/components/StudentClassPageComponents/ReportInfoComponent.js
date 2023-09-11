@@ -49,8 +49,6 @@ export default function ReportInfoComponent({
 		setTranslatedStatus(tempStatus);
 		if (deliveredDate) {
 			setFormattedDeliveryDate(formatDate(deliveredDate));
-		} else {
-			setFormattedDeliveryDate("-");
 		}
 		//eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [deliveredDate]);

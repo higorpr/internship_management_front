@@ -45,6 +45,7 @@ export default function ProfessorStudentPage() {
 		try {
 			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);
+			console.log(tempStudentData);
 
 			const sortedReports = orderReports(tempStudentData.reportInfo);
 			setReports(sortedReports);
@@ -98,7 +99,6 @@ export default function ProfessorStudentPage() {
 					{studentData.studentInfo.studentName}
 				</p>
 			</StudentInfoField>
-
 			<StudentInfoField>
 				<p>
 					<strong>Status do Estudante: </strong>{" "}
@@ -107,14 +107,12 @@ export default function ProfessorStudentPage() {
 					)}
 				</p>
 			</StudentInfoField>
-
 			<StudentInfoField>
 				<p>
 					<strong>Matriculado em: </strong>{" "}
 					{studentData.studentInfo.className}
 				</p>
 			</StudentInfoField>
-
 			{internshipCreated ? (
 				<>
 					<StudentInfoField>
@@ -126,9 +124,7 @@ export default function ProfessorStudentPage() {
 					<StudentInfoField>
 						<p>
 							<strong>Data de Início do Estágio: </strong>{" "}
-							{formatDate(
-								studentData.internshipInfo.internshipStartDate
-							)}
+							{formattedStartDate}
 						</p>
 					</StudentInfoField>
 					<StudentInfoField>
@@ -137,30 +133,28 @@ export default function ProfessorStudentPage() {
 							{studentData.internshipInfo.weeklyHours} horas
 						</p>
 					</StudentInfoField>
-					<ReportsContainer>
-						{reports.map((report, idx) => (
-							<ProfessorReportInfoComponent
-								key={idx}
-								reportId={report.id}
-								order={idx}
-								deliveredDate={report.deliveredDate}
-								dueDate={report.dueDate}
-								reportStatus={report.reportStatus}
-								setTargetReportId={setTargetReportId}
-								setButtonClicked={setButtonClicked}
-							/>
-						))}
-					</ReportsContainer>
-					<DefineStudentStatusButton
-						onClick={startDefineStudentStatus}
-					>
-						<p>Alterar Status do Estudante</p>
-					</DefineStudentStatusButton>
-					<BlankSpace />{" "}
 				</>
 			) : (
 				""
 			)}
+			<ReportsContainer>
+				{reports.map((report, idx) => (
+					<ProfessorReportInfoComponent
+						key={idx}
+						reportId={report.id}
+						order={idx}
+						deliveredDate={report.deliveredDate}
+						dueDate={report.dueDate}
+						reportStatus={report.reportStatus}
+						setTargetReportId={setTargetReportId}
+						setButtonClicked={setButtonClicked}
+					/>
+				))}
+			</ReportsContainer>
+			<DefineStudentStatusButton onClick={startDefineStudentStatus}>
+				<p>Alterar Status do Estudante</p>
+			</DefineStudentStatusButton>
+			<BlankSpace />{" "}
 		</StyledPage>
 	);
 }

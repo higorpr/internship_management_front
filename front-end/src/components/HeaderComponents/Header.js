@@ -34,7 +34,6 @@ export default function Header() {
 							placement="bottom"
 							hasArrow="true"
 							isDisabled={openedMenu}
-							// isDisabled="true"
 						>
 							<IconMenu setOpenedMenu={setOpenedMenu} />
 						</Tooltip>
