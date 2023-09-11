@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import useSignUp from "../../hooks/api/useSignUp";
+import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
 
 export default function SignupPage() {
 	const [form, setForm] = useState({
@@ -100,7 +101,11 @@ export default function SignupPage() {
 					<label htmlFor="input1">Mostrar Senha</label>
 				</CheckBoxContainer>
 				<button type="submit" disabled={loading}>
-					Criar Conta
+					{loading ? (
+						<ColorRingIcon height={50} width={50} />
+					) : (
+						"Criar Conta"
+					)}
 				</button>
 			</StyledForm>
 			<StyledP>
@@ -144,6 +149,9 @@ const StyledForm = styled.form`
 	}
 
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 10px 0;
 		width: 400px;
 		height: 65px;

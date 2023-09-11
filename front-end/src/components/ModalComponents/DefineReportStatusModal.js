@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import useUpdateReportStatus from "../../hooks/api/useUpdateReportStatus";
+import ColorRingIcon from "../AuxiliaryComponents/ColorRingIcon";
 
 export default function DefineReportStatusModal({ reportId }) {
 	const { setShowModal, reloadPage, setReloadPage } =
@@ -65,7 +66,11 @@ export default function DefineReportStatusModal({ reportId }) {
 					<option value="REFUSED">Recusado</option>
 				</select>
 				<button type="submit" disabled={loading}>
-					Salvar
+					{loading ? (
+						<ColorRingIcon height={50} width={50} />
+					) : (
+						"Salvar"
+					)}
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -148,6 +153,9 @@ const StyledForm = styled.form`
 	}
 
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 30px 0 0 0;
 		width: 400px;
 		height: 65px;

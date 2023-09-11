@@ -13,11 +13,11 @@ import DefineReportStatusModal from "../../components/ModalComponents/DefineRepo
 import DefineStudentStatusModal from "../../components/ModalComponents/DefineStudentStatusModal";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 export default function ProfessorStudentPage() {
 	const { studentId, classId } = useParams();
-	const { showModal, setShowModal, reloadPage } =
-		useContext(ProjectContext);
+	const { showModal, setShowModal, reloadPage } = useContext(ProjectContext);
 	const { getStudentInfoInClass } = useGetStudentInfoInClass();
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 	const [studentData, setStudentData] = useState({});
@@ -27,46 +27,45 @@ export default function ProfessorStudentPage() {
 	const [buttonClicked, setButtonClicked] = useState("");
 
 	useEffect(() => {
-		let tempStudentData = {};
-		async function retrieveStudentData() {
-			try {
-				tempStudentData = await getStudentInfoInClass(
-					studentId,
-					classId
-				);
-
-				setStudentData(tempStudentData);
-				setLoadingComplete(true);
-				const sortedReports = orderReports(tempStudentData.reportInfo);
-				setReports(sortedReports);
-
-				const crumbIndex = 2;
-				const pageName = "Controle de Relatórios";
-				const pageRoute = `/class/${classId}/student/${studentId}`;
-				updateCrumbArray(
-					crumbs,
-					setCrumbs,
-					crumbIndex,
-					pageName,
-					pageRoute
-				);
-			} catch (err) {
-				console.log(err);
-			}
-		}
+		setLoadingComplete(false);
 
 		retrieveStudentData();
-
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [reloadPage]);
+
+	async function retrieveStudentData() {
+		let tempStudentData = {};
+		try {
+			tempStudentData = await getStudentInfoInClass(studentId, classId);
+
+			setStudentData(tempStudentData);
+			setLoadingComplete(true);
+			const sortedReports = orderReports(tempStudentData.reportInfo);
+			setReports(sortedReports);
+
+			const crumbIndex = 2;
+			const pageName = "Controle de Relatórios";
+			const pageRoute = `/class/${classId}/student/${studentId}`;
+			updateCrumbArray(
+				crumbs,
+				setCrumbs,
+				crumbIndex,
+				pageName,
+				pageRoute
+			);
+			setLoadingComplete(true);
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	function startDefineStudentStatus() {
 		setButtonClicked("student");
 		setShowModal(true);
 	}
 
-	if (loadingComplete === false) {
-		return <></>;
+	if (!loadingComplete) {
+		return <LoadingPage iconHeight={200} iconWidth={200} />;
 	}
 
 	return (
@@ -75,9 +74,7 @@ export default function ProfessorStudentPage() {
 				<>
 					<Backdrop />
 					{buttonClicked === "report" ? (
-						<DefineReportStatusModal
-							reportId={targetReportId}
-						/>
+						<DefineReportStatusModal reportId={targetReportId} />
 					) : (
 						<DefineStudentStatusModal
 							studentId={studentId}

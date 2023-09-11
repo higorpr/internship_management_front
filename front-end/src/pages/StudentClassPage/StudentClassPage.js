@@ -12,7 +12,7 @@ import SendReportModal from "../../components/ModalComponents/SendReportModal";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import UserContext from "../../contexts/UserContext";
-import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 export default function StudentClassPage() {
 	const { showModal, setShowModal, reloadPage } = useContext(ProjectContext);
@@ -84,12 +84,7 @@ export default function StudentClassPage() {
 	}
 
 	if (loadingComplete === false) {
-		return (
-			<StyledLoadingPage>
-				<ColorRingIcon height={200} width={200} />
-				<p>Carregando</p>
-			</StyledLoadingPage>
-		);
+		return <LoadingPage iconHeight={200} iconWidth={200} />;
 	}
 
 	return (
@@ -173,23 +168,6 @@ export default function StudentClassPage() {
 		</StyledPage>
 	);
 }
-
-const StyledLoadingPage = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-
-	p {
-		font-size: 20px;
-		font-weight: 700;
-		color: #545454;
-	}
-`;
 
 const StyledPage = styled.div`
 	display: flex;

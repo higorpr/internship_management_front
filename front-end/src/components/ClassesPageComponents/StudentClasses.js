@@ -6,7 +6,7 @@ import ProjectContext from "../../contexts/ProjectContext";
 import StudentClassEnrollModal from "../ModalComponents/StudentClassEnrollModal";
 import useGetStudentClasses from "../../hooks/api/useGetStudentClasses";
 import UserContext from "../../contexts/UserContext";
-import ColorRingIcon from "../AuxiliaryComponents/ColorRingIcon";
+import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 
 export default function StudentClasses() {
 	const { showModal, setShowModal } = useContext(ProjectContext);
@@ -17,26 +17,22 @@ export default function StudentClasses() {
 
 	useEffect(() => {
 		setLoadingComplete(false);
-		async function retrieveStudentClasses() {
-			try {
-				const tempClasses = await getStudentClasses();
-				setClasses(tempClasses);
-				setLoadingComplete(true);
-			} catch (err) {
-				console.log(err);
-			}
-		}
 		retrieveStudentClasses();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [showModal]);
 
+	async function retrieveStudentClasses() {
+		try {
+			const tempClasses = await getStudentClasses();
+			setClasses(tempClasses);
+			setLoadingComplete(true);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	if (!loadingComplete) {
-		return (
-			<StyledLoadingPage>
-				<ColorRingIcon height={200} width={200} />
-				<p>Carregando</p>
-			</StyledLoadingPage>
-		);
+		return <LoadingPage iconHeight={200} iconWidth={200} />;
 	}
 
 	return (
@@ -78,24 +74,6 @@ export default function StudentClasses() {
 
 const StyledPage = styled.div`
 	margin-top: 60px;
-`;
-
-const StyledLoadingPage = styled.div`
-	margin-top: 60px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	width: 100%;
-	padding: 10px;
-	box-sizing: border-box;
-
-	p {
-		font-size: 20px;
-		font-weight: 700;
-		color: #545454;
-	}
 `;
 
 const ClassesContainer = styled.ul`

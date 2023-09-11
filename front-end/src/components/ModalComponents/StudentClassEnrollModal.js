@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import usePostEnrollStudent from "../../hooks/api/usePostEnrollStudent";
+import ColorRingIcon from "../AuxiliaryComponents/ColorRingIcon";
 
 export default function StudentClassEnrollModal() {
 	const { setShowModal, reloadPage, setReloadPage } =
@@ -63,7 +64,11 @@ export default function StudentClassEnrollModal() {
 					required
 				/>
 				<button type="submit" disabled={loading}>
-					Entrar na Turma
+					{loading ? (
+						<ColorRingIcon height={50} width={50} />
+					) : (
+						"Entrar na Turma"
+					)}
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -146,6 +151,9 @@ const StyledForm = styled.form`
 	}
 
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 30px 0 0 0;
 		width: 400px;
 		height: 65px;

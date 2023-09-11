@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import useUpdateStudentStatus from "../../hooks/api/useUpdateStudentStatus";
+import ColorRingIcon from "../AuxiliaryComponents/ColorRingIcon";
 
 export default function DefineStudentStatusModal({ studentId, classId }) {
 	const { setShowModal, reloadPage, setReloadPage } =
@@ -68,7 +69,11 @@ export default function DefineStudentStatusModal({ studentId, classId }) {
 					<option value="REPROVED">Reprovado</option>
 				</select>
 				<button type="submit" disabled={loading}>
-					Salvar
+					{loading ? (
+						<ColorRingIcon height={50} width={50} />
+					) : (
+						"Salvar"
+					)}
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -151,6 +156,9 @@ const StyledForm = styled.form`
 	}
 
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 30px 0 0 0;
 		width: 400px;
 		height: 65px;

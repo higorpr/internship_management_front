@@ -6,7 +6,6 @@ import useLogin from "../../hooks/api/useLogin";
 import UserContext from "../../contexts/UserContext";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import ProjectContext from "../../contexts/ProjectContext";
-import { ColorRing } from "react-loader-spinner";
 import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
 
 export default function LoginPage() {

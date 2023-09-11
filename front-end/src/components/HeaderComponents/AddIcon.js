@@ -18,6 +18,11 @@ export default function AddIcon() {
 	const { deleteInternship } = useDeleteInternship();
 
 	useEffect(() => {
+		locationCheck();
+		// eslint-disable-next-line
+	}, [location, reloadPage, userData]);
+
+	function locationCheck() {
 		const locationList = location.pathname.split("/");
 		if (locationList.includes("studentclasspage")) {
 			setPage("studentInternship");
@@ -38,7 +43,7 @@ export default function AddIcon() {
 		} else {
 			setPage(null);
 		}
-	}, [location, reloadPage, userData]);
+	}
 
 	async function addClick() {
 		if (page === "studentInternship") {

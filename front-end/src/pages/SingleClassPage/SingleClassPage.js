@@ -8,6 +8,7 @@ import StudentEntry from "../../components/SingleClassPageComponents/StudentEntr
 import useGetClassInfo from "../../hooks/api/useGetClassInfo";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import updateCrumbArray from "../../functions/updateCrumbArray";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 export default function SingleClassPage() {
 	const { classId } = useParams();
@@ -15,6 +16,7 @@ export default function SingleClassPage() {
 
 	const [isActive, setIsActive] = useState();
 	const [studentsInfo, setStudentsInfo] = useState([]);
+	const [loadingComplete, setLoadingComplete] = useState(false);
 	const [classInfo, setClassInfo] = useState({
 		className: "",
 		isActive: false,
@@ -27,42 +29,49 @@ export default function SingleClassPage() {
 	const { crumbs, setCrumbs } = useContext(CrumbsContext);
 
 	useEffect(() => {
-		async function fetchClassInfo() {
-			try {
-				const response = await getClassInfo(classId);
-				// Refatorar o back end para entregar um objeto mais bem estruturado
-				setClassInfo({
-					...classInfo,
-					className: response.name,
-					isActive: response.is_active,
-					classCode: response.class_code,
-					classType: response.class_type.name,
-					nReports: response.class_type.number_reports,
-				});
-
-				setStudentsInfo(response.students);
-
-				const crumbIndex = 1;
-				const pageName = response.name;
-				const pageRoute = `/class/${classId}`;
-				updateCrumbArray(
-					crumbs,
-					setCrumbs,
-					crumbIndex,
-					pageName,
-					pageRoute
-				);
-			} catch (err) {
-				console.log(err);
-			}
-		}
+		setLoadingComplete(false);
 		fetchClassInfo();
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	async function fetchClassInfo() {
+		try {
+			const response = await getClassInfo(classId);
+			// Refatorar o back end para entregar um objeto mais bem estruturado
+			setClassInfo({
+				...classInfo,
+				className: response.name,
+				isActive: response.is_active,
+				classCode: response.class_code,
+				classType: response.class_type.name,
+				nReports: response.class_type.number_reports,
+			});
+
+			setStudentsInfo(response.students);
+
+			const crumbIndex = 1;
+			const pageName = response.name;
+			const pageRoute = `/class/${classId}`;
+			updateCrumbArray(
+				crumbs,
+				setCrumbs,
+				crumbIndex,
+				pageName,
+				pageRoute
+			);
+			setLoadingComplete(true);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	function toggleActivateClass() {
 		setIsActive(!isActive);
+	}
+
+	if (!loadingComplete) {
+		return <LoadingPage iconHeight={200} iconWidth={200} />;
 	}
 
 	return (

@@ -12,6 +12,7 @@ export default function BreadCrumbs() {
 				if (idx + 1 !== crumbs.length) {
 					return (
 						<StyledText
+							key={idx}
 							onClick={() => {
 								navigate(entry.pageRoute);
 							}}
@@ -22,6 +23,7 @@ export default function BreadCrumbs() {
 				} else {
 					return (
 						<StyledText
+							key={idx}
 							onClick={() => {
 								navigate(entry.pageRoute);
 							}}

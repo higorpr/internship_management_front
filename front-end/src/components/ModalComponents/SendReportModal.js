@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import ProjectContext from "../../contexts/ProjectContext";
 import useSendReport from "../../hooks/api/useSendReport";
+import ColorRingIcon from "../AuxiliaryComponents/ColorRingIcon";
 
 export default function SendReportModal({ reportId, classId }) {
 	const { setShowModal, reloadPage, setReloadPage } =
@@ -66,7 +67,11 @@ export default function SendReportModal({ reportId, classId }) {
 					required
 				/>
 				<button type="submit" disabled={loading}>
-					Enviar Relatório
+					{loading ? (
+						<ColorRingIcon height={50} width={50} />
+					) : (
+						"Enviar Relatório"
+					)}
 				</button>
 			</StyledForm>
 		</StyledModal>
@@ -149,6 +154,9 @@ const StyledForm = styled.form`
 	}
 
 	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 30px 0 0 0;
 		width: 400px;
 		height: 65px;
