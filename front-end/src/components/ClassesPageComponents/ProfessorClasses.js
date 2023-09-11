@@ -6,18 +6,22 @@ import ProjectContext from "../../contexts/ProjectContext";
 import useGetAllClasses from "../../hooks/api/useGetClasses";
 import NewClassModal from "../ModalComponents/NewClassModal";
 import UserContext from "../../contexts/UserContext";
+import ColorRingIcon from "../AuxiliaryComponents/ColorRingIcon";
 
 export default function ProfessorClasses() {
 	const { showModal, setShowModal } = useContext(ProjectContext);
 	const { getAllClasses } = useGetAllClasses();
 	const [classes, setClasses] = useState([]);
 	const { userData } = useContext(UserContext);
+	const [loadingComplete, setLoadingComplete] = useState(false);
 
 	useEffect(() => {
+		setLoadingComplete(false);
 		async function retrieveClasses() {
 			try {
 				const tempClasses = await getAllClasses();
 				setClasses(tempClasses);
+				setLoadingComplete(true);
 			} catch (err) {
 				console.log(err);
 			}
@@ -25,6 +29,15 @@ export default function ProfessorClasses() {
 		retrieveClasses();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [showModal]);
+
+	if (loadingComplete === false) {
+		return (
+			<StyledLoadingPage>
+				<ColorRingIcon height={200} width={200} />
+				<p>Carregando</p>
+			</StyledLoadingPage>
+		);
+	}
 
 	if (classes.length === 0 && showModal === false) {
 		return (
@@ -67,6 +80,23 @@ export default function ProfessorClasses() {
 
 const StyledPage = styled.div`
 	margin-top: 60px;
+`;
+
+const StyledLoadingPage = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+
+	p {
+		font-size: 20px;
+		font-weight: 700;
+		color: #545454;
+	}
 `;
 
 const ClassesContainer = styled.ul`
