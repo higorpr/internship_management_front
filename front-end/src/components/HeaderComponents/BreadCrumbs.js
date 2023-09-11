@@ -46,5 +46,6 @@ const StyledText = styled.span`
 
 	@media (max-width: 400px) {
 		font-size: 17px;
+		margin-left: 10px;
 	}
 `;
