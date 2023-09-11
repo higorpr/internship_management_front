@@ -9,7 +9,7 @@ export default function ColorRingIcon({ height, width }) {
 			ariaLabel="circle-loading"
 			wrapperStyle={{}}
 			wrapperClass="blocks-wrapper"
-			colors={["#4fa94d", "#4fa94d", "#4fa94d", "#4fa94d", "#4fa94d"]}
+			colors={["#127e71", "#127e71", "#127e71", "#127e71", "#127e71"]}
 		/>
 	);
 }

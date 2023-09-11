@@ -27,7 +27,7 @@ export default function StudentClassPage() {
 	const [internshipCreated, setInternshipCreated] = useState(null);
 	const [targetReportId, setTargetReportId] = useState(0);
 	const [localReload, setLocalReload] = useState(false);
-	console.log(internshipCreated);
+	console.log(loadingComplete);
 
 	useEffect(() => {
 		setLoadingComplete(false);
@@ -73,9 +73,10 @@ export default function StudentClassPage() {
 
 	if (loadingComplete === false) {
 		return (
-			<StyledPage>
+			<StyledLoadingPage>
 				<ColorRingIcon height={200} width={200} />
-			</StyledPage>
+				<p>Carregando</p>
+			</StyledLoadingPage>
 		);
 	}
 
@@ -160,6 +161,23 @@ export default function StudentClassPage() {
 		</StyledPage>
 	);
 }
+
+const StyledLoadingPage = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+
+	p {
+		font-size: 20px;
+		font-weight: 700;
+		color: #545454;
+	}
+`;
 
 const StyledPage = styled.div`
 	display: flex;
