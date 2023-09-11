@@ -45,7 +45,6 @@ export default function ProfessorStudentPage() {
 		try {
 			let tempStudentData = {};
 			tempStudentData = await getStudentInfoInClass(studentId, classId);
-			console.log(tempStudentData);
 
 			const sortedReports = orderReports(tempStudentData.reportInfo);
 			setReports(sortedReports);

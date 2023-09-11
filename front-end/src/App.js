@@ -39,11 +39,15 @@ function App() {
 							<Routes>
 								<Route path="/" element={<LoginPage />} />
 								<Route
-									path="/emailConfirmation"
+									path="/emailconfirmation"
 									element={<MailConfirmationPage />}
 								/>
 								<Route
 									path="/signup"
+									element={<SignupPage />}
+								/>
+								<Route
+									path="/forgottenpassword"
 									element={<SignupPage />}
 								/>
 								<Route

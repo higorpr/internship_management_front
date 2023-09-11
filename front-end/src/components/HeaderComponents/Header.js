@@ -27,7 +27,7 @@ export default function Header() {
 					<AddIcon />
 					{location.pathname !== "/" &&
 					location.pathname !== "/signup" &&
-					location.pathname !== "/emailConfirmation" ? (
+					location.pathname !== "/emailconfirmation" ? (
 						<Tooltip
 							shouldWrapChildren
 							label={userData.user.name}
