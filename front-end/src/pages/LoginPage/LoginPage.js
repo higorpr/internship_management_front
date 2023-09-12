@@ -80,16 +80,23 @@ export default function LoginPage() {
 					onChange={handleForm}
 					required
 				/>
-				<CheckBoxContainer>
-					<input
-						onClick={() => setPasswordShow(!passwordShow)}
-						className="checkBox"
-						type="checkbox"
-						id="input1"
-						checked={passwordShow}
-					/>
-					<label htmlFor="input1">Mostrar Senha</label>
-				</CheckBoxContainer>
+				<UnderPasswordArea>
+					<CheckBoxContainer>
+						<input
+							onClick={() => setPasswordShow(!passwordShow)}
+							className="checkBox"
+							type="checkbox"
+							id="input1"
+							checked={passwordShow}
+						/>
+						<label htmlFor="input1">Mostrar Senha</label>
+					</CheckBoxContainer>
+					<SmallP>
+						<StyledLink to={"/forgottenpassword"}>
+							<span> Esqueci a senha</span>
+						</StyledLink>
+					</SmallP>
+				</UnderPasswordArea>
 
 				<button type="submit" disabled={loading}>
 					{loading ? (
@@ -181,11 +188,23 @@ const StyledForm = styled.form`
 	}
 `;
 
+const UnderPasswordArea = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 450px;
+`;
+
+const SmallP = styled.p`
+	font-size: 15px;
+	text-align: right;
+`;
+
 const CheckBoxContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: left;
-	width: 450px;
+
 	padding-left: 10px;
 	font-size: 15px;
 

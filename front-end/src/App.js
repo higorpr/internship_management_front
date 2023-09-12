@@ -13,6 +13,7 @@ import GlobalStyle from "./theme/globalStyle";
 import StudentClassPage from "./pages/StudentClassPage/StudentClassPage";
 import { CrumbsProvider } from "./contexts/CrumbsContext";
 import MailConfirmationPage from "./pages/MailConfirmationPage/MailConfirmationPage";
+import ForgottenPasswordPage from "./pages/ForgottenPasswordPage/ForgottenPasswordPage";
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
@@ -48,7 +49,7 @@ function App() {
 								/>
 								<Route
 									path="/forgottenpassword"
-									element={<SignupPage />}
+									element={<ForgottenPasswordPage />}
 								/>
 								<Route
 									path="/allclasses"
