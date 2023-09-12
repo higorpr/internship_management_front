@@ -14,6 +14,7 @@ import StudentClassPage from "./pages/StudentClassPage/StudentClassPage";
 import { CrumbsProvider } from "./contexts/CrumbsContext";
 import MailConfirmationPage from "./pages/MailConfirmationPage/MailConfirmationPage";
 import ForgottenPasswordPage from "./pages/ForgottenPasswordPage/ForgottenPasswordPage";
+import NewPasswordPage from "./pages/NewPasswordPage/NewPasswordPage";
 
 function App() {
 	const [showModal, setShowModal] = useState(false);
@@ -38,7 +39,7 @@ function App() {
 						<ChakraProvider>
 							<Header />
 							<Routes>
-								<Route path="/" element={<LoginPage />} />
+								<Route path="/login" element={<LoginPage />} />
 								<Route
 									path="/emailconfirmation"
 									element={<MailConfirmationPage />}
@@ -50,6 +51,10 @@ function App() {
 								<Route
 									path="/forgottenpassword"
 									element={<ForgottenPasswordPage />}
+								/>
+								<Route
+									path="/newpassword/:receivedToken"
+									element={<NewPasswordPage />}
 								/>
 								<Route
 									path="/allclasses"

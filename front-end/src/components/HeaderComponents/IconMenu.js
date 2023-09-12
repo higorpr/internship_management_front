@@ -26,7 +26,7 @@ export default function IconMenu({ setOpenedMenu }) {
 		>
 			<MenuItem
 				onClick={() => {
-					navigate("/");
+					navigate("/login");
 				}}
 			>
 				Logoff

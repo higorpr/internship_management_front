@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import { IconContext } from "react-icons";
 import { Tooltip } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import BreadCrumbs from "./BreadCrumbs";
 import IconMenu from "./IconMenu";
@@ -13,6 +13,26 @@ export default function Header() {
 	const location = useLocation();
 	const { userData } = useContext(UserContext);
 	const [openedMenu, setOpenedMenu] = useState(false);
+	const [shortLocation, setShortLocation] = useState("login");
+	console.log(shortLocation);
+
+	useEffect(() => {
+		const locationList = location.pathname.split("/");
+		if (locationList.includes("signup")) {
+			setShortLocation("signup");
+		} else if (locationList.includes("emailconfirmation")) {
+			setShortLocation("emailconfirmation");
+		} else if (locationList.includes("forgottenpassword")) {
+			setShortLocation("forgottenpassword");
+		} else if (locationList.includes("newpassword")) {
+			setShortLocation("newpassword");
+		} else if (locationList.includes("login")) {
+			setShortLocation("login");
+		} else {
+			setShortLocation("");
+		}
+	}, [location]);
+
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
 			<StyledHeader>
@@ -25,10 +45,11 @@ export default function Header() {
 				</HeaderLeft>
 				<HeaderRight>
 					<AddIcon />
-					{location.pathname !== "/" &&
-					location.pathname !== "/signup" &&
-					location.pathname !== "/emailconfirmation" &&
-					location.pathname !== "/forgottenpassword" ? (
+					{shortLocation !== "login" &&
+					shortLocation !== "signup" &&
+					shortLocation !== "emailconfirmation" &&
+					shortLocation !== "forgottenpassword" &&
+					shortLocation !== "newpassword" ? (
 						<Tooltip
 							shouldWrapChildren
 							label={userData.user.name}

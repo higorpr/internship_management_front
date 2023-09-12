@@ -193,6 +193,10 @@ const UnderPasswordArea = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	width: 450px;
+
+	@media (max-width: 400px) {
+		width: 90%;
+	}
 `;
 
 const SmallP = styled.p`

@@ -1,48 +1,41 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
-import { useContext, useState } from "react";
-import UserContext from "../../contexts/UserContext";
-import useValidateEmail from "../../hooks/api/useValidateEmail";
-import ProjectContext from "../../contexts/ProjectContext";
+import { useState } from "react";
 import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
+import useRequestNewPassword from "../../hooks/api/useRequestNewPassword";
 
-export default function MailConfirmationPage() {
-	const { userData } = useContext(UserContext);
+export default function NewPasswordPage() {
 	const navigate = useNavigate();
 	const [form, setForm] = useState({
-		confirmationCode: "",
+		email: "",
 	});
 	const [loading, setLoading] = useState(false);
-	const { newLogin, setNewLogin } = useContext(ProjectContext);
-	const { validateEmail } = useValidateEmail();
+	const { receivedToken } = useParams();
+	const { requestNewPassword } = useRequestNewPassword();
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function mailValidation(event) {
+	async function sendUserMail(event) {
 		event.preventDefault();
 		setLoading(true);
 
-		if (form.confirmationCode.trim() === "") {
-			alert("Por favor insira o cádigo de confirmação");
+		if (form.email.trim() === "") {
+			alert("Por favor insira seu email cadastrado");
 			setLoading(false);
 			return;
 		}
 		try {
-			const receivedMailData = await validateEmail(
-				userData.email,
-				form.confirmationCode
-			);
-			if (receivedMailData.status === 202) {
+			const receivedMailData = await requestNewPassword(form.email);
+			if (receivedMailData.status === 200) {
 				alert(
-					"E-mail validado com sucesso! Por favor faça o login na página inicial"
+					"Por favor verifique o seu e-mail usado para o cadastro na plataforma."
 				);
 				setLoading(false);
 				navigate("/login");
-				setNewLogin(!newLogin);
 			}
 		} catch (err) {
 			console.log(err);
@@ -55,14 +48,15 @@ export default function MailConfirmationPage() {
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledH1>Plataforma de Controle de Relatórios de Estágio</StyledH1>
 			<StyledH2>
-				Insira o código de confirmação enviado para o seu e-mail
+				Informe o seu e-mail para enviarmos instruções da criação de uma
+				nova senha
 			</StyledH2>
-			<StyledForm onSubmit={mailValidation}>
+			<StyledForm onSubmit={sendUserMail}>
 				<input
-					type="text"
-					name="confirmationCode"
-					placeholder="------"
-					value={form.confirmationCode}
+					type="email"
+					name="email"
+					placeholder="E-mail"
+					value={form.email}
 					onChange={handleForm}
 					required
 				/>
@@ -70,13 +64,13 @@ export default function MailConfirmationPage() {
 					{loading ? (
 						<ColorRingIcon height={50} width={50} />
 					) : (
-						"Validar E-mail"
+						"Confirmar E-mail"
 					)}
 				</button>
 			</StyledForm>
 			<StyledP>
 				<StyledLink to={"/login"}>
-					<span> Clique aqui para entrar com outro e-mail</span>
+					<span> Voltar para a página de Login</span>
 				</StyledLink>
 			</StyledP>
 		</StyledPage>
@@ -117,7 +111,7 @@ const StyledForm = styled.form`
 		height: 65px;
 		text-indent: 5px;
 		border-radius: 10px;
-		text-align: center;
+		text-align: left;
 
 		&::placholder {
 			color: #dbdbdb;
@@ -170,9 +164,12 @@ const StyledH2 = styled.h2`
 	margin: 0px 0 15px 0;
 	font-size: 20px;
 	font-weight: 600;
+	width: 500px;
+	text-align: center;
 
 	@media (max-width: 400px) {
 		text-align: center;
+        width: auto;
 	}
 `;
 

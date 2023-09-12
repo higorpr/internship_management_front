@@ -34,7 +34,7 @@ export default function ForgottenPasswordPage() {
 					"Por favor verifique o seu e-mail usado para o cadastro na plataforma."
 				);
 				setLoading(false);
-				navigate("/");
+				navigate("/login");
 			}
 		} catch (err) {
 			console.log(err);
@@ -68,7 +68,7 @@ export default function ForgottenPasswordPage() {
 				</button>
 			</StyledForm>
 			<StyledP>
-				<StyledLink to={"/"}>
+				<StyledLink to={"/login"}>
 					<span> Voltar para a página de Login</span>
 				</StyledLink>
 			</StyledP>
@@ -168,6 +168,7 @@ const StyledH2 = styled.h2`
 
 	@media (max-width: 400px) {
 		text-align: center;
+		width: auto;
 	}
 `;
 

@@ -37,7 +37,7 @@ export default function SignupPage() {
 			await signUp(fullName, form.email, form.password);
 			alert("Usuário criado com sucesso!");
 			setLoading(false);
-			navigate("/");
+			navigate("/login");
 		} catch (err) {
 			alert(err.response.data);
 			console.log(err);
@@ -109,8 +109,8 @@ export default function SignupPage() {
 				</button>
 			</StyledForm>
 			<StyledP>
-				<StyledLink to={"/"}>
-					Se já possui uma conta, faça o login
+				<StyledLink to={"/login"}>
+					Se já possui uma conta, clique aqui para fazer o login
 				</StyledLink>
 			</StyledP>
 		</StyledPage>
@@ -194,6 +194,10 @@ const CheckBoxContainer = styled.div`
 	label {
 		margin-left: 10px;
 	}
+
+	@media (max-width: 400px) {
+		width: 90%;
+	}
 `;
 
 const StyledImage = styled.img`
@@ -223,4 +227,5 @@ const StyledLink = styled(Link)`
 
 const StyledP = styled.p`
 	text-align: center;
+	margin-bottom: 20px;
 `;
