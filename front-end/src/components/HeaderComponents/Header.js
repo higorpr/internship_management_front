@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import { IconContext } from "react-icons";
@@ -10,28 +9,18 @@ import IconMenu from "./IconMenu";
 import AddIcon from "./AddIcon";
 
 export default function Header() {
-	const location = useLocation();
 	const { userData } = useContext(UserContext);
 	const [openedMenu, setOpenedMenu] = useState(false);
-	const [shortLocation, setShortLocation] = useState("login");
-	console.log(shortLocation);
+	const [loggedIn, setLoggedIn] = useState(false);
 
 	useEffect(() => {
-		const locationList = location.pathname.split("/");
-		if (locationList.includes("signup")) {
-			setShortLocation("signup");
-		} else if (locationList.includes("emailconfirmation")) {
-			setShortLocation("emailconfirmation");
-		} else if (locationList.includes("forgottenpassword")) {
-			setShortLocation("forgottenpassword");
-		} else if (locationList.includes("newpassword")) {
-			setShortLocation("newpassword");
-		} else if (locationList.includes("login")) {
-			setShortLocation("login");
+		const nUserFields = Object.keys(userData).length;
+		if (nUserFields === 0) {
+			setLoggedIn(false);
 		} else {
-			setShortLocation("");
+			setLoggedIn(true);
 		}
-	}, [location]);
+	}, [userData]);
 
 	return (
 		<IconContext.Provider value={{ size: "30px" }}>
@@ -45,11 +34,7 @@ export default function Header() {
 				</HeaderLeft>
 				<HeaderRight>
 					<AddIcon />
-					{shortLocation !== "login" &&
-					shortLocation !== "signup" &&
-					shortLocation !== "emailconfirmation" &&
-					shortLocation !== "forgottenpassword" &&
-					shortLocation !== "newpassword" ? (
+					{loggedIn ? (
 						<Tooltip
 							shouldWrapChildren
 							label={userData.user.name}

@@ -1,48 +1,48 @@
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
-import { useState } from "react";
 import ColorRingIcon from "../../components/AuxiliaryComponents/ColorRingIcon";
-import useRequestNewPassword from "../../hooks/api/useRequestNewPassword";
+import useUpdatePassword from "../../hooks/api/useUpdatePassword";
 
 export default function NewPasswordPage() {
-	const navigate = useNavigate();
 	const [form, setForm] = useState({
-		email: "",
+		password: "",
+		passwordConfirmation: "",
 	});
+	const { updatePassword } = useUpdatePassword();
 	const [loading, setLoading] = useState(false);
+	const [passwordShow, setPasswordShow] = useState(false);
+	const navigate = useNavigate();
 	const { receivedToken } = useParams();
-	const { requestNewPassword } = useRequestNewPassword();
 
 	function handleForm(event) {
 		event.preventDefault();
 		setForm({ ...form, [event.target.name]: event.target.value });
 	}
 
-	async function sendUserMail(event) {
+	async function sendUpdateRequest(event) {
 		event.preventDefault();
 		setLoading(true);
-
-		if (form.email.trim() === "") {
-			alert("Por favor insira seu email cadastrado");
+		if (form.password !== form.passwordConfirmation) {
+			alert("A senha e a sua confirmação devem ser iguais");
 			setLoading(false);
 			return;
 		}
+
 		try {
-			const receivedMailData = await requestNewPassword(form.email);
-			if (receivedMailData.status === 200) {
-				alert(
-					"Por favor verifique o seu e-mail usado para o cadastro na plataforma."
-				);
-				setLoading(false);
-				navigate("/login");
-			}
+			const response = await updatePassword(receivedToken, form.password);
+            
+			alert("Senha Atualizada com sucesso!");
+			setLoading(false);
+			navigate("/login");
 		} catch (err) {
-			console.log(err);
 			alert(err.response.data);
+			console.log(err);
 			setLoading(false);
 		}
 	}
+
 	return (
 		<StyledPage>
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
@@ -51,42 +51,52 @@ export default function NewPasswordPage() {
 				Informe o seu e-mail para enviarmos instruções da criação de uma
 				nova senha
 			</StyledH2>
-			<StyledForm onSubmit={sendUserMail}>
+			<StyledForm onSubmit={sendUpdateRequest} autoComplete="on">
 				<input
-					type="email"
-					name="email"
-					placeholder="E-mail"
-					value={form.email}
+					type={passwordShow ? "text" : "password"}
+					name="password"
+					placeholder="Senha"
+					value={form.password}
 					onChange={handleForm}
 					required
 				/>
+				<input
+					type={passwordShow ? "text" : "password"}
+					name="passwordConfirmation"
+					placeholder="Confirmar Senha"
+					value={form.passwordConfirmation}
+					onChange={handleForm}
+					required
+				/>
+				<CheckBoxContainer>
+					<input
+						onClick={() => setPasswordShow(!passwordShow)}
+						className="checkBox"
+						type="checkbox"
+						id="input1"
+						checked={passwordShow}
+					/>
+					<label htmlFor="input1">Mostrar Senha</label>
+				</CheckBoxContainer>
 				<button type="submit" disabled={loading}>
 					{loading ? (
 						<ColorRingIcon height={50} width={50} />
 					) : (
-						"Confirmar E-mail"
+						"Criar Conta"
 					)}
 				</button>
 			</StyledForm>
 			<StyledP>
 				<StyledLink to={"/login"}>
-					<span> Voltar para a página de Login</span>
+					Se já possui uma conta, clique aqui para fazer o login
 				</StyledLink>
 			</StyledP>
 		</StyledPage>
 	);
 }
 
-const StyledImage = styled.img`
-	margin-top: 100px;
-	width: 30vw;
-
-	@media (max-width: 400px) {
-		width: 80%;
-	}
-`;
-
 const StyledPage = styled.div`
+	margin-top: 60px;
 	display: flex;
 	flex-direction: column;
 	font-family: "Lato", sans-serif;
@@ -103,7 +113,6 @@ const StyledForm = styled.form`
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 10px;
-
 	input {
 		margin: 10px 0px;
 		border: 1px solid #000000;
@@ -111,7 +120,6 @@ const StyledForm = styled.form`
 		height: 65px;
 		text-indent: 5px;
 		border-radius: 10px;
-		text-align: left;
 
 		&::placholder {
 			color: #dbdbdb;
@@ -148,6 +156,37 @@ const StyledForm = styled.form`
 	}
 `;
 
+const CheckBoxContainer = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	width: 450px;
+	padding-left: 10px;
+	font-size: 15px;
+
+	input.checkBox {
+		width: 20px;
+		height: 20px;
+	}
+
+	label {
+		margin-left: 10px;
+	}
+
+	@media (max-width: 400px) {
+		width: 90%;
+	}
+`;
+
+const StyledImage = styled.img`
+	margin-top: 60px;
+	width: 30vw;
+
+	@media (max-width: 400px) {
+		width: 80%;
+	}
+`;
+
 const StyledH1 = styled.h1`
 	font-family: "Lato", sans-serif;
 	margin: 20px 0 30px 0;
@@ -169,7 +208,7 @@ const StyledH2 = styled.h2`
 
 	@media (max-width: 400px) {
 		text-align: center;
-        width: auto;
+		width: auto;
 	}
 `;
 
@@ -180,4 +219,5 @@ const StyledLink = styled(Link)`
 
 const StyledP = styled.p`
 	text-align: center;
+	margin-bottom: 20px;
 `;

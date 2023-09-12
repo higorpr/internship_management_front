@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/HeaderComponents/Header";
 import ProjectContext from "./contexts/ProjectContext";
 import { UserProvider } from "./contexts/UserContext";
@@ -39,6 +39,10 @@ function App() {
 						<ChakraProvider>
 							<Header />
 							<Routes>
+								<Route
+									path="/"
+									element={<Navigate to="/login" />}
+								/>
 								<Route path="/login" element={<LoginPage />} />
 								<Route
 									path="/emailconfirmation"

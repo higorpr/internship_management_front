@@ -24,4 +24,16 @@ async function requestNewPassword(email) {
 	return response;
 }
 
-export const authApi = { signUp, login, validateEmail, requestNewPassword };
+async function updatePassword(token, password) {
+	const body = { token, password };
+	const response = await api.put("/auth/updatepassword", body);
+	return response.data;
+}
+
+export const authApi = {
+	signUp,
+	login,
+	validateEmail,
+	requestNewPassword,
+	updatePassword,
+};
