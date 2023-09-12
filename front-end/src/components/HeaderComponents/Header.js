@@ -37,7 +37,7 @@ export default function Header() {
 					{loggedIn ? (
 						<Tooltip
 							shouldWrapChildren
-							label={userData.user.name}
+							label={userData.user?.name}
 							placement="bottom"
 							hasArrow="true"
 							isDisabled={openedMenu}
