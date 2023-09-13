@@ -16,7 +16,6 @@ export default function AddIcon() {
 	const [message, setMessage] = useState("");
 	const [hasInternship, setHasInternship] = useState(false);
 	const { deleteInternship } = useDeleteInternship();
-	
 
 	useEffect(() => {
 		locationCheck();
@@ -80,7 +79,7 @@ export default function AddIcon() {
 
 	return (
 		<div>
-			{page || (page && hasInternship) ? (
+			{page === "allClasses" || (page && hasInternship) ? (
 				<Tooltip
 					shouldWrapChildren
 					label={message}
@@ -91,7 +90,7 @@ export default function AddIcon() {
 						<AiOutlinePlusCircle onClick={addClick} />
 					</IconHolder>
 				</Tooltip>
-			) :  (
+			) : (
 				<BlankBlock />
 			)}
 		</div>
