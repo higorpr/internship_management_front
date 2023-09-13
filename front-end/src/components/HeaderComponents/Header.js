@@ -12,7 +12,6 @@ export default function Header() {
 	const { userData } = useContext(UserContext);
 	const [openedMenu, setOpenedMenu] = useState(false);
 	const [loggedIn, setLoggedIn] = useState(false);
-	console.log(loggedIn);
 
 	useEffect(() => {
 		const nUserFields = Object.keys(userData).length;

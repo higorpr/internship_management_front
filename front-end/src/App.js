@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Header from "./components/HeaderComponents/Header";
 import ProjectContext from "./contexts/ProjectContext";
@@ -20,6 +20,11 @@ function App() {
 	const [showModal, setShowModal] = useState(false);
 	const [newLogin, setNewLogin] = useState(false);
 	const [reloadPage, setReloadPage] = useState(false);
+
+	useEffect(() => {
+		// Clear local storage the first time the app opens
+		window.localStorage.clear();
+	});
 
 	return (
 		<CrumbsProvider>
