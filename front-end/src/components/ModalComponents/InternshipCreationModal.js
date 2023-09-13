@@ -36,7 +36,7 @@ export default function InternshipCreationModal({ classId }) {
 			setReloadPage(!reloadPage);
 			setShowModal(false);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
 			alert(err.response.data);
 			setLoading(false);
 		}
