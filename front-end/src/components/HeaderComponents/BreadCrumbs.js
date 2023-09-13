@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function BreadCrumbs() {
 	const { crumbs } = useContext(CrumbsContext);
 	const navigate = useNavigate();
+	console.log(crumbs);
 	return (
 		<>
 			{crumbs.map((entry, idx) => {
