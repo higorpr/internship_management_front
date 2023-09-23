@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { imageRepository } from "../../assets/imageUrls";
 import { BsToggleOff, BsToggleOn } from "react-icons/bs";
+import { TbFileDownload } from "react-icons/tb";
 import { IconContext } from "react-icons";
 import StudentEntry from "../../components/SingleClassPageComponents/StudentEntry";
 import useGetClassInfo from "../../hooks/api/useGetClassInfo";
@@ -93,7 +94,7 @@ export default function SingleClassPage() {
 						<h1>Ativar / Desativar Turma</h1>
 						{classInfo.isActive ? (
 							<IconContext.Provider
-								value={{ color: "green", size: "40px" }}
+								value={{ color: "#127e71", size: "40px" }}
 							>
 								<BsToggleOn onClick={toggleActivateClass} />
 							</IconContext.Provider>
@@ -102,6 +103,14 @@ export default function SingleClassPage() {
 								<BsToggleOff onClick={toggleActivateClass} />
 							</IconContext.Provider>
 						)}
+					</ToggleIcon>
+					<ToggleIcon>
+						<h1>Gerar Planilha de Controle</h1>
+						<IconContext.Provider
+							value={{ color: "#127e71", size: "40px" }}
+						>
+							<TbFileDownload onClick={toggleActivateClass} />
+						</IconContext.Provider>
 					</ToggleIcon>
 				</LeftMenu>
 				<StudentsContainer>
@@ -231,6 +240,7 @@ const ToggleIcon = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding-bottom: 5px;
 
 	h1 {
 		font-size: 18px;
