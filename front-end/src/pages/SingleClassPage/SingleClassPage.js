@@ -10,10 +10,13 @@ import useGetClassInfo from "../../hooks/api/useGetClassInfo";
 import CrumbsContext from "../../contexts/CrumbsContext";
 import updateCrumbArray from "../../functions/updateCrumbArray";
 import LoadingPage from "../LoadingPage/LoadingPage";
+import useGetReportInfo from "../../hooks/api/useGetReportInfo";
+import * as XLSX from "xlsx";
 
 export default function SingleClassPage() {
 	const { classId } = useParams();
 	const { getClassInfo } = useGetClassInfo();
+	const { getReportInfo } = useGetReportInfo();
 
 	const [isActive, setIsActive] = useState();
 	const [studentsInfo, setStudentsInfo] = useState([]);
@@ -71,6 +74,16 @@ export default function SingleClassPage() {
 		setIsActive(!isActive);
 	}
 
+	async function generateDocument() {
+		try {
+			const report = await getReportInfo(classId);
+			const reportName = `Estágio_Status Relatórios_${report.className}.xlsx`;
+			XLSX.writeFile(report.reportInfo, reportName);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
 	if (!loadingComplete) {
 		return <LoadingPage iconHeight={200} iconWidth={200} />;
 	}
@@ -109,7 +122,7 @@ export default function SingleClassPage() {
 						<IconContext.Provider
 							value={{ color: "#127e71", size: "40px" }}
 						>
-							<TbFileDownload onClick={toggleActivateClass} />
+							<TbFileDownload onClick={generateDocument} />
 						</IconContext.Provider>
 					</ToggleIcon>
 				</LeftMenu>

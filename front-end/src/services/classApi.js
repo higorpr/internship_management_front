@@ -33,10 +33,17 @@ async function getClassInfo(token, classId) {
 	return response.data;
 }
 
+async function getReportInfo(token, classId) {
+	const config = { headers: { Authorization: `Bearer ${token}` } };
+	const response = await api.get(`/classroom/classReport/${classId}`, config);
+	return response.data;
+}
+
 export const classApi = {
 	getAllClasses,
 	postNewClass,
 	postEnrollStudent,
 	getStudentClasses,
 	getClassInfo,
+	getReportInfo,
 };
