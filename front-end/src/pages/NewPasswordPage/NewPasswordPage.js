@@ -48,8 +48,7 @@ export default function NewPasswordPage() {
 			<StyledImage src={imageRepository.logo} alt="Logo Unifeso" />
 			<StyledH1>Plataforma de Controle de Relatórios de Estágio</StyledH1>
 			<StyledH2>
-				Informe o seu e-mail para enviarmos instruções da criação de uma
-				nova senha
+				Insira a sua nova senha
 			</StyledH2>
 			<StyledForm onSubmit={sendUpdateRequest} autoComplete="on">
 				<input
